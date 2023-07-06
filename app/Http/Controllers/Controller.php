@@ -57,7 +57,7 @@ class Controller extends BaseController
                 $cust = ["email" => $data->getcartdetails->getUserDetails->email, "name" => $data->getcartdetails->getUserDetails->first_name];
                 
                 Mail::send('invoice',$send_view,function($message) use ($cust){
-                    $message->to('sarwanmawai@gmail.com');
+                    $message->to('Keerthi.kumar@clykk.com');
                     $message->subject('Subscription Invoice');
                 });
                 //return View('invoice', compact('data'));
