@@ -30,13 +30,13 @@
 
         <tr><td>&nbsp;</td></tr>
         <tr>
-            <th>Service Date: {{$data->service_date}}</th>
-            <th>Service Time: {{$data->service_time}}</th>
+            <th colspan="3">Service Date: {{$data->service_date}}</th>
+            <th colspan="3">Service Time: {{$data->service_time}}</th>
         </tr>
 
         <tr>
 			@foreach($data->getAddressDetails as $address) 
-            <td colspan="2">
+            <td colspan="3">
                 <h4>{{ucfirst(str_replace('_', ' ', $address->addressType))}}:</h4>
                 {{$address->line1}}
                 <br>{{$address->line2}}

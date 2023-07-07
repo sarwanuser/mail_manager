@@ -47,7 +47,7 @@ class Controller extends BaseController
         try {
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
-            //if($token_status['status'] == '200'){
+            if($token_status['status'] == '200'){
                 $sub_id = $request->sub_id;
                 
 
@@ -58,14 +58,15 @@ class Controller extends BaseController
                 
                 Mail::send('invoice',$send_view,function($message) use ($cust){
                     $message->to('Keerthi.kumar@clykk.com');
+                    $message->to('sarwanmawai@gmail.com');
                     $message->subject('Subscription Invoice');
                 });
                 //return View('invoice', compact('data'));
                 return response()->json(['status' => 1,'message' => 'Subscription Invoice Sent', 'data' => []], 200);
                 
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'error: '.$e], 500);
