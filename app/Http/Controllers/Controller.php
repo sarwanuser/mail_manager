@@ -47,7 +47,7 @@ class Controller extends BaseController
         try {
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
-            if($token_status['status'] == '200'){
+            //if($token_status['status'] == '200'){
                 $sub_id = $request->sub_id;
                 
 
@@ -64,9 +64,52 @@ class Controller extends BaseController
                 //return View('invoice', compact('data'));
                 return response()->json(['status' => 1,'message' => 'Subscription Invoice Sent', 'data' => []], 200);
                 
-            }else{
-                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            }
+            // }else{
+            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'error: '.$e], 500);
+        }
+    }
+
+    /**
+     * This function use for view invoice to customer
+     *
+     * @return Response
+     */
+    public function viewInvoiceToCustomer(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'sub_id' => 'required'
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            //if($token_status['status'] == '200'){
+                $sub_id = $request->sub_id;
+                
+
+                $data = Subscription::where('subscription.id', $sub_id)->where('subscription.status', 'Completed')->join('transaction','subscription.id','=','transaction.subscription_id')->with('getcartdetails')->with('getCartAddonPackageDetails')->with('getCartPackageDetails')->with('getAddressDetails')->with('getRoutingDetails')->orderBy('subscription.id', 'DESC')->get();
+                
+                $data = $data[0];
+                $send_view = ["data" => $data];
+                $cust = ["email" => $data->getcartdetails->getUserDetails->email, "name" => $data->getcartdetails->getUserDetails->first_name];
+                
+                // Mail::send('invoice',$send_view,function($message) use ($cust){
+                //     $message->to('Keerthi.kumar@clykk.com');
+                //     $message->to('sarwanmawai@gmail.com');
+                //     $message->subject('Subscription Invoice');
+                // });
+                return View('view', compact('data'));
+                return response()->json(['status' => 1,'message' => 'Subscription Invoice Sent', 'data' => []], 200);
+                
+            // }else{
+            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            // }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'error: '.$e], 500);

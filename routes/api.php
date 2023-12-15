@@ -17,6 +17,9 @@ use App\Http\Controllers\Controller;
 
 // Send invoice to customer
 $router->get('sendinvoicetocustomer', 'App\Http\Controllers\Controller@sendInvoiceToCustomer');
+$router->get('viewinvoice', 'App\Http\Controllers\Controller@viewInvoiceToCustomer');
+
+
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
