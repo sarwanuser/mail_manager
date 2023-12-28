@@ -53,7 +53,7 @@ return [
             'username' => 'apikey',
             'password' => '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',
             'timeout' => null,
-            'auth_mode' => null,
+            'auth_mode' => true,
         ],
 
         'ses' => [
