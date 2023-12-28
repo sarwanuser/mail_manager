@@ -46,7 +46,7 @@ return [
         // ],
 
         'smtp' => [
-            'transport' => 'sendMail',
+            'transport' => 'smtp',
             'host' => 'smtp.sendgrid.net',
             'port' => '25',
             'encryption' => 'tls',
