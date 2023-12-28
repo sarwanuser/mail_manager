@@ -47,11 +47,11 @@ return [
 
         'smtp' => [
             'transport' => 'smtp',
-            'host' => 'smtp.sendgrid.net',
-            'port' => '25',
+            'host' => 'mail.rstechnosoft.com',
+            'port' => '26',
             'encryption' => 'tls',
-            'username' => 'apikey',
-            'password' => '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',
+            'username' => 'support@rstechnosoft.com',
+            'password' => 'Sarwan@_123',
             'timeout' => null,
             'auth_mode' => null,
         ],
