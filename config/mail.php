@@ -46,14 +46,14 @@ return [
         // ],
 
         'smtp' => [
-            'transport' => 'smtp',
+            'transport' => 'sendMail',
             'host' => 'smtp.sendgrid.net',
             'port' => '25',
             'encryption' => 'tls',
             'username' => 'apikey',
             'password' => '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',
             'timeout' => null,
-            'auth_mode' => true,
+            'auth_mode' => null,
         ],
 
         'ses' => [
