@@ -69,7 +69,7 @@ class Controller extends BaseController
             // }
 
         }catch(\Exception $e) {
-            return response()->json(['message' => 'error: '.$e], 500);
+            return response()->json(['message' => 'error: '.$e->getMessage()], 500);
         }
     }
 
