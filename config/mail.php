@@ -34,13 +34,24 @@ return [
     */
 
     'mailers' => [
+        // 'smtp' => [
+        //     'transport' => 'smtp',
+        //     'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
+        //     'port' => env('MAIL_PORT', 587),
+        //     'encryption' => env('MAIL_ENCRYPTION', 'tls'),
+        //     'username' => env('MAIL_USERNAME'),
+        //     'password' => env('MAIL_PASSWORD'),
+        //     'timeout' => null,
+        //     'auth_mode' => null,
+        // ],
+
         'smtp' => [
             'transport' => 'smtp',
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
+            'host' => 'smtp.sendgrid.net',
+            'port' => '25',
+            'encryption' => 'tls',
+            'username' => 'apikey',
+            'password' => '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',
             'timeout' => null,
             'auth_mode' => null,
         ],
