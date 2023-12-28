@@ -61,6 +61,8 @@ class Controller extends BaseController
                     $message->to('sarwanmawai@gmail.com');
                     $message->subject('Subscription Invoice');
                 });
+
+                die('<p style="color:green;">Subscription Invoice Sent</p>');
                 //return View('invoice', compact('data'));
                 return response()->json(['status' => 1,'message' => 'Subscription Invoice Sent', 'data' => []], 200);
                 
@@ -69,7 +71,7 @@ class Controller extends BaseController
             // }
 
         }catch(\Exception $e) {
-            die('Error: '.$e->getMessage());
+            die('<p style="color:red;">Error: '.$e->getMessage()."</p>");
             return response()->json(['message' => 'error: '.$e->getMessage()], 500);
         }
     }
