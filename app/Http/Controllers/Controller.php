@@ -55,7 +55,7 @@ class Controller extends BaseController
                 $data = $data[0];
                 $send_view = ["data" => $data];
                 $cust = ["email" => $data->getcartdetails->getUserDetails->email, "name" => $data->getcartdetails->getUserDetails->first_name];
-                die('000000000');
+                
                 Mail::send('invoice',$send_view,function($message) use ($cust){
                     $message->to('Keerthi.kumar@clykk.com');
                     $message->to('sarwanmawai@gmail.com');
@@ -69,6 +69,7 @@ class Controller extends BaseController
             // }
 
         }catch(\Exception $e) {
+            die('000000000------------'.$e->getMessage());
             return response()->json(['message' => 'error: '.$e->getMessage()], 500);
         }
     }
