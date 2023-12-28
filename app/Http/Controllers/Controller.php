@@ -69,7 +69,7 @@ class Controller extends BaseController
             // }
 
         }catch(\Exception $e) {
-            die('000000000------------'.$e->getMessage());
+            die('Error: '.$e->getMessage());
             return response()->json(['message' => 'error: '.$e->getMessage()], 500);
         }
     }
