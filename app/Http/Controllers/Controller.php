@@ -128,12 +128,12 @@ class Controller extends BaseController
     public function getNewOrders(Request $request){
         try {
             $from = date('Y-m-d H:i:s');
-            $to = date('Y-m-d H:i:s', strtotime('+300 seconds'));
+            $to = date('Y-m-d H:i:s', strtotime('+30 seconds'));
 
             $count = Subscription::select('*')->where('subscription.created_at','>=', $from)->where('subscription.created_at', '<=', $to)->count();
             if($count >= 1){
                 $data = Subscription::select('*')->where('subscription.created_at','>=', $from)->where('subscription.created_at', '<=', $to)->first();
-                $msg = 'Got A New Subscription <b>'.$data->id.'</b> and Order Id - <b>'.$data->cart_id.'</b>.';
+                $msg = 'Got A New Subscription '.$data->id.' and Order Id - '.$data->cart_id.'.';
                 return response()->json(['status' => 1,'message' => $msg, 'data' => $data, 'count' => $count, 'from' => $from, 'to' => $to], 200);
             }else{
                 return response()->json(['status' => 0,'message' => 'No New Subscription Are There!', 'data' => [], 'count' => $count, 'from' => $from, 'to' => $to], 200);
