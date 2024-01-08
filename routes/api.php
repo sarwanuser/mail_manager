@@ -18,6 +18,8 @@ use App\Http\Controllers\Controller;
 // Send invoice to customer
 $router->get('sendinvoicetocustomer', 'App\Http\Controllers\Controller@sendInvoiceToCustomer');
 $router->get('viewinvoice', 'App\Http\Controllers\Controller@viewInvoiceToCustomer');
+$router->get('getneworders', 'App\Http\Controllers\Controller@getNewOrders');
+
 
 
 
