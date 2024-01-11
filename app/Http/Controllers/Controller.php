@@ -137,7 +137,7 @@ class Controller extends BaseController
                 $datas = Subscription::select('*')->where('subscription.created_at','>=', $from)->where('subscription.created_at', '<=', $to)->get();
                 $msg = '';
                 foreach($datas as $data){
-                    $msg .= '<p>Got A New Subscription '.$data->id.' and Order Id - '.$data->cart_id.'.</p>';
+                    $msg .= '<p>New order ID '.$data->cart_id.' Subscription ID '.$data->id.' '.$data->status.', '.date('d-m-Y', strtotime($data->created_at)).', '.date('h:i A', strtotime($data->created_at)).'.</p>';
                 }
                 
                 return response()->json(['status' => 1,'message' => $msg, 'data' => $data, 'count' => $count, 'from' => $from, 'to' => $to, 'db_sec' => $db_sec], 200);
