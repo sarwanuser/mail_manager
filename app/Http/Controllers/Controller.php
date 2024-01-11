@@ -127,9 +127,10 @@ class Controller extends BaseController
      */
     public function getNewOrders(Request $request){
         try {
+            $db_sec = $this->getConfigValueByKey('sub_new_alert');
             $from = date('Y-m-d H:i:s');
-            $to = date('Y-m-d H:i:s', strtotime('+30 seconds'));
-
+            $to = date('Y-m-d H:i:s', strtotime('+'.$db_sec.' seconds'));
+           
             $count = Subscription::select('*')->where('subscription.created_at','>=', $from)->where('subscription.created_at', '<=', $to)->count();
             if($count >= 1){
                 $data = Subscription::select('*')->where('subscription.created_at','>=', $from)->where('subscription.created_at', '<=', $to)->first();
@@ -138,6 +139,23 @@ class Controller extends BaseController
             }else{
                 return response()->json(['status' => 0,'message' => 'No New Subscription Are There!', 'data' => [], 'count' => $count, 'from' => $from, 'to' => $to], 200);
             }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'error: '.$e], 500);
+        }
+    }
+
+    /**
+     * Get config data
+     *
+     * @Para $key string
+     * @return Response
+     */
+    public function getConfigValueByKey($key){
+        try {
+            
+            $value = Config::select('value')->where('configs.key','=', $key)->first();
+            return $value['value'];
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'error: '.$e], 500);
