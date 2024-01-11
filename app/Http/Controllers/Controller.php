@@ -140,7 +140,7 @@ class Controller extends BaseController
                    // $msg .= '<p>Got A New Subscription '.$data->id.' and Order Id - '.$data->cart_id.'.</p>';
                 }
                 
-                return response()->json(['status' => 1,'message' => $msg, 'data' => $datas, 'count' => $count, 'from' => $from, 'to' => $to], 200);
+                return response()->json(['status' => 1,'message' => $msg, 'data' => json_encode($datas), 'count' => $count, 'from' => $from, 'to' => $to], 200);
             }else{
                 return response()->json(['status' => 0,'message' => 'No New Subscription Are There!', 'data' => [], 'count' => $count, 'from' => $from, 'to' => $to], 200);
             }
