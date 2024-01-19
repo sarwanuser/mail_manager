@@ -19,6 +19,9 @@ use App\Http\Controllers\Controller;
 $router->get('sendinvoicetocustomer', 'App\Http\Controllers\Controller@sendInvoiceToCustomer');
 $router->get('viewinvoice', 'App\Http\Controllers\Controller@viewInvoiceToCustomer');
 $router->get('getneworders', 'App\Http\Controllers\Controller@getNewOrders');
+$router->get('getnotacceptroutes', 'App\Http\Controllers\Controller@getNotAcceptedRoutes');
+
+
 
 
 
