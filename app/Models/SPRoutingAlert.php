@@ -46,6 +46,12 @@ class SPRoutingAlert extends Model
     public function getCartPackageDetails(){
         return $this->hasOne(CartPackage::class, 'cartID','cart_id');
     }
+
+    // Get Subcategory details
+    public function getSubCategoryDetails(){
+        return $this->hasOne(SubCategory::class, 'id','sub_category_id');
+    }
+    
     
     // Get SP details
     public function getSPDetails(){
