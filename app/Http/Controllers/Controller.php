@@ -164,9 +164,9 @@ class Controller extends BaseController
                 $msg = '';
                 foreach($datas as $data){
                     $checkclose = SPRoutingAlert::select('*')->where('subscription_id',$data->subscription_id)->whereIn('status', ['COMPLETED', 'CLOSE'])->count();
-                    //if($checkclose <=0){
+                    if($checkclose <=0){
                         $msg .= '<p> Order ID '.$data->cart_id.' Subscription ID '.$data->subscription_id.' '.$data->status.', Sub Cat:'.$data->getSubCategoryDetails->name.', Package: '.$data->getCartPackageDetails->package_name.' '.date('d-m-Y', strtotime($data->created_at)).', '.date('h:i A', strtotime($data->created_at)).'.</p>';
-                    //}
+                    }
                 }
                 
                 return response()->json(['status' => 1,'message' => $msg, 'data' => $data, 'count' => count($datas)], 200);
