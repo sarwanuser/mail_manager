@@ -162,7 +162,10 @@ class Controller extends BaseController
             if(count($datas) >= 1){
                 $msg = '';
                 foreach($datas as $data){
-                    $msg .= '<p> Order ID '.$data->cart_id.' Subscription ID '.$data->subscription_id.' '.$data->status.', '.date('d-m-Y', strtotime($data->created_at)).', '.date('h:i A', strtotime($data->created_at)).'.</p>';
+                    $checkclose = SPRoutingAlert::select('*')->where('subscription_id',$data->subscription_id)->whereIn('status', ['COMPLETED', 'CLOSE'])->cout();
+                    if($checkclose <=0){
+                        $msg .= '<p> Order ID '.$data->cart_id.' Subscription ID '.$data->subscription_id.' '.$data->status.', '.date('d-m-Y', strtotime($data->created_at)).', '.date('h:i A', strtotime($data->created_at)).'.</p>';
+                    }
                 }
                 
                 return response()->json(['status' => 1,'message' => $msg, 'data' => $data, 'count' => count($datas)], 200);
