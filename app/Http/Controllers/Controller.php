@@ -171,7 +171,7 @@ class Controller extends BaseController
             if($msg != ''){
                 return response()->json(['status' => 1,'message' => $msg, 'data' => $data, 'count' => count($datas)], 200);
             }else{
-                return response()->json(['status' => 0,'message' => 'No Data Found!', 'data' => [], 'count' => count($datas)], 200);
+                return response()->json(['status' => 0,'message' => 'No Data Found!', 'data' => [], 'count' => 0], 200);
             }
 
         }catch(\Exception $e) {
