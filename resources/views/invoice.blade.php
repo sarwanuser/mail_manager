@@ -30,8 +30,10 @@
 
         <tr><td>&nbsp;</td></tr>
         <tr>
-            <th colspan="3">Service Date: {{$data->service_date}}</th>
-            <th colspan="3">Service Time: {{$data->service_time}}</th>
+            <th colspan="2">Order NO: {{$data->cart_id}}</th>
+            <th colspan="1">Subscription Id: {{$data->subscription_id}}</th>
+            <th colspan="1">Service Date: {{$data->service_date}}</th>
+            <th colspan="2">Service Time: {{$data->service_time}}</th>
         </tr>
 
         <tr>
