@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>CLYKK Email Template</title>
+    <title>CLYKK Invoice</title>
 </head>
 <body style="font-family: sans-serif;line-height: 25px;background: #eee;">
     <div style="margin: 0 auto;background-color: #fff;width: 950px;box-shadow: 0px 1px 6px 1px #555;">
@@ -83,7 +83,7 @@
                 <tr style="border-bottom: 1px solid #eee;">
                     <td style="padding: 8px;"><img src="{{$addonpackage->package_image}}" alt="logo" style="height:40px; width:40px;"></td>
                     <td style="padding: 8px;"> {{$addonpackage->package_name}}</td>
-                    <td style="text-align: right;padding: 8px;">1</td>
+                    <td style="text-align: right;padding: 8px;">{{$addonpackage->item_count}}</td>
                     <td style="text-align: right;padding: 8px;color: red;">₹ {{$addonpackage->base_price}}</td>
                     <td style="text-align: right;padding: 8px;">₹ {{$addonpackage->selling_price}} </td>
                 </tr>
