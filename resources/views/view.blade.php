@@ -13,7 +13,7 @@
             position: absolute;
             left: -10px;
             top: 565px;
-            content: url('http://localhost:3000/static/media/logo.7744e3f2.png');
+            content: url('https://www.clykk.com/static/media/logo.94a1f237ba9d555b23f4a270c7cf0758.svg');
             opacity: 0.1;
             transform: rotate(-43deg);
         }
