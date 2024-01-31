@@ -2,9 +2,25 @@
 <html lang="en">
 <head>
     <title>CLYKK Invoice</title>
+    <style>
+        .main_div{
+            position: relative;
+            z-index:1;
+            overflow:hidden; /*if you want to crop the image*/
+        }
+        .main_div:before {
+            z-index: -1;
+            position: absolute;
+            left: -10px;
+            top: 565px;
+            content: url('http://localhost:3000/static/media/logo.7744e3f2.png');
+            opacity: 0.1;
+            transform: rotate(-43deg);
+        }
+    </style>
 </head>
 <body style="font-family: sans-serif;line-height: 25px;background: #eee;">
-    <div style="margin: 0 auto;background-color: #fff;width: 950px;box-shadow: 0px 1px 6px 1px #555;">
+    <div style="margin: 0 auto;background-color: #fff;width: 950px;box-shadow: 0px 1px 6px 1px #555;" class="main_div">
         <table style="margin:50px;text-align: left;border-collapse:collapse;">
             <tr>
                 <th colspan="2"><img src="images/logo.png" alt="" style="height: 30px;"></img></th>
@@ -12,7 +28,7 @@
             </tr>
 
             <tr>
-                <th colspan="2">Your Service are just a CLYKK Away ™</th>
+                <th colspan="2">Your Service are just a <br>CLYKK Away ™</th>
                 <td colspan="3" style="text-align: right;">Transaction ID: <span style="color: blue;">{{$data->transaction_id}}</span> </td>
             </tr>
             <tr style="border-bottom: 1px solid #eee;"><td>&nbsp;</td></tr>
@@ -29,54 +45,49 @@
                 </td>
             </tr>
 
-            <tr><td>&nbsp;</td></tr>
+            <tr><td colspan="6">&nbsp;</td></tr>
             <tr>
-                <th colspan="2">Order NO: {{$data->cart_id}}</th>
-                <th colspan="1">Subscription Id: {{$data->subscription_id}}</th>
-                <th colspan="1">Service Date: {{$data->service_date}}</th>
-                <th colspan="2">Service Time: {{$data->service_time}}</th>
+                <th colspan="6">Order NO: {{$data->cart_id}} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Subscription Id: {{$data->subscription_id}} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Service Date: {{$data->service_date}} &nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp; Service Time: {{$data->service_time}}</th>
             </tr>
 
             <tr>
                 @foreach($data->getAddressDetails as $address) 
-                <td colspan="3">
+                <td colspan="6">
                     <h4>{{ucfirst(str_replace('_', ' ', $address->addressType))}}:</h4>
                     {{$address->line1}}
-                    <br>{{$address->line2}}
-                    <br>{{$address->line3}}
-                    <br>{{$address->landmark}}
-                    <br>{{$address->city}}
-                    <br>{{$address->pincode}}
-                    <br>{{$address->state}}
-                    <br>{{$address->country}}
+                    &nbsp; {{$address->line2}}
+                    &nbsp; {{$address->line3}}
+                    &nbsp; {{$address->landmark}}
+                    &nbsp; {{$address->city}}
+                    &nbsp; {{$address->pincode}}
+                    &nbsp; {{$address->state}}
+                    &nbsp; {{$address->country}}
                 </td>
                 @endforeach
             </tr>
-            <tr><td>&nbsp;</td></tr>
+            <tr><td colspan="6">&nbsp;</td></tr>
             <tr style="border-top: 1px solid #eee;border-bottom: 1px solid #eee;background-color: #0407060f;">
-                <td style="padding: 8px;">Package </td>
-                <td></td>
-                <td style="text-align: right;width: 200px;padding: 8px;">Qty</td>
-                <td style="text-align: right;width: 200px;padding: 8px;">Base Price </td>
-                <td style="text-align: right;width: 200px;padding: 8px;">Selling Price</td>
+                <td style="padding: 8px;" colspan="2">Package </td>
+                <td style="text-align: right;padding: 8px;">Qty</td>
+                <td style="text-align: right;padding: 8px;"><center>Base Price <br> & <br> Selling Price</center></td>
+                <td style="text-align: right;padding: 8px;">Price</td>
             </tr>
 
             <tbody>
                 @foreach($data->getCartPackageDetails as $package)
                 <tr style="border-bottom: 1px solid #eee;">
                     <td style="padding: 8px;"><img src="{{$package->package_image}}" alt="logo" style="height:40px; width:40px;"></td>
-                    <td style="padding: 8px;"> {{$package->package_name}}</td>
+                    <td style="padding: 8px;" colspan="1"> {{$package->package_name}}</td>
                     <td style="text-align: right;padding: 8px;">1</td>
-                    <td style="text-align: right;padding: 8px;color: red;">₹ {{$package->base_price}}</td>
-                    <td style="text-align: right;padding: 8px;">₹ {{$package->selling_price}} </td>
+                    <td style="text-align: right;padding: 8px;color: red;"><center><s>₹ {{$package->base_price}}</s> <br> <span style="color: green;">₹ {{$package->selling_price}}</span></center></td>
+                    <td style="text-align: right;padding: 8px;">₹ {{$package->selling_price*1}} </td>
                 </tr>
                 @endforeach
                 <tr style="border-top: 1px solid #eee;border-bottom: 1px solid #eee;background-color: #0407060f;">
-                    <td style="padding: 8px;">AddOns </td>
-                    <td></td>
-                    <td style="text-align: right;width: 200px;padding: 8px;">Qty</td>
-                    <td style="text-align: right;width: 200px;padding: 8px;">Base Price </td>
-                    <td style="text-align: right;width: 200px;padding: 8px;">Selling Price</td>
+                    <td style="padding: 8px;" colspan="2">Package </td>
+                    <td style="text-align: right;padding: 8px;">Qty</td>
+                    <td style="text-align: right;padding: 8px;"><center>Base Price <br> & <br> Selling Price</center></td>
+                    <td style="text-align: right;padding: 8px;">Price</td>
                 </tr>
 
                 @foreach($data->getCartAddonPackageDetails as $addonpackage)
@@ -84,8 +95,8 @@
                     <td style="padding: 8px;"><img src="{{$addonpackage->package_image}}" alt="logo" style="height:40px; width:40px;"></td>
                     <td style="padding: 8px;"> {{$addonpackage->package_name}}</td>
                     <td style="text-align: right;padding: 8px;">{{$addonpackage->item_count}}</td>
-                    <td style="text-align: right;padding: 8px;color: red;">₹ {{$addonpackage->base_price}}</td>
-                    <td style="text-align: right;padding: 8px;">₹ {{$addonpackage->selling_price}} </td>
+                    <td style="text-align: center;padding: 8px;color: red;"><s>₹ {{$addonpackage->base_price}}</s><br> <span style="color: green;">₹ {{$addonpackage->selling_price}}</span></td>
+                    <td style="text-align: right;padding: 8px;"> ₹ {{$addonpackage->selling_price*$addonpackage->item_count}}</td>
                 </tr>
                 @endforeach
 
