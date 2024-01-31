@@ -57,15 +57,15 @@ class Controller extends BaseController
                 $send_view = ["data" => $data];
                 $cust = ["email" => $data->getcartdetails->getUserDetails->email, "name" => $data->getcartdetails->getUserDetails->first_name];
                 
-                // Mail::send('invoice',$send_view,function($message) use ($cust){
-                //     //$message->to('Keerthi.kumar@clykk.com');
-                //     //$message->to('sarwanmawai@gmail.com');
-                //     $message->to($cust['email']);
-                //     $message->subject('Subscription Invoice');
-                // });
+                Mail::send('invoice',$send_view,function($message) use ($cust){
+                    //$message->to('Keerthi.kumar@clykk.com');
+                    //$message->to('sarwanmawai@gmail.com');
+                    $message->to($cust['email']);
+                    $message->subject('Subscription Invoice');
+                });
 
-                //die('<p style="color:green;">Subscription Invoice Sent</p>');
-                return View('invoice', compact('data'));
+                die('<p style="color:green;">Subscription Invoice Sent</p>');
+                //return View('invoice', compact('data'));
                 return response()->json(['status' => 1,'message' => 'Subscription Invoice Sent', 'data' => []], 200);
                 
             // }else{
