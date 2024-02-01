@@ -52,7 +52,7 @@
 
             <tr>
                 @foreach($data->getAddressDetails as $address) 
-                <td colspan="6">
+                <td colspan="3">
                     <h4>{{ucfirst(str_replace('_', ' ', $address->addressType))}}:</h4>
                     {{$address->line1}}
                     &nbsp; {{$address->line2}}
@@ -69,7 +69,7 @@
             <tr style="border-top: 1px solid #eee;border-bottom: 1px solid #eee;background-color: #0407060f;">
                 <td style="padding: 8px;" colspan="2">Package </td>
                 <td style="text-align: right;padding: 8px;">Qty</td>
-                <td style="text-align: right;padding: 8px;"><center>Base Price <br> & <br> Selling Price</center></td>
+                <td style="text-align: right;padding: 8px;"><center>Base Price <br> Selling Price</center></td>
                 <td style="text-align: right;padding: 8px;">Price</td>
             </tr>
 
@@ -80,13 +80,13 @@
                     <td style="padding: 8px;" colspan="1"> {{$package->package_name}}</td>
                     <td style="text-align: right;padding: 8px;">1</td>
                     <td style="text-align: right;padding: 8px;color: red;"><center><s>₹ {{$package->base_price}}</s> <br> <span style="color: green;">₹ {{$package->selling_price}}</span></center></td>
-                    <td style="text-align: right;padding: 8px;">₹ {{$package->selling_price*1}} </td>
+                    <td style="text-align: right;padding: 8px;">₹ {{number_format($package->selling_price*1,2)}} </td>
                 </tr>
                 @endforeach
                 <tr style="border-top: 1px solid #eee;border-bottom: 1px solid #eee;background-color: #0407060f;">
                     <td style="padding: 8px;" colspan="2">Package </td>
                     <td style="text-align: right;padding: 8px;">Qty</td>
-                    <td style="text-align: right;padding: 8px;"><center>Base Price <br> & <br> Selling Price</center></td>
+                    <td style="text-align: right;padding: 8px;"><center>Base Price  <br> Selling Price</center></td>
                     <td style="text-align: right;padding: 8px;">Price</td>
                 </tr>
 
@@ -96,43 +96,47 @@
                     <td style="padding: 8px;"> {{$addonpackage->package_name}}</td>
                     <td style="text-align: right;padding: 8px;">{{$addonpackage->item_count}}</td>
                     <td style="text-align: center;padding: 8px;color: red;"><s>₹ {{$addonpackage->base_price}}</s><br> <span style="color: green;">₹ {{$addonpackage->selling_price}}</span></td>
-                    <td style="text-align: right;padding: 8px;"> ₹ {{$addonpackage->selling_price*$addonpackage->item_count}}</td>
+                    <td style="text-align: right;padding: 8px;"> ₹ {{number_format($addonpackage->selling_price*$addonpackage->item_count,2)}}</td>
                 </tr>
                 @endforeach
 
                 <tr>
                     <td colspan="4" style="text-align: right;"><br>Sub Total</td>
-                    <td style="text-align: right;"><br> ₹ {{$data->amount_before_tax}}</td>
+                    <td style="text-align: right;"><br> ₹ {{number_format($data->getSubTransactions[0]->amount_before_tax,2)}}</td>
                 </tr>
-
+                <?php if($data->getSubTransactions[0]->discount != ''){?>
                 <tr>
                     <td colspan="4" style="text-align: right;">Discount</td>
-                    <td style="text-align: right;">coupon</td>
+                    <td style="text-align: right;">Coupon</td>
                 </tr>
 
                 <tr>
                     <td colspan="4" style="text-align: right;">Discount Value</td>
-                    <td style="text-align: right;">₹ {{$data->payable_amount-$data->total}}</td>
+                    <td style="text-align: right;">₹ {{number_format($data->getSubTransactions[0]->payable_amount-$data->getSubTransactions[0]->total,2)}}</td>
                 </tr>
-
+                <?php } ?>
                 <tr>
                     <td colspan="4" style="text-align: right;">Taxes (GST-SAC 998533-18%)</td>
-                    <td style="text-align: right;">₹ {{$data->tax_amount}}</td>
+                    <td style="text-align: right;">₹ {{number_format($data->getSubTransactions[0]->tax_amount,2)}}</td>
                 </tr>
 
                 <tr>
                     <td colspan="4" style="text-align: right;">Paid Amount</td>
-                    <td style="text-align: right;">₹ {{$data->total}}</td>
+                    <?php if($data->getSubTransactions[0]->discount != ''){?>
+                        <td style="text-align: right;">₹ {{number_format($data->getSubTransactions[0]->total,2)}}</td>
+                    <?php }else{ ?>
+                        <td style="text-align: right;">₹ {{number_format($data->getSubTransactions[0]->payable_amount,2)}}</td>
+                    <?php } ?>
                 </tr>
 
                 <tr>
                     <td colspan="4" style="text-align: right;">Payment Type</td>
-                    <td style="text-align: right;">{{$data->payment_type}}</td>
+                    <td style="text-align: right;">{{ucfirst($data->getSubTransactions[0]->payment_type)}}</td>
                 </tr>
 
                 <tr>
                     <td colspan="4" style="text-align: right;">Payment Status</td>
-                    <td style="text-align: right;">{{$data->collection_status}}</td>
+                    <td style="text-align: right;">{{ucfirst($data->getSubTransactions[0]->collection_status)}}</td>
                 </tr>
 
 
