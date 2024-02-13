@@ -100,7 +100,7 @@
 
                 <tr>
                     <td colspan="4" style="text-align: right;"><br>Sub Total</td>
-                    <td style="text-align: right;"><br> ₹ {{number_format($data->getSubTransactions[0]->amount_before_tax,2)}}</td>
+                    <td style="text-align: right;"><br> ₹ {{number_format($data->getSubTransactions[0]->total,2)}}</td>
                 </tr>
                 <?php if($data->getSubTransactions[0]->discount != ''){?>
                 <tr>
@@ -110,7 +110,7 @@
 
                 <tr>
                     <td colspan="4" style="text-align: right;">Discount Value</td>
-                    <td style="text-align: right;">₹ {{number_format($data->getSubTransactions[0]->payable_amount-$data->getSubTransactions[0]->total,2)}}</td>
+                    <td style="text-align: right;">₹ {{number_format($data->getSubTransactions[0]->total-$data->getSubTransactions[0]->amount_before_tax,2)}}</td>
                 </tr>
                 <?php } ?>
                 <tr>
@@ -120,10 +120,11 @@
 
                 <tr>
                     <td colspan="4" style="text-align: right;">Paid Amount</td>
+                    <td style="text-align: right;">₹ {{number_format($data->getSubTransactions[0]->payable_amount,2)}}</td>
                     <?php if($data->getSubTransactions[0]->discount != ''){?>
-                        <td style="text-align: right;">₹ {{number_format($data->getSubTransactions[0]->total,2)}}</td>
+                        <!-- <td style="text-align: right;">₹ {{number_format($data->getSubTransactions[0]->total,2)}}</td> -->
                     <?php }else{ ?>
-                        <td style="text-align: right;">₹ {{number_format($data->getSubTransactions[0]->payable_amount,2)}}</td>
+                        <!-- <td style="text-align: right;">₹ {{number_format($data->getSubTransactions[0]->payable_amount,2)}}</td> -->
                     <?php } ?>
                 </tr>
 
