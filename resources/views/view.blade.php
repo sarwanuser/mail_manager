@@ -91,6 +91,7 @@
                 </tr>
 
                 @foreach($data->getCartAddonPackageDetails as $addonpackage)
+                @if($addonpackage->item_count > 0)
                 <tr style="border-bottom: 1px solid #eee;">
                     <td style="padding: 8px;"><img src="{{$addonpackage->package_image}}" alt="logo" style="height:40px; width:40px;"></td>
                     <td style="padding: 8px;"> {{$addonpackage->package_name}}</td>
@@ -98,6 +99,7 @@
                     <td style="text-align: center;padding: 8px;color: red;"><s>₹ {{$addonpackage->base_price}}</s><br> <span style="color: green;">₹ {{$addonpackage->selling_price}}</span></td>
                     <td style="text-align: right;padding: 8px;"> ₹ {{number_format($addonpackage->selling_price*$addonpackage->item_count,2)}}</td>
                 </tr>
+                @endif
                 @endforeach
 
                 <tr>
