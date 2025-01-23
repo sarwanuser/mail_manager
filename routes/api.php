@@ -21,6 +21,8 @@ $router->get('viewinvoice', 'App\Http\Controllers\Controller@viewInvoiceToCustom
 $router->get('getneworders', 'App\Http\Controllers\Controller@getNewOrders');
 $router->get('getnotacceptroutes', 'App\Http\Controllers\Controller@getNotAcceptedRoutes');
 
+// This route for get all sp data by date for dashboard
+Route::get('/allspdatabydate', 'App\Http\Controllers\Controller@getAllSPDataByDate');
 
 
 
