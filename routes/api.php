@@ -24,6 +24,9 @@ $router->get('getnotacceptroutes', 'App\Http\Controllers\Controller@getNotAccept
 // This route for get all sp data by date for dashboard
 Route::get('/allspdatabydate', 'App\Http\Controllers\Controller@getAllSPDataByDate');
 
+// This route for get all SP data
+Route::get('/allspdatas', 'App\Http\Controllers\Controller@getAllSPData');
+
 
 
 

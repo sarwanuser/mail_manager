@@ -233,4 +233,62 @@ class Controller extends BaseController
             return response()->json(['message' => 'Error: '.$e], 500);
         }
     }
+
+    /**
+     * This function use for get the SP details
+     *
+     * @return Response
+     */
+    public function getAllSPData(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'page' => 'required',
+            'per_page' => 'required',
+            //'filter' => 'required',
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            // if(@$token_status['status'] == '200'){
+                
+                $datas = SPDetails::select('id','first_name as firstName','last_name as lastName','email','email_verified as emailVerified','mobile','mobile_verified as mobileVerified','gender','dob','anniversary','picture','referral_code','device_id as deviceId','device_type as deviceType','device_token','secret_hash','salt','auth_token','notification_enabled as notificationEnabled','last_login_at','active','enabled','created_at','updated_at','country_code','org_id','sub_org_id','location','rating','status','city_id','category_id','role')->orWhere('first_name', 'like', '%' . $request->filter . '%')->orWhere('last_name', 'like', '%' . $request->filter . '%')->orWhere('mobile', 'like', '%' . $request->filter . '%')->with('documents')->paginate($request->per_page)->toArray();
+                $spdatas = $datas['data'];
+                $currentPage = $datas['current_page'];
+                $totalCount = $datas['total'];
+                $perPage = $datas['per_page'];
+                $lastPage = $datas['last_page'];
+                return response()->json(['status' => 1,'message' => 'SP datas', 'pageNumber' => $currentPage, 'count' => $totalCount, 'pageSize' => $totalCount, 'perPage' => $perPage, 'lastPage' => $lastPage, 'users' => $spdatas], 200);
+            // }else{
+            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+    }
+
+    /**
+     * This function use for get the document status
+     *
+     * @return Response
+     */
+    public function getDocStatus($referer_id, $document_id){
+        
+        try {
+            $duc_status = DocumentReceived::select('status','document_url')->where('referer_id', $referer_id)->where('document_id', $document_id)->limit(1)->get()->toArray();
+            if(count($duc_status) > 0){
+                return $duc_status[0];
+            }else{
+                return ['status' => '', 'document_url' => ''];
+            }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+    }
 }
