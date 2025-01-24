@@ -266,7 +266,7 @@ class Controller extends BaseController
                 foreach($spdatas as $data){
                     $sp_id = $data['userId'];
                     $cat_id = $data['categoryID'];
-                    $spdatas[$x]['documents'] = DB::connection('sp_management')->select("select document_url as documentURL, status from document_received where referer_id ='$sp_id' and document_id in(select id from document_by_category where category_id ='$cat_id' and referer ='sp' and enabled ='1')");
+                    //$spdatas[$x]['documents'] = DB::connection('sp_management')->select("select document_url as documentURL, status from document_received where referer_id ='$sp_id' and document_id in(select id from document_by_category where category_id ='$cat_id' and referer ='sp' and enabled ='1')");
                     
                     $y=0;
                     // foreach($data['documents'] as $doc){
