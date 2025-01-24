@@ -256,12 +256,27 @@ class Controller extends BaseController
             
             // if(@$token_status['status'] == '200'){
                 
-                $datas = SPDetails::select('id','first_name as firstName','last_name as lastName','email','email_verified as emailVerified','mobile','mobile_verified as mobileVerified','gender','dob','anniversary','picture','referral_code','device_id as deviceId','device_type as deviceType','device_token','secret_hash','salt','auth_token','notification_enabled as notificationEnabled','last_login_at','active','enabled','created_at','updated_at','country_code','org_id','sub_org_id','location','rating','status','city_id','category_id','role')->orWhere('first_name', 'like', '%' . $request->filter . '%')->orWhere('last_name', 'like', '%' . $request->filter . '%')->orWhere('mobile', 'like', '%' . $request->filter . '%')->with('documents')->paginate($request->per_page)->toArray();
+                $datas = SPDetails::select('id as userId','first_name as firstName','last_name as lastName','email','email_verified as emailVerified','mobile','mobile_verified as mobileVerified','gender','dob','anniversary','picture','referral_code','device_id as deviceId','device_type as deviceType','device_token','secret_hash','salt','auth_token','notification_enabled as notificationEnabled','last_login_at','active','enabled','created_at as createdAt','updated_at as updatedAt','country_code','org_id as orgID','sub_org_id as subOrgID','location','rating','status','city_id','category_id as categoryID','role')->orWhere('first_name', 'like', '%' . $request->filter . '%')->orWhere('last_name', 'like', '%' . $request->filter . '%')->orWhere('mobile', 'like', '%' . $request->filter . '%')->paginate($request->per_page)->toArray();
                 $spdatas = $datas['data'];
                 $currentPage = $datas['current_page'];
                 $totalCount = $datas['total'];
                 $perPage = $datas['per_page'];
                 $lastPage = $datas['last_page'];
+                $x=0;
+                foreach($spdatas as $data){
+                    $sp_id = $data['userId'];
+                    $cat_id = $data['categoryID'];
+                    $spdatas[$x]['documents'] = DB::connection('sp_management')->select("select document_url as documentURL, status from document_received where referer_id ='$sp_id' and document_id in(select id from document_by_category where category_id ='$cat_id' and referer ='sp' and enabled ='1')");
+                    
+                    $y=0;
+                    // foreach($data['documents'] as $doc){
+                    //     $sdata = $this->getDocStatus($sp_id, $doc['id']);
+                    //     $spdatas[$x]['documents'][$y]['status'] = $sdata['status'];
+                    //     $spdatas[$x]['documents'][$y]['documentURL'] = $sdata['document_url'];
+                    //     $y++;
+                    // }  
+                    $x++;
+                }
                 return response()->json(['status' => 1,'message' => 'SP datas', 'pageNumber' => $currentPage, 'count' => $totalCount, 'pageSize' => $totalCount, 'perPage' => $perPage, 'lastPage' => $lastPage, 'users' => $spdatas], 200);
             // }else{
             //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
@@ -271,7 +286,7 @@ class Controller extends BaseController
             return response()->json(['message' => 'Error: '.$e], 500);
         }
     }
-
+    
     /**
      * This function use for get the document status
      *
