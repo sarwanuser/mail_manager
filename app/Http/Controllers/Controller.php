@@ -26,6 +26,7 @@ use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Mail;
 use Validator;
+use DB;
 
 class Controller extends BaseController
 {
