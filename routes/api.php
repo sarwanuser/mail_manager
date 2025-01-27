@@ -28,9 +28,6 @@ Route::get('/allspdatabydate', 'App\Http\Controllers\Controller@getAllSPDataByDa
 Route::get('/allspdatas', 'App\Http\Controllers\Controller@getAllSPData');
 
 
-
-
-
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
