@@ -20,7 +20,7 @@ class SubscriptionDatas extends Model
      * @var array
      */
     protected $fillable = [
-        'cart_id','status','service_time','service_date','resched_count','country','state','city',
+        'cart_id','status','service_time','service_date','resched_count','country','state','city','sub_category_id','subCategoryName','category_id','categoryName',
     ];
 
     protected $connection = 'cart_management';
