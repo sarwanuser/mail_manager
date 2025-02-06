@@ -8,6 +8,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
 use  App\Models\Subscription;
+use  App\Models\SubscriptionDatas;
 use  App\Models\Routing;
 use  App\Models\CartPackage;
 use  App\Models\Cart;
@@ -319,7 +320,7 @@ class Controller extends BaseController
             'per_page' => 'required',
             'from_date' => 'required',
             'to_date' => 'required',
-            //'city' => 'required',
+            'city' => 'required',
         ]);
         if ($validator->fails()) { 
             $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
@@ -334,9 +335,9 @@ class Controller extends BaseController
                 $from = date('Y-m-d 00:00:00', strtotime($request->from_date));
                 $to = date('Y-m-d 23:59:59', strtotime($request->to_date));
                 if($request->filter != ''){
-                    $datas = Subscription::select('cart_id as cartID','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->orWhere('id', $request->filter)->orWhere('cart_id', $request->filter)->whereBetween('service_date', [$from, $to])->paginate($request->per_page)->toArray();
+                    $datas = SubscriptionDatas::select('cart_id as cartID','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt','city')->orWhere('id', $request->filter)->orWhere('cart_id', $request->filter)->where('city',$request->city)->whereBetween('service_date', [$from, $to])->paginate($request->per_page)->toArray();
                 }else{
-                    $datas = Subscription::select('cart_id as cartID','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->whereBetween('service_date', [$from, $to])->paginate($request->per_page)->toArray();
+                    $datas = SubscriptionDatas::select('cart_id as cartID','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt','city')->whereBetween('service_date', [$from, $to])->where('city',$request->city)->paginate($request->per_page)->toArray();
                 }
                 
                 $spdatas = $datas['data'];
