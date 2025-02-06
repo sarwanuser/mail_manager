@@ -27,6 +27,8 @@ Route::get('/allspdatabydate', 'App\Http\Controllers\Controller@getAllSPDataByDa
 // This route for get all SP data
 Route::get('/allspdatas', 'App\Http\Controllers\Controller@getAllSPData');
 
+// This route for get all subscription data
+Route::get('/getallsubscriptions', 'App\Http\Controllers\Controller@getAllSubscriptions');
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

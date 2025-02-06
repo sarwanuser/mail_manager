@@ -307,4 +307,52 @@ class Controller extends BaseController
             return response()->json(['message' => 'Error: '.$e], 500);
         }
     }
+
+    /**
+     * This function use for get the SP details
+     *
+     * @return Response
+     */
+    public function getAllSubscriptions(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'page' => 'required',
+            'per_page' => 'required',
+            'from_date' => 'required',
+            'to_date' => 'required',
+            //'city' => 'required',
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            // if(@$token_status['status'] == '200'){ 
+                $from = date('Y-m-d 00:00:00', strtotime($request->from_date));
+                $to = date('Y-m-d 23:59:59', strtotime($request->to_date));
+                if($request->filter != ''){
+                    $datas = Subscription::select('cart_id as cartID','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->orWhere('id', $request->filter)->orWhere('cart_id', $request->filter)->whereBetween('service_date', [$from, $to])->paginate($request->per_page)->toArray();
+                }else{
+                    $datas = Subscription::select('cart_id as cartID','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->whereBetween('service_date', [$from, $to])->paginate($request->per_page)->toArray();
+                }
+                
+                $spdatas = $datas['data'];
+                $currentPage = $datas['current_page'];
+                $totalCount = $datas['total'];
+                $perPage = $datas['per_page'];
+                $lastPage = $datas['last_page'];
+                $x=0;
+                
+                return response()->json(['status' => 1,'message' => 'Subscriptions datas', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'subscriptions' => $spdatas], 200);
+            // }else{
+            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+    }
 }
