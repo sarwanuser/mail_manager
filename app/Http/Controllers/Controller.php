@@ -337,33 +337,19 @@ class Controller extends BaseController
                 $to = date('Y-m-d 23:59:59', strtotime($request->to_date));
                 if($request->filter != ''){
                     $datas = SubscriptionDatas::select('cart_id as cartID','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt','city','sub_category_id','subCategoryName','category_id','categoryName')->orWhere('id', $request->filter)->orWhere('cart_id', $request->filter)->where('city',$request->city)->whereBetween('service_date', [$from, $to])->distinct('id')->paginate($request->per_page)->toArray();
-                    $status = SubscriptionDatas::select('status')->orWhere('id', $request->filter)->orWhere('cart_id', $request->filter)->distinct('status')->get()->toArray();
-                    $citys = SubscriptionDatas::select('city')->orWhere('id', $request->filter)->orWhere('cart_id', $request->filter)->distinct('city')->get()->toArray();
                 }else{
                     if($request->status == 'all' && $request->city != 'all'){
                         $datas = SubscriptionDatas::select('cart_id as cartID','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt','city','sub_category_id','subCategoryName','category_id','categoryName')->whereBetween('service_date', [$from, $to])->where('city',$request->city)->distinct('id')->paginate($request->per_page)->toArray();
 
-                        $status = SubscriptionDatas::select('status')->whereBetween('service_date', [$from, $to])->where('city',$request->city)->distinct('status')->get()->toArray();
-
-                        $citys = SubscriptionDatas::select('city')->whereBetween('service_date', [$from, $to])->where('city',$request->city)->distinct('city')->get()->toArray();
                     }elseif($request->status != 'all' && $request->city == 'all'){
                         $datas = SubscriptionDatas::select('cart_id as cartID','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt','city','sub_category_id','subCategoryName','category_id','categoryName')->whereBetween('service_date', [$from, $to])->where('status',$request->status)->distinct('id')->paginate($request->per_page)->toArray();
 
-                        $status = SubscriptionDatas::select('status')->whereBetween('service_date', [$from, $to])->where('status',$request->status)->distinct('status')->get()->toArray();
-
-                        $citys = SubscriptionDatas::select('city')->whereBetween('service_date', [$from, $to])->where('status',$request->status)->distinct('city')->get()->toArray();
                     }elseif($request->status == 'all' && $request->city == 'all'){
                         $datas = SubscriptionDatas::select('cart_id as cartID','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt','city','sub_category_id','subCategoryName','category_id','categoryName')->whereBetween('service_date', [$from, $to])->distinct('id')->paginate($request->per_page)->toArray();
 
-                        $status = SubscriptionDatas::select('status')->whereBetween('service_date', [$from, $to])->distinct('status')->get()->toArray();
-
-                        $citys = SubscriptionDatas::select('city')->whereBetween('service_date', [$from, $to])->distinct('city')->get()->toArray();
                     }else{
                         $datas = SubscriptionDatas::select('cart_id as cartID','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt','city','sub_category_id','subCategoryName','category_id','categoryName')->whereBetween('service_date', [$from, $to])->where('city',$request->city)->where('status',$request->status)->distinct('id')->paginate($request->per_page)->toArray();
 
-                        $status = SubscriptionDatas::select('status')->whereBetween('service_date', [$from, $to])->where('city',$request->city)->where('status',$request->status)->distinct('status')->get()->toArray();
-
-                        $citys = SubscriptionDatas::select('city')->whereBetween('service_date', [$from, $to])->where('city',$request->city)->where('status',$request->status)->distinct('city')->get()->toArray();
                     }
                 }
                 
