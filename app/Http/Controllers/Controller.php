@@ -360,7 +360,7 @@ class Controller extends BaseController
                 $lastPage = $datas['last_page'];
                 $x=0;
                 
-                return response()->json(['status' => 1,'message' => 'Subscriptions datas', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'subscriptions' => $spdatas, 'status' => $status, 'citys' => $citys], 200);
+                return response()->json(['status' => 1,'message' => 'Subscriptions datas', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'subscriptions' => $spdatas], 200);
             // }else{
             //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
             // }
