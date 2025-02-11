@@ -138,6 +138,22 @@ return [
             'timezone' => env('DB_TIMEZONE6', '+00:00'),
         ],
 
+        'location_service' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST7', '127.0.0.1'),
+            'port' => env('DB_PORT7', 3306),
+            'database' => env('DB_DATABASE7', 'forge'),
+            'username' => env('DB_USERNAME7', 'forge'),
+            'password' => env('DB_PASSWORD7', ''),
+            'unix_socket' => env('DB_SOCKET7', ''),
+            'charset' => env('DB_CHARSET7', 'utf8mb4'),
+            'collation' => env('DB_COLLATION7', 'utf8mb4_unicode_ci'),
+            'prefix' => env('DB_PREFIX7', ''),
+            'strict' => env('DB_STRICT_MODE7', true),
+            'engine' => env('DB_ENGINE7', null),
+            'timezone' => env('DB_TIMEZONE7', '+00:00'),
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),

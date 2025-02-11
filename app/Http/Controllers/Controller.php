@@ -12,6 +12,7 @@ use  App\Models\SubscriptionDatas;
 use  App\Models\Routing;
 use  App\Models\CartPackage;
 use  App\Models\Cart;
+use  App\Models\City;
 use  App\Models\SPServiceSettings;
 use  App\Models\SPRoutingAlert;
 use  App\Models\SPRoutingAlertDetail;
@@ -358,9 +359,10 @@ class Controller extends BaseController
                 $totalCount = $datas['total'];
                 $perPage = $datas['per_page'];
                 $lastPage = $datas['last_page'];
+                $allcitys = City::All();
                 $x=0;
                 
-                return response()->json(['status' => 1,'message' => 'Subscriptions datas', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'subscriptions' => $spdatas], 200);
+                return response()->json(['status' => 1,'message' => 'Subscriptions datas', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'subscriptions' => $spdatas, 'cities' => $allcitys], 200);
             // }else{
             //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
             // }
