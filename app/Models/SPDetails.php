@@ -30,4 +30,9 @@ class SPDetails extends Model
     public function documents(){
         return $this->hasMany(DocumentReceived::class, 'id','referer_id')->with('documentStatus')->select('id','referer','referer_id','document_id','status','comment');
     }
+
+    // Get cart details
+    public function getcitydetails(){
+        return $this->hasOne(City::class, 'id','city_id');
+    }
 }
