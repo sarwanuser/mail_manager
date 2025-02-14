@@ -30,4 +30,9 @@ class Cart extends Model
     public function getUserDetails(){
         return $this->hasOne(UserDetails::class, 'id','user_id');
     }
+
+    // Get User details
+    public function getPackageDetails(){
+        return $this->hasOne(CartPackage::class, 'cartID','id');
+    }
 }
