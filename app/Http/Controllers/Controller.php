@@ -371,4 +371,29 @@ class Controller extends BaseController
             return response()->json(['message' => 'Error: '.$e], 500);
         }
     }
+
+    /**
+     * This function use for get the all cart datas
+     *
+     * @return Response
+     */
+    public function getAllCartData(Request $request){
+        
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            // if(@$token_status['status'] == '200'){
+                
+                $datas = Cart::with('getUserDetails')->with('getPackageDetails')->where('status', 'cart')->get()->toArray();
+
+                return response()->json(['status' => 1,'message' => 'Cart datas', 'data' => $datas], 200);
+            // }else{
+            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+    }
 }

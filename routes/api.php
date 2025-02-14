@@ -30,6 +30,9 @@ Route::get('/allspdatas', 'App\Http\Controllers\Controller@getAllSPData');
 // This route for get all subscription data
 Route::get('/getallsubscriptions', 'App\Http\Controllers\Controller@getAllSubscriptions');
 
+// This route for get all cart data
+Route::get('/allcartdata', 'App\Http\Controllers\Controller@getAllCartData');
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
