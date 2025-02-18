@@ -154,6 +154,22 @@ return [
             'timezone' => env('DB_TIMEZONE7', '+00:00'),
         ],
 
+        'likes_shares' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST8', '127.0.0.1'),
+            'port' => env('DB_PORT8', 3306),
+            'database' => env('DB_DATABASE8', 'forge'),
+            'username' => env('DB_USERNAME8', 'forge'),
+            'password' => env('DB_PASSWORD8', ''),
+            'unix_socket' => env('DB_SOCKET8', ''),
+            'charset' => env('DB_CHARSET8', 'utf8mb4'),
+            'collation' => env('DB_COLLATION8', 'utf8mb4_unicode_ci'),
+            'prefix' => env('DB_PREFIX8', ''),
+            'strict' => env('DB_STRICT_MODE8', true),
+            'engine' => env('DB_ENGINE8', null),
+            'timezone' => env('DB_TIMEZONE8', '+00:00'),
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),

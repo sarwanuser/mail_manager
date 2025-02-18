@@ -33,6 +33,11 @@ Route::get('/getallsubscriptions', 'App\Http\Controllers\Controller@getAllSubscr
 // This route for get all cart data
 Route::get('/allcartdata', 'App\Http\Controllers\Controller@getAllCartData');
 
+// This route for get all cart data
+Route::get('/allpackageviewsdata', 'App\Http\Controllers\Controller@getAllViewsData');
+
+
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
