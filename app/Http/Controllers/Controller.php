@@ -24,6 +24,7 @@ use  App\Models\SPPaymentHistory;
 use  App\Models\SubCategoryServiceRule;
 use  App\Models\SPDetails;
 use  App\Models\Config;
+use  App\Models\PackagesViewed;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Mail;
