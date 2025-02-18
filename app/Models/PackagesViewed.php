@@ -28,7 +28,7 @@ class PackagesViewed extends Model
     
     // Get User details
     public function getUserDetails(){
-        return $this->hasOne(UserDetails::class, 'id','user_id');
+        return $this->hasOne(UserDetails::class, 'id','user_id')->select('id','first_name','last_name','email','mobile','created_at');
     }
 
     // Get User details
