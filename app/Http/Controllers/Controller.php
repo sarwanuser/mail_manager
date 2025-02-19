@@ -260,7 +260,7 @@ class Controller extends BaseController
             
             // if(@$token_status['status'] == '200'){
                 
-                $datas = SPDetails::select('id as userId','first_name as firstName','last_name as lastName','email','email_verified as emailVerified','mobile','mobile_verified as mobileVerified','gender','dob','anniversary','picture','referral_code','device_id as deviceId','device_type as deviceType','device_token','secret_hash','salt','auth_token','notification_enabled as notificationEnabled','last_login_at','active','enabled','created_at as createdAt','updated_at as updatedAt','country_code','org_id as orgID','sub_org_id as subOrgID','location','rating','status','city_id','category_id as categoryID','role')->with('getcitydetails')->orWhere('first_name', 'like', '%' . $request->filter . '%')->orWhere('last_name', 'like', '%' . $request->filter . '%')->orWhere('mobile', 'like', '%' . $request->filter . '%')->paginate($request->per_page)->toArray();
+                $datas = SPDetails::select('id as userId','first_name as firstName','last_name as lastName','email','email_verified as emailVerified','mobile','mobile_verified as mobileVerified','gender','dob','anniversary','picture','referral_code','device_id as deviceId','device_type as deviceType','device_token','secret_hash','salt','auth_token','notification_enabled as notificationEnabled','last_login_at','active','enabled','created_at as createdAt','updated_at as updatedAt','country_code','org_id as orgID','sub_org_id as subOrgID','location','rating','status','city_id','category_id as categoryID','role')->with('getcitydetails')->orWhere('first_name', 'like', '%' . $request->filter . '%')->orWhere('last_name', 'like', '%' . $request->filter . '%')->orWhere('mobile', 'like', '%' . $request->filter . '%')->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
                 $spdatas = $datas['data'];
                 $currentPage = $datas['current_page'];
                 $totalCount = $datas['total'];
@@ -386,7 +386,7 @@ class Controller extends BaseController
             
             // if(@$token_status['status'] == '200'){
                 
-                $datas = Cart::with('getUserDetails')->with('getPackageDetails')->where('status', 'cart')->get()->toArray();
+                $datas = Cart::with('getUserDetails')->with('getPackageDetails')->where('status', 'cart')->orderBy('id', 'DESC')->get()->toArray();
 
                 return response()->json(['status' => 1,'message' => 'Cart datas', 'data' => $datas], 200);
             // }else{
@@ -417,7 +417,7 @@ class Controller extends BaseController
             
             // if(@$token_status['status'] == '200'){
                 
-                $datas = PackagesViewed::with('getUserDetails')->with('getPackageDetails')->where('user_id', $request->user_id)->get()->toArray();
+                $datas = PackagesViewed::with('getUserDetails')->with('getPackageDetails')->where('user_id', $request->user_id)->orderBy('id', 'DESC')->get()->toArray();
 
                 return response()->json(['status' => 1,'message' => 'Package views datas', 'data' => $datas], 200);
             // }else{
