@@ -37,7 +37,7 @@ Route::get('/allcartdata', 'App\Http\Controllers\Controller@getAllCartData');
 Route::get('/allpackageviewsdata', 'App\Http\Controllers\Controller@getAllViewsData');
 
  // This route for get all share datas
- Route::get('/allshares', 'RoutingController@getAllSharesData');
+ Route::get('/allshares', 'App\Http\Controllers\Controller@getAllSharesData');
 
 
 
