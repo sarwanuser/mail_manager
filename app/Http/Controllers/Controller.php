@@ -443,7 +443,7 @@ class Controller extends BaseController
             
             // if(@$token_status['status'] == '200'){
                 
-                $share_datas = PackagesShare::select('user_id','package_id', 'created_at', 'shared_via', 'receiver_name', 'contact_info')->with('getUserDetails')->get()->toArray();
+                $share_datas = PackagesShare::select('user_id','package_id', 'created_at', 'shared_via', 'receiver_name', 'contact_info')->with('getUserDetails')->orderBy('id', 'DESC')->get()->toArray();
 
                 return response()->json(['status' => 1,'message' => 'Share datas', 'data' => $share_datas], 200);
             // }else{
