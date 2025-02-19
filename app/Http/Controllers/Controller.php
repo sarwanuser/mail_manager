@@ -25,6 +25,7 @@ use  App\Models\SubCategoryServiceRule;
 use  App\Models\SPDetails;
 use  App\Models\Config;
 use  App\Models\PackagesViewed;
+use  App\Models\PackagesShare;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Mail;
@@ -420,6 +421,31 @@ class Controller extends BaseController
                 $datas = PackagesViewed::with('getUserDetails')->with('getPackageDetails')->where('user_id', $request->user_id)->orderBy('id', 'DESC')->get()->toArray();
 
                 return response()->json(['status' => 1,'message' => 'Package views datas', 'data' => $datas], 200);
+            // }else{
+            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+    }
+
+    /**
+     * This function use for get the all share data
+     *
+     * @return Response
+     */
+    public function getAllSharesData(Request $request){
+        
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            // if(@$token_status['status'] == '200'){
+                
+                $share_datas = PackagesShare::select('user_id','package_id', 'created_at', 'shared_via', 'receiver_name', 'contact_info')->with('getUserDetails')->get()->toArray();
+
+                return response()->json(['status' => 1,'message' => 'Share datas', 'data' => $share_datas], 200);
             // }else{
             //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
             // }

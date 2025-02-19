@@ -36,6 +36,9 @@ Route::get('/allcartdata', 'App\Http\Controllers\Controller@getAllCartData');
 // This route for get all cart data
 Route::get('/allpackageviewsdata', 'App\Http\Controllers\Controller@getAllViewsData');
 
+ // This route for get all share datas
+ Route::get('/allshares', 'RoutingController@getAllSharesData');
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
