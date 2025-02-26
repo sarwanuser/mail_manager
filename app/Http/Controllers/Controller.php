@@ -462,6 +462,15 @@ class Controller extends BaseController
      * @return Response
      */
     public function getSPPayments(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'page' => 'required',
+            'per_page' => 'required',
+            'filter' => 'required',
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
         try {
             // $AuthController = new AuthController();
             // $token_status = $AuthController->tokenVerify($request);
@@ -469,7 +478,7 @@ class Controller extends BaseController
             // if(@$token_status['status'] == '200'){
 
                 // Check sp payment availble or not
-                $SPPayment = SPPayment::with('getSubscriptionDetails')->get();
+                $SPPayment = SPPayment::with('getSubscriptionDetails')->with('getPaymentTransaction')->orWhere('id', $request->filter)->orWhere('subscription_id', $request->filter)->orWhere('sp_id', $request->filter)->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
 
                 return response()->json(['status' => 1,'message' => 'SP Payments!', 'data' => $SPPayment], 200);
             // }else{
