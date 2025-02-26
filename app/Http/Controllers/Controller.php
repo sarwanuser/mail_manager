@@ -465,7 +465,6 @@ class Controller extends BaseController
         $validator = Validator::make($request->all(), [ 
             'page' => 'required',
             'per_page' => 'required',
-            //'filter' => 'required',
         ]);
         if ($validator->fails()) { 
             $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
@@ -478,9 +477,15 @@ class Controller extends BaseController
             // if(@$token_status['status'] == '200'){
 
                 // Check sp payment availble or not
-                $SPPayment = SPPayment::with('getSubscriptionDetails')->with('getPaymentTransaction')->orWhere('id', $request->filter)->orWhere('subscription_id', $request->filter)->orWhere('sp_id', $request->filter)->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
+                $datas = SPPayment::with('getSubscriptionDetails')->with('getPaymentTransaction')->orWhere('id', $request->filter)->orWhere('subscription_id', $request->filter)->orWhere('sp_id', $request->filter)->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
 
-                return response()->json(['status' => 1,'message' => 'SP Payments!', 'data' => $SPPayment], 200);
+                $SPPayment = $datas['data'];
+                $currentPage = $datas['current_page'];
+                $totalCount = $datas['total'];
+                $perPage = $datas['per_page'];
+                $lastPage = $datas['last_page'];
+
+                return response()->json(['status' => 1,'message' => 'SP Payments!', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'data' => $SPPayment], 200);
             // }else{
             //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 500);
             // }
