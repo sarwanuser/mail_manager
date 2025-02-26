@@ -490,7 +490,7 @@ class Controller extends BaseController
                 $perPage = $datas['per_page'];
                 $lastPage = $datas['last_page'];
 
-                return response()->json(['status' => 1,'message' => 'SP Payments!', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'data' => $SPPayment], 200);
+                return response()->json(['status' => 1,'message' => 'SP Payments!', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'totalCount' => $totalCount, 'data' => $SPPayment], 200);
             // }else{
             //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 500);
             // }
