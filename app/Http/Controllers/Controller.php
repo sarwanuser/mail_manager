@@ -465,7 +465,7 @@ class Controller extends BaseController
         $validator = Validator::make($request->all(), [ 
             'page' => 'required',
             'per_page' => 'required',
-            'filter' => 'required',
+            //'filter' => 'required',
         ]);
         if ($validator->fails()) { 
             $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
