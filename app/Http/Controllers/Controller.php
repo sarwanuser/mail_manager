@@ -477,7 +477,7 @@ class Controller extends BaseController
             // if(@$token_status['status'] == '200'){
 
                 // Check sp payment availble or not
-                if($request->filter != ''){
+                if($request->filter > 0){
                     $datas = SPPayment::with('getSubscriptionDetails')->with('getPaymentTransaction')->orWhere('id', $request->filter)->orWhere('subscription_id', $request->filter)->orWhere('sp_id', $request->filter)->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
                 }else{
                     $datas = SPPayment::with('getSubscriptionDetails')->with('getPaymentTransaction')->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
