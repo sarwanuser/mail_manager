@@ -39,6 +39,9 @@ Route::get('/allpackageviewsdata', 'App\Http\Controllers\Controller@getAllViewsD
  // This route for get all share datas
  Route::get('/allshares', 'App\Http\Controllers\Controller@getAllSharesData');
 
+ // Get SP Payments
+ $router->get('getsppayments', 'App\Http\Controllers\Controller@getSPPayments');
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

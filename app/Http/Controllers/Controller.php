@@ -454,4 +454,31 @@ class Controller extends BaseController
             return response()->json(['message' => 'Error: '.$e], 500);
         }
     }
+
+
+    /**
+     * This function use for get sp payments.
+     *
+     * @return Response
+     */
+    public function getSPPayments(Request $request){
+        try {
+            // $AuthController = new AuthController();
+            // $token_status = $AuthController->tokenVerify($request);
+            
+            // if(@$token_status['status'] == '200'){
+
+                // Check sp payment availble or not
+                $SPPayment = SPPayment::with('getSubscriptionDetails')->get();
+
+                return response()->json(['status' => 1,'message' => 'SP Payments!', 'data' => $SPPayment], 200);
+            // }else{
+            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 500);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+
+    }
 }
