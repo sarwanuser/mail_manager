@@ -535,10 +535,15 @@ class Controller extends BaseController
                 $SPTransaction->reference_no = $request->reference_no;
                 $SPTransaction->total = $request->total;
                 $SPTransaction->comment = $request->comment;
-                $SPTransaction->payment_status = 'done';
+                $SPTransaction->payment_status = 'Done';
                 $SPTransaction->payment_by = $request->payment_by;
                 $SPTransaction->created_at = date('Y-m-d, H:i:s');
                 $SPTransaction->save();  
+                
+                // Update the payment status of sp payment table
+                $SPPayment = SPPayment::where('id', $request->payment_id)->first();
+                $SPPayment->payment_status = 'done';
+                $SPPayment->save();
                 
 
                 return response()->json(['status' => 1,'message' => 'SP Payment Done!', 'data' => $SPTransaction], 200);
