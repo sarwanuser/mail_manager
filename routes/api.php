@@ -43,7 +43,7 @@ Route::get('/allpackageviewsdata', 'App\Http\Controllers\Controller@getAllViewsD
  $router->get('getsppayments', 'App\Http\Controllers\Controller@getSPPayments');
 
  // Get SP Payments
- $router->get('makesppayment', 'App\Http\Controllers\Controller@makeSPPayment');
+ $router->post('makesppayment', 'App\Http\Controllers\Controller@makeSPPayment');
 
  
 
