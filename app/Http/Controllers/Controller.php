@@ -26,6 +26,7 @@ use  App\Models\SPDetails;
 use  App\Models\Config;
 use  App\Models\PackagesViewed;
 use  App\Models\PackagesShare;
+use  App\Models\SPTransaction;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Mail;
@@ -491,6 +492,55 @@ class Controller extends BaseController
                 $lastPage = $datas['last_page'];
 
                 return response()->json(['status' => 1,'message' => 'SP Payments!', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'totalCount' => $totalCount, 'data' => $SPPayment], 200);
+            // }else{
+            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 500);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+
+    }
+
+    /**
+     * This function use for make sp payments.
+     *
+     * @return Response
+     */
+    public function makeSPPayment(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'subscription_id' => 'required',
+            'sp_id' => 'required',
+            'transaction_id' => 'required',
+            'payment_type' => 'required',
+            'reference_no' => 'required',
+            'total' => 'required',
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+        try {
+            // $AuthController = new AuthController();
+            // $token_status = $AuthController->tokenVerify($request);
+            
+            // if(@$token_status['status'] == '200'){
+
+                $SPTransaction = new SPTransaction();
+                $SPTransaction->subscription_id = $request->subscription_id;
+                $SPTransaction->sp_id = $request->sp_id;
+                $SPTransaction->transaction_id = $request->transaction_id;
+                $SPTransaction->payment_type = $request->payment_type;
+                $SPTransaction->reference_no = $request->reference_no;
+                $SPTransaction->total = $request->total;
+                $SPTransaction->comment = $request->comment;
+                $SPTransaction->payment_status = 'done';
+                $SPTransaction->create_by = $request->create_by;
+                $SPTransaction->payment_date = date('Y-m-d, H:i:s');
+                $SPTransaction->save();  
+                
+
+                return response()->json(['status' => 1,'message' => 'SP Payment Done!', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'totalCount' => $totalCount, 'data' => $SPPayment], 200);
             // }else{
             //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 500);
             // }

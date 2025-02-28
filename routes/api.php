@@ -42,6 +42,11 @@ Route::get('/allpackageviewsdata', 'App\Http\Controllers\Controller@getAllViewsD
  // Get SP Payments
  $router->get('getsppayments', 'App\Http\Controllers\Controller@getSPPayments');
 
+ // Get SP Payments
+ $router->get('makesppayment', 'App\Http\Controllers\Controller@makeSPPayment');
+
+ 
+
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
