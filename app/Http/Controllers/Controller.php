@@ -515,6 +515,7 @@ class Controller extends BaseController
             'payment_type' => 'required',
             'reference_no' => 'required',
             'total' => 'required',
+            'payment_by' => 'required',
         ]);
         if ($validator->fails()) { 
             $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
@@ -535,8 +536,8 @@ class Controller extends BaseController
                 $SPTransaction->total = $request->total;
                 $SPTransaction->comment = $request->comment;
                 $SPTransaction->payment_status = 'done';
-                $SPTransaction->create_by = $request->create_by;
-                $SPTransaction->payment_date = date('Y-m-d, H:i:s');
+                $SPTransaction->payment_by = $request->payment_by;
+                $SPTransaction->created_at = date('Y-m-d, H:i:s');
                 $SPTransaction->save();  
                 
 

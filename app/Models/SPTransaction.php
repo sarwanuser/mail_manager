@@ -20,7 +20,7 @@ class SPTransaction extends Model
      * @var array
      */
     protected $fillable = [
-        'subscription_id','sp_id','reference_no','payment_status','total','discount','discount_type','discount_code','payable_amount','amount_before_tax','tax_amount','transaction_id','payment_type','is_verified','collection_status','created_at','updated_at','order_id','description','comment',
+        'subscription_id','sp_id','reference_no','payment_status','payment_by','total','discount','discount_type','discount_code','payable_amount','amount_before_tax','tax_amount','transaction_id','payment_type','is_verified','collection_status','created_at','updated_at','order_id','description','comment',
     ];
 
     protected $connection = 'sp_management';
