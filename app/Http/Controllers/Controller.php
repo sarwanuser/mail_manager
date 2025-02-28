@@ -541,7 +541,7 @@ class Controller extends BaseController
                 $SPTransaction->save();  
                 
 
-                return response()->json(['status' => 1,'message' => 'SP Payment Done!', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'totalCount' => $totalCount, 'data' => $SPPayment], 200);
+                return response()->json(['status' => 1,'message' => 'SP Payment Done!', 'data' => $SPTransaction], 200);
             // }else{
             //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 500);
             // }
