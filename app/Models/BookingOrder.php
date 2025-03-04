@@ -11,7 +11,7 @@ use Laravel\Lumen\Auth\Authorizable;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class CartPackage extends Model
+class BookingOrder extends Model
 {
 
     /**
@@ -20,14 +20,11 @@ class CartPackage extends Model
      * @var array
      */
     protected $fillable = [
-        'cartID','package_name','short_description','package_image','base_price','selling_price','sub_category_id','service_rule_id',
+        'id','subscription_id','total','discount','discount_type','discount_code','payable_amount','amount_before_tax','tax_amount','payment_type','is_verified','collection_status','created_at','updated_at','order_id','cart_id','user_id','description',
     ];
 
     protected $connection = 'cart_management';
-    protected $table = 'cart_package';
+    protected $table = 'booking_order';
 
-    // Get BookingOrder details
-    public function getorderdetails(){
-        return $this->hasOne(BookingOrder::class, 'cart_id','cart_id');
-    }
+    
 }
