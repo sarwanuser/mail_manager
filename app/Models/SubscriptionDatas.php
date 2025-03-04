@@ -45,11 +45,6 @@ class SubscriptionDatas extends Model
     public function getSPDetails(){
         return $this->hasOne(SPDetails::class, 'id','accept_provider_id');
     }
-
-    // Get Transactions details
-    public function getTransactionDetails(){
-        return $this->hasOne(Transactions::class, 'subscription_id','id');
-    }
     
 
     
