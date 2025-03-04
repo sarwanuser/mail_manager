@@ -28,6 +28,6 @@ class CartPackage extends Model
 
     // Get BookingOrder details
     public function getorderdetails(){
-        return $this->hasOne(BookingOrder::class, 'cart_id','cart_id');
+        return $this->hasOne(BookingOrder::class, 'cart_id','cartID');
     }
 }
