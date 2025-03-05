@@ -479,9 +479,9 @@ class Controller extends BaseController
 
                 // Check sp payment availble or not
                 if($request->filter > 0){
-                    $datas = SPPayment::with('getSubscriptionDetails')->with('getPaymentTransaction')->with('getSPTransactionDetails')->orWhere('id', $request->filter)->orWhere('subscription_id', $request->filter)->orWhere('sp_id', $request->filter)->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
+                    $datas = SPPayment::with('getSubscriptionDetails')->with('getPaymentTransaction')->orWhere('id', $request->filter)->orWhere('subscription_id', $request->filter)->orWhere('sp_id', $request->filter)->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
                 }else{
-                    $datas = SPPayment::with('getSubscriptionDetails')->with('getPaymentTransaction')->with('getSPTransactionDetails')->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
+                    $datas = SPPayment::with('getSubscriptionDetails')->with('getPaymentTransaction')->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
                 }
                 
 
