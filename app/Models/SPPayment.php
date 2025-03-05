@@ -36,4 +36,9 @@ class SPPayment extends Model
     public function getSubscriptionDetails(){
         return $this->hasMany(Subscription::class, 'id','subscription_id')->with('getCartPackageDetails')->with('getTransactionDetails')->with('getAddressDetails')->with('getSPDetails')->with('getSPTransactionDetails');
     }
+
+    // Get SP details
+    public function getSPDetails(){
+        return $this->hasOne(SPDetails::class, 'id','sp_id');
+    }
 }
