@@ -72,6 +72,13 @@ class Subscription extends Model
         return $this->hasOne(Transactions::class, 'subscription_id','id');
     }
 
+    // Get SPTransaction details
+    public function getSPTransactionDetails(){
+        return $this->hasOne(SPTransaction::class, 'subscription_id','id');
+    }
+
+    
+
     
 
     
