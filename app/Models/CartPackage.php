@@ -30,4 +30,9 @@ class CartPackage extends Model
     public function getorderdetails(){
         return $this->hasOne(BookingOrder::class, 'cart_id','cartID');
     }
+
+    // Get Transactions details
+    public function getSubCategoryDetails(){
+        return $this->hasOne(SubCategory::class, 'id','sub_category_id');
+    }
 }

@@ -28,7 +28,7 @@ class Subscription extends Model
 
     // Get CartPackage details
     public function getCartPackageDetails(){
-        return $this->hasMany(CartPackage::class, 'cartID','cart_id')->with('getorderdetails');
+        return $this->hasMany(CartPackage::class, 'cartID','cart_id')->with('getorderdetails')->with('getSubCategoryDetails');
     }
 
     // Get Cart Addon Package details
@@ -72,6 +72,9 @@ class Subscription extends Model
         return $this->hasOne(Transactions::class, 'subscription_id','id');
     }
 
+    
+
+    
     
     
 }
