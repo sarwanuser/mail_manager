@@ -52,9 +52,9 @@ class Controller extends BaseController
             return response()->json($result);            
         }
         try {
-            //$AuthController = new AuthController();
-            //$token_status = $AuthController->tokenVerify($request);
-            //if($token_status['status'] == '200'){
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            if($token_status['status'] == '200'){
                 $sub_id = $request->sub_id;
                 
 
@@ -75,9 +75,9 @@ class Controller extends BaseController
                 //return View('invoice', compact('data'));
                 return response()->json(['status' => 1,'message' => 'Subscription Invoice Sent', 'data' => []], 200);
                 
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             die('<p style="color:red;">Error: '.$e->getMessage()."</p>");
@@ -99,9 +99,9 @@ class Controller extends BaseController
             return response()->json($result);            
         }
         try {
-            //$AuthController = new AuthController();
-            //$token_status = $AuthController->tokenVerify($request);
-            //if($token_status['status'] == '200'){
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            if($token_status['status'] == '200'){
                 $sub_id = $request->sub_id;
                 
 
@@ -121,9 +121,9 @@ class Controller extends BaseController
                 return View('view', compact('data'));
                 return response()->json(['status' => 1,'message' => 'Subscription Invoice Sent', 'data' => []], 200);
                 
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'error: '.$e], 500);
@@ -224,16 +224,16 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
                 $from = date('Y-m-d 00:00:00', strtotime($request->from_date));
                 $to = date('Y-m-d 23:59:59', strtotime($request->to_date));
                 
                 $datas = SPDetails::select('id as userId','first_name as firstName','last_name as lastName','email','email_verified as emailVerified','mobile','mobile_verified as mobileVerified','gender','dob','anniversary','picture','referral_code as referralCode','device_id as deviceId','device_type as deviceType','device_token as deviceToken','secret_hash','salt','auth_token','notification_enabled as notificationEnabled','last_login_at as lastLoginAt','active','enabled','created_at as createdAt','updated_at as updatedAt','country_code as countrycode','org_id as orgID','sub_org_id as subOrgID','location','rating','status','city_id as cityID','category_id as categoryID','role')->whereBetween('created_at', [$from, $to])->with('documents')->get()->toArray();
                 
                 return response()->json(['status' => 1,'message' => 'SP datas', 'users' => $datas], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -260,7 +260,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
                 
                 $datas = SPDetails::select('id as userId','first_name as firstName','last_name as lastName','email','email_verified as emailVerified','mobile','mobile_verified as mobileVerified','gender','dob','anniversary','picture','referral_code','device_id as deviceId','device_type as deviceType','device_token','secret_hash','salt','auth_token','notification_enabled as notificationEnabled','last_login_at','active','enabled','created_at as createdAt','updated_at as updatedAt','country_code','org_id as orgID','sub_org_id as subOrgID','location','rating','status','city_id','category_id as categoryID','role')->with('getcitydetails')->orWhere('first_name', 'like', '%' . $request->filter . '%')->orWhere('last_name', 'like', '%' . $request->filter . '%')->orWhere('mobile', 'like', '%' . $request->filter . '%')->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
                 $spdatas = $datas['data'];
@@ -284,9 +284,9 @@ class Controller extends BaseController
                     $x++;
                 }
                 return response()->json(['status' => 1,'message' => 'SP datas', 'pageNumber' => $currentPage, 'count' => $totalCount, 'pageSize' => $totalCount, 'perPage' => $perPage, 'lastPage' => $lastPage, 'users' => $spdatas], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -336,7 +336,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){ 
+            if(@$token_status['status'] == '200'){ 
                 $from = date('Y-m-d 00:00:00', strtotime($request->from_date));
                 $to = date('Y-m-d 23:59:59', strtotime($request->to_date));
                 if($request->filter != ''){
@@ -366,9 +366,9 @@ class Controller extends BaseController
                 $x=0;
                 
                 return response()->json(['status' => 1,'message' => 'Subscriptions datas', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'subscriptions' => $spdatas, 'cities' => $allcitys], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -386,14 +386,14 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
                 
                 $datas = Cart::with('getUserDetails')->with('getPackageDetails')->where('status', 'cart')->orderBy('id', 'DESC')->get()->toArray();
 
                 return response()->json(['status' => 1,'message' => 'Cart datas', 'data' => $datas], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -414,17 +414,17 @@ class Controller extends BaseController
             return response()->json($result);            
         }
         try {
-            // $AuthController = new AuthController();
-            // $token_status = $AuthController->tokenVerify($request);
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
                 
                 $datas = PackagesViewed::with('getUserDetails')->with('getPackageDetails')->where('user_id', $request->user_id)->orderBy('id', 'DESC')->get()->toArray();
 
                 return response()->json(['status' => 1,'message' => 'Package views datas', 'data' => $datas], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -442,14 +442,14 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
                 
                 $share_datas = PackagesShare::select('user_id','package_id', 'created_at', 'shared_via', 'receiver_name', 'contact_info')->with('getUserDetails')->orderBy('id', 'DESC')->get()->toArray();
 
                 return response()->json(['status' => 1,'message' => 'Share datas', 'data' => $share_datas], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -472,10 +472,10 @@ class Controller extends BaseController
             return response()->json($result);            
         }
         try {
-            // $AuthController = new AuthController();
-            // $token_status = $AuthController->tokenVerify($request);
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
 
                 // Check sp payment availble or not
                 if($request->filter > 0){
@@ -492,9 +492,9 @@ class Controller extends BaseController
                 $lastPage = $datas['last_page'];
 
                 return response()->json(['status' => 1,'message' => 'SP Payments!', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'totalCount' => $totalCount, 'data' => $SPPayment], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 500);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 500);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -522,10 +522,10 @@ class Controller extends BaseController
             return response()->json($result);            
         }
         try {
-            // $AuthController = new AuthController();
-            // $token_status = $AuthController->tokenVerify($request);
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
 
                 $SPTransaction = new SPTransaction();
                 $SPTransaction->subscription_id = $request->subscription_id;
@@ -543,13 +543,14 @@ class Controller extends BaseController
                 // Update the payment status of sp payment table
                 $SPPayment = SPPayment::where('id', $request->payment_id)->first();
                 $SPPayment->payment_status = 'done';
+                $SPPayment->payment_date = date('Y-m-d, H:i:s');
                 $SPPayment->save();
                 
 
                 return response()->json(['status' => 1,'message' => 'SP Payment Done!', 'data' => $SPTransaction], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 500);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 500);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
