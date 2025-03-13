@@ -43,7 +43,7 @@ class Controller extends BaseController
      *
      * @return Response
      */
-    public function sendInvoiceToCustomer(Request $request){
+    public function sendInvoiceToCustomer(Request $request){ 
         $validator = Validator::make($request->all(), [ 
             'sub_id' => 'required'
         ]);
@@ -109,7 +109,6 @@ class Controller extends BaseController
                 
                 $data = $data[0];
                 
-                //echo "<pre>";print_r($data); die('---------');
                 $send_view = ["data" => $data];
                 $cust = ["email" => $data->getcartdetails->getUserDetails->email, "name" => $data->getcartdetails->getUserDetails->first_name];
                 //echo "<pre>";print_r($data);die('----');
@@ -484,7 +483,6 @@ class Controller extends BaseController
                     $datas = SPPayment::with('getSubscriptionDetails')->with('getPaymentTransaction')->with('getSPDetails')->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
                 }
                 
-
                 $SPPayment = $datas['data'];
                 $currentPage = $datas['current_page'];
                 $totalCount = $datas['total'];
@@ -546,7 +544,6 @@ class Controller extends BaseController
                 $SPPayment->payment_date = date('Y-m-d, H:i:s');
                 $SPPayment->save();
                 
-
                 return response()->json(['status' => 1,'message' => 'SP Payment Done!', 'data' => $SPTransaction], 200);
             }else{
                 return response()->json(['status' => 0, 'error' => 1,'message' => 'unexpected signing method in auth token'], 500);
