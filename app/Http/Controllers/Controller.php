@@ -554,4 +554,92 @@ class Controller extends BaseController
         }
 
     }
+
+    /**
+     * This function use for get vendor list by subscription id.
+     *
+     * @return Response
+     */
+    public function getVendorListBySubsId(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'subscription_id' => 'required'
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            // if($token_status['status'] == '200'){
+                if(Subscription::where('id', $request->subscription_id)->count() == 0){
+                    return response()->json(['error' => 1,'message' => 'Subscription Not Found!'], 401);
+                }
+                $Subscriptions = DB::connection('cart_management')->select("select sub.*, cp.sub_category_id  from cart_management.subscription sub join cart_package cp on cp.cartID = sub.cart_id  where sub.id=".$request->subscription_id)[0];
+
+                $city_id = $this->getCityIdBySubId($Subscriptions->cart_id);
+                
+                $service_rule = SubCategoryServiceRule::where('sub_category_id', $Subscriptions->sub_category_id)->first();
+                $rule_code = $this->getRuleCode($service_rule->service_rule_id);
+                //die('-------$Subscriptions->sub_category_id '. $Subscriptions->sub_category_id. '-----$rule_code '.$rule_code);
+                if(!empty($city_id)){
+                    $vendor_list = DB::connection('sp_management')->select("SELECT * FROM sp_service_settings spss JOIN sp_detail sd on sd.id = spss.sp_id where spss.subcategory_id = '".$Subscriptions->sub_category_id."' and spss.".$rule_code." = '1' and spss.enabled = '1' and sd.city_id = $city_id and sd.`role` = 'provider' and sd.status ='approved'");
+                }else{
+                    $vendor_list = DB::connection('sp_management')->select("SELECT * FROM sp_service_settings spss JOIN sp_detail sd on sd.id = spss.sp_id where spss.subcategory_id = '".$Subscriptions->sub_category_id."' and spss.".$rule_code." = '1' and spss.enabled = '1' and sd.`role` = 'provider' and sd.status ='approved'");
+                }
+                
+
+                //$vendor_list = SPServiceSettings::where('subcategory_id', $routing_details->sub_category_id)->where('enabled', '1')->where($rule_code, '1')->with('getSPdetails')->get();
+                return response()->json(['status' => 1,'message' => 'SP List For Manual Routing', 'data' => $vendor_list], 200);                
+            // }else{
+            //     return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'error: '.$e], 500);
+        }
+
+    }
+
+    /**
+     * This function use for get the city id by sub_id
+     * @para $cart_id
+     * @return $city_id
+     */
+    public function getCityIdBySubId($cart_id){
+        try {
+            $address = DB::connection('cart_management')->select("select * from cart_management.address where cartID=".$cart_id)[0];
+
+            $city = DB::connection('location_service')->select("select * from location_service.city where city_name = '$address->city'")[0];
+            return $city->id;
+        }catch(\Exception $e) {
+            return '';
+        }
+    }
+
+    /**
+     * This function use for get route rule code by route rule id.
+     *
+     * @return Response
+     */
+    public function getRuleCode($rule_id){
+        
+        try {
+            if($rule_id == 1){
+                return 's2_c';
+            }elseif($rule_id == 2){
+                return 'c2_s';
+            }elseif($rule_id == 3){
+                return 's2_vc';
+            }elseif($rule_id == 4){
+                return 's2_c2_c';
+            }else{
+                return '';
+            }
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+
+    }
 }
