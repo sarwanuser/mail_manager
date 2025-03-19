@@ -49,7 +49,11 @@ Route::get('/allpackageviewsdata', 'App\Http\Controllers\Controller@getAllViewsD
  $router->get('getsplist', 'App\Http\Controllers\Controller@getVendorListBySubsId');
 
  
+// Get routing details
+$router->get('getroutingdetails', 'App\Http\Controllers\Controller@getRoutingDetailsBySubsId');
 
+// Get routing details by id
+$router->get('getroutingdetailsbyid', 'App\Http\Controllers\Controller@getRoutingDetailsById');
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

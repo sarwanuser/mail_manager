@@ -642,4 +642,81 @@ class Controller extends BaseController
         }
 
     }
+
+    /**
+     * This function use for get routing details by subscription id.
+     *
+     * @return Response
+     */
+    public function getRoutingDetailsBySubsId(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'subscription_id' => 'required'
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            //if($token_status['status'] == '200'){
+                $routing_details = SPRoutingAlert::where('subscription_id', $request->subscription_id)->with('getroutngdetails')->get();
+                if($routing_details->count() > 0){
+                    return response()->json(['status' => 1,'message' => 'Subscription routing details', 'data' => $routing_details], 200);
+                }else{
+                    return response()->json(['status' => 0,'message' => 'Subscription routing details not found', 'data' => $routing_details], 200);
+                }
+                
+            // }else{
+            //     return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'error: '.$e], 500);
+        }
+
+    }
+
+    /**
+     * This function use for get routing details by routing id.
+     *
+     * @return Response
+     */
+    public function getRoutingDetailsById(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'routing_id' => 'required'
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            //if($token_status['status'] == '200'){
+                $routing_details = SPRoutingAlert::where('id', $request->routing_id)->first();
+                if($routing_details->count() > 0){
+                    if(@$request->provider_id){
+                        $routing_list = SPRoutingAlertDetail::where('sp_routing_id', $request->routing_id)->where('provider_id', $request->provider_id)->get();
+                    }else{
+                        $routing_list = SPRoutingAlertDetail::where('sp_routing_id', $request->routing_id)->get();
+                    }
+                    
+                    return response()->json(['status' => 1,'message' => 'Routing details', 'data' => $routing_list], 200);
+                }else{
+                    return response()->json(['status' => 0,'message' => 'Routing details not found', 'data' => $routing_details], 200);
+                }
+                
+            // }else{
+            //     return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'error: '.$e], 500);
+        }
+
+    }
+    
 }
