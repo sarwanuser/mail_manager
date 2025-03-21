@@ -242,7 +242,7 @@ class Controller extends BaseController
                 
                 return response()->json(['status' => 1,'message' => 'SP datas', 'users' => $datas], 200);
             }else{
-                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token', 'token' => $request->header('authorization')], 401);
             }
 
         }catch(\Exception $e) {
