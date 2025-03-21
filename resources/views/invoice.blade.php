@@ -73,7 +73,7 @@
 
             <tbody>
                 @foreach($data->getCartPackageDetails as $package)
-                @if($addonpackage->item_count > 0)
+                @if($package->item_count > 0)
                 <tr style="border-bottom: 1px solid #eee;">
                     <td style="padding: 8px;"><img src="{{$package->package_image}}" alt="logo" style="height:40px; width:40px;"></td>
                     <td style="padding: 8px;" colspan="1"> {{$package->package_name}}</td>
