@@ -27,6 +27,7 @@ use  App\Models\Config;
 use  App\Models\PackagesViewed;
 use  App\Models\PackagesShare;
 use  App\Models\SPTransaction;
+use  App\Models\SPServiceRating;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Mail;
@@ -722,6 +723,75 @@ class Controller extends BaseController
                 
             // }else{
             //     return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'error: '.$e], 500);
+        }
+
+    }
+
+    /**
+     * This function use for get the SP details
+     *
+     * @return Response
+     */
+    public function getSPRatings(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'sp_id' => 'required',
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            // if(@$token_status['status'] == '200'){
+                
+                $ratings = SPServiceRating::Where('sp_id', $request->sp_id)->get();
+
+                $vagrating = DB::connection('sp_management')->select("select AVG(sp_management.sp_service_rating.sp_rating) from sp_management.sp_service_rating where sp_management.sp_service_rating.sp_id =".$request->sp_id)[0];
+                
+                return response()->json(['status' => 1,'message' => 'SP Ratings', 'ratings' => $ratings, 'vagrating' => $vagrating], 200);
+            // }else{
+            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+    }
+
+    /**
+     * This function use for get accepted and assign order list by sp_id
+     *
+     * @return Response
+     */
+    public function getUpcomingOrderBySPId(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'sp_id' => 'required'
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            //if($token_status['status'] == '200'){
+                $routing_details = SPRoutingAlert::where('status', '!=', 'Completed')->where('accept_provider_id', $request->sp_id)->with('getsubsdetails')->with('getcartdetails')->with('getCartPackageDetails')->with('getAddressDetails')->with('getSPDetails')->with('getUserDetails')->get();
+                if($routing_details->count() > 0){
+                    return response()->json(['status' => 1,'message' => 'Upcoming orders', 'data' => $routing_details], 200);
+                }else{
+                    return response()->json(['status' => 0,'message' => 'Upcoming order not found', 'data' => $routing_details], 200);
+                }
+                
+            // }else{
+            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
             // }
 
         }catch(\Exception $e) {

@@ -43,6 +43,12 @@ Route::get('/allpackageviewsdata', 'App\Http\Controllers\Controller@getAllViewsD
  $router->get('getsppayments', 'App\Http\Controllers\Controller@getSPPayments');
 
  // Get SP Payments
+ $router->get('getspratings', 'App\Http\Controllers\Controller@getSPRatings');
+
+ // Get upcoming orders by sp id
+ $router->get('getupcomingorders', 'App\Http\Controllers\Controller@getUpcomingOrderBySPId');
+
+ // Get SP Payments
  $router->post('makesppayment', 'App\Http\Controllers\Controller@makeSPPayment');
 
  // Get SP list by subscription id
