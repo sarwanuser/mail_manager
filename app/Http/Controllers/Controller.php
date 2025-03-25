@@ -782,7 +782,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            //if($token_status['status'] == '200'){
+            if($token_status['status'] == '200'){
                 $routing_details = SPRoutingAlert::where('status', '!=', 'Completed')->where('accept_provider_id', $request->sp_id)->with('getsubsdetails')->with('getcartdetails')->with('getCartPackageDetails')->with('getAddressDetails')->with('getSPDetails')->with('getUserDetails')->get();
                 if($routing_details->count() > 0){
                     return response()->json(['status' => 1,'message' => 'Upcoming orders', 'data' => $routing_details], 200);
@@ -790,9 +790,9 @@ class Controller extends BaseController
                     return response()->json(['status' => 0,'message' => 'Upcoming order not found', 'data' => $routing_details], 200);
                 }
                 
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'error: '.$e], 500);
