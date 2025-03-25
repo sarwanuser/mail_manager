@@ -34,7 +34,7 @@ class SPRoutingAlert extends Model
 
     // Get subscription details
     public function getsubsdetails(){
-        return $this->hasOne(Subscription::class, 'id','subscription_id')->getRating();
+        return $this->hasOne(Subscription::class, 'id','subscription_id')->with('getRating');
     }
 
     // Get cart details
