@@ -62,6 +62,11 @@ class Subscription extends Model
         return $this->hasMany(SPPayment::class, 'subscription_id','subscription_id')->with('getPaymentTransaction');
     }
 
+    // Get sp rating
+    public function getRating(){
+        return $this->hasOne(SPServiceRating::class, 'subscription_id','subscription_id');
+    }
+
     // Get subscription transaction details
     public function getSubTransactions(){
         return $this->hasMany(SPSubscriptionTransaction::class, 'subscription_id','subscription_id');

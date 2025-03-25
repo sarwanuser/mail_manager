@@ -753,7 +753,7 @@ class Controller extends BaseController
                 
                 $ratings = SPServiceRating::Where('sp_id', $request->sp_id)->get();
 
-                $vagrating = DB::connection('sp_management')->select("select AVG(sp_management.sp_service_rating.sp_rating) from sp_management.sp_service_rating where sp_management.sp_service_rating.sp_id =".$request->sp_id)[0];
+                $vagrating = DB::connection('sp_management')->select("select AVG(sp_management.sp_service_rating.sp_rating) as ratingavg from sp_management.sp_service_rating where sp_management.sp_service_rating.sp_id =".$request->sp_id)[0];
                 
                 return response()->json(['status' => 1,'message' => 'SP Ratings', 'ratings' => $ratings, 'vagrating' => $vagrating], 200);
             // }else{
