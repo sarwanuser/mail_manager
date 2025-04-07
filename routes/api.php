@@ -57,6 +57,9 @@ Route::get('/allpackageviewsdata', 'App\Http\Controllers\Controller@getAllViewsD
 // test API
 $router->get('apitest', 'App\Http\Controllers\Controller@testAPI');
 
+// Speed Test
+$router->get('speedtest', 'App\Http\Controllers\Controller@speedTest');
+
  
 
  

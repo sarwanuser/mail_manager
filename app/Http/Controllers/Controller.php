@@ -846,5 +846,23 @@ class Controller extends BaseController
         }
 
     }
+
+    /**
+     * This function use for get vendor list by subscription id.
+     *
+     * @return Response
+     */
+    public function speedTest(Request $request){
+        
+        try {
+            $sp_list = DB::connection('sp_management')->select("SELECT * FROM sp_detail");
+            return response()->json(['status' => 1,'message' => 'SP List', 'data' => $sp_list], 200);                
+           
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'error: '.$e], 500);
+        }
+
+    }
     
 }
