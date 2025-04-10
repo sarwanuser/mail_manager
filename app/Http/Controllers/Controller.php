@@ -888,7 +888,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){ 
+            if(@$token_status['status'] == '200'){ 
                 $datas = Subscription::select('cart_id as cartID','cart_id','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->with('cartData')->with('getQnaDetails')->with('serviceAddress')->with('deliveryAddress')->with('schedule')->with('getCartPackageDetails')->with('getAddonPackageDetails')->with('getSubTransactions')->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
                 
                 $spdatas = $datas['data'];
@@ -900,9 +900,9 @@ class Controller extends BaseController
                 $x=0;
                 
                 return response()->json(['status' => 1,'message' => 'Order datas', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'orders' => $spdatas, 'cities' => $allcitys], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
