@@ -60,6 +60,11 @@ $router->get('apitest', 'App\Http\Controllers\Controller@testAPI');
 // Speed Test
 $router->get('speedtest', 'App\Http\Controllers\Controller@speedTest');
 
+// get order list api
+$router->get('getorderlist', 'App\Http\Controllers\Controller@getAllOrders');
+
+
+
  
 
  

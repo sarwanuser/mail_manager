@@ -36,15 +36,45 @@ class Subscription extends Model
         return $this->hasMany(CartAddonPackage::class, 'cartID','cart_id');
     }
 
+    // Get Cart Addon Package details
+    public function getAddonPackageDetails(){
+        return $this->hasMany(CartAddonPackage::class, 'cartID','cart_id')->where('item_count','>','0');
+    }
+
 
     // Get cart details
     public function getcartdetails(){
         return $this->hasOne(Cart::class, 'id','cart_id')->with('getUserDetails');
     }
 
+    // Get cart details
+    public function cartData(){
+        return $this->hasOne(Cart::class, 'id','cartID')->with('getUserDetails');
+    }
+
+    // Get customer qna details
+    public function getQnaDetails(){
+        return $this->hasMany(CartQna::class, 'cartID','cartID');
+    }
+
     // Get Address details
     public function getAddressDetails(){
         return $this->hasMany(Address::class, 'cartID','cart_id');
+    }
+
+    // Get service Address details
+    public function serviceAddress(){
+        return $this->hasMany(Address::class, 'cartID','cartID')->where('addressType','service_address');
+    }
+
+    // Get delivery Address details
+    public function deliveryAddress(){
+        return $this->hasMany(Address::class, 'cartID','cartID')->where('addressType','delivery_address');
+    }
+
+    // Get delivery Address details
+    public function schedule(){
+        return $this->hasOne(Schedule::class, 'cartID','cartID');
     }
 
     // Get SP details

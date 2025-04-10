@@ -864,5 +864,49 @@ class Controller extends BaseController
         }
 
     }
+
+    /**
+     * This function use for get the order details
+     *
+     * @return Response
+     */
+    public function getAllOrders(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'page' => 'required',
+            'per_page' => 'required',
+            // 'order_id' => 'required',
+            // 'customer_id' => 'required',
+            // 'city' => 'required',
+            // 'status' => 'required',
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            // if(@$token_status['status'] == '200'){ 
+                $datas = Subscription::select('cart_id as cartID','cart_id','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->with('cartData')->with('getQnaDetails')->with('serviceAddress')->with('deliveryAddress')->with('schedule')->with('getCartPackageDetails')->with('getAddonPackageDetails')->with('getSubTransactions')->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
+                
+                $spdatas = $datas['data'];
+                $currentPage = $datas['current_page'];
+                $totalCount = $datas['total'];
+                $perPage = $datas['per_page'];
+                $lastPage = $datas['last_page'];
+                $allcitys = City::All();
+                $x=0;
+                
+                return response()->json(['status' => 1,'message' => 'Order datas', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'orders' => $spdatas, 'cities' => $allcitys], 200);
+            // }else{
+            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+    }
     
 }
