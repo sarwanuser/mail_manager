@@ -874,7 +874,7 @@ class Controller extends BaseController
         $validator = Validator::make($request->all(), [ 
             'page' => 'required',
             'per_page' => 'required',
-            'order_id' => 'required',
+            //'order_id' => 'required',
             // 'customer_id' => 'required',
             // 'city' => 'required',
             // 'status' => 'required',
