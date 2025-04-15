@@ -889,7 +889,7 @@ class Controller extends BaseController
             $token_status = $AuthController->tokenVerify($request);
             
             if(@$token_status['status'] == '200'){ 
-                if($request->order_id){
+                if($request->order_id != ''){
                     $datas = Subscription::select('cart_id as cartID','cart_id','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->with('cartData')->with('getQnaDetails')->with('serviceAddress')->with('deliveryAddress')->with('schedule')->with('getCartPackageDetails')->with('getAddonPackageDetails')->with('getSubTransactions')->orderBy('id', 'DESC')->where('id', $request->order_id)->paginate($request->per_page)->toArray();
                 }else{
                     $datas = Subscription::select('cart_id as cartID','cart_id','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->with('cartData')->with('getQnaDetails')->with('serviceAddress')->with('deliveryAddress')->with('schedule')->with('getCartPackageDetails')->with('getAddonPackageDetails')->with('getSubTransactions')->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
