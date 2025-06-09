@@ -28,6 +28,7 @@ use  App\Models\PackagesViewed;
 use  App\Models\PackagesShare;
 use  App\Models\SPTransaction;
 use  App\Models\SPServiceRating;
+use  App\Models\BookingOrder;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Mail;
@@ -888,16 +889,18 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            if(@$token_status['status'] == '200'){ 
-                if($request->sub_id != '' && $request->order_id == ''){
-                    $datas = Subscription::select('cart_id as cartID','cart_id','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->with('cartData')->with('getQnaDetails')->with('serviceAddress')->with('deliveryAddress')->with('schedule')->with('getCartPackageDetails')->with('getAddonPackageDetails')->with('getSubTransactions')->orderBy('id', 'DESC')->where('id', $request->sub_id)->paginate($request->per_page)->toArray();
-                }elseif($request->sub_id == '' && $request->order_id != ''){
-                    $datas = Subscription::select('cart_id as cartID','cart_id','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->with('cartData')->with('getQnaDetails')->with('serviceAddress')->with('deliveryAddress')->with('schedule')->with('getCartPackageDetails')->with('getAddonPackageDetails')->with('getSubTransactions')->orderBy('id', 'DESC')->where('cart_id', $request->order_id)->paginate($request->per_page)->toArray();
-                }elseif($request->order_id != '' && $request->sub_id != ''){
-                    $datas = Subscription::select('cart_id as cartID','cart_id','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->with('cartData')->with('getQnaDetails')->with('serviceAddress')->with('deliveryAddress')->with('schedule')->with('getCartPackageDetails')->with('getAddonPackageDetails')->with('getSubTransactions')->orderBy('id', 'DESC')->where('id', $request->sub_id)->where('cart_id', $request->order_id)->paginate($request->per_page)->toArray();
-                }else{
-                    $datas = Subscription::select('cart_id as cartID','cart_id','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->with('cartData')->with('getQnaDetails')->with('serviceAddress')->with('deliveryAddress')->with('schedule')->with('getCartPackageDetails')->with('getAddonPackageDetails')->with('getSubTransactions')->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
-                }
+            //if(@$token_status['status'] == '200'){ 
+                $datas = BookingOrder::with('getSubscriptions')->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
+
+                // if($request->sub_id != '' && $request->order_id == ''){
+                //     $datas = Subscription::select('cart_id as cartID','cart_id','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->with('cartData')->with('getQnaDetails')->with('serviceAddress')->with('deliveryAddress')->with('schedule')->with('getCartPackageDetails')->with('getAddonPackageDetails')->with('getSubTransactions')->orderBy('id', 'DESC')->where('id', $request->sub_id)->paginate($request->per_page)->toArray();
+                // }elseif($request->sub_id == '' && $request->order_id != ''){
+                //     $datas = Subscription::select('cart_id as cartID','cart_id','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->with('cartData')->with('getQnaDetails')->with('serviceAddress')->with('deliveryAddress')->with('schedule')->with('getCartPackageDetails')->with('getAddonPackageDetails')->with('getSubTransactions')->orderBy('id', 'DESC')->where('cart_id', $request->order_id)->paginate($request->per_page)->toArray();
+                // }elseif($request->order_id != '' && $request->sub_id != ''){
+                //     $datas = Subscription::select('cart_id as cartID','cart_id','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->with('cartData')->with('getQnaDetails')->with('serviceAddress')->with('deliveryAddress')->with('schedule')->with('getCartPackageDetails')->with('getAddonPackageDetails')->with('getSubTransactions')->orderBy('id', 'DESC')->where('id', $request->sub_id)->where('cart_id', $request->order_id)->paginate($request->per_page)->toArray();
+                // }else{
+                //     $datas = Subscription::select('cart_id as cartID','cart_id','created_at as createdAt','id','resched_count as reschedCount','service_date as serviceDate', 'service_time as serviceTime', 'status','updated_at as updatedAt')->with('cartData')->with('getQnaDetails')->with('serviceAddress')->with('deliveryAddress')->with('schedule')->with('getCartPackageDetails')->with('getAddonPackageDetails')->with('getSubTransactions')->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
+                // }
                 
                 
                 $spdatas = $datas['data'];
@@ -909,13 +912,59 @@ class Controller extends BaseController
                 $x=0;
                 
                 return response()->json(['status' => 1,'message' => 'Order datas', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'orders' => $spdatas, 'cities' => $allcitys], 200);
-            }else{
-                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
-            }
+            // }else{
+            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
+            // }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
         }
+    }
+
+
+    /**
+     * This function use for get the grandapp passcode by email.
+     *
+     * @return Response
+     */
+    public function getPassCodeByEmail(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'email' => 'required'
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+
+        try {
+            $curl = curl_init();
+
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://inclykkqa.grand-app.com/externalApiServlet',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS =>'{"ReceivePasscodeByClientId": {"phoneNumber":"'.$request->email.'"}}',
+            CURLOPT_HTTPHEADER => array(
+                'Content-Type: application/json'
+            ),
+            ));
+
+            $response = curl_exec($curl);
+
+            curl_close($curl);
+
+            return response()->json(['status' => 1,'message' => 'Grand App PassCode', 'passcode' => json_decode($response)->passcode], 200);                
+           
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'error: '.$e], 500);
+        }
+
     }
     
 }

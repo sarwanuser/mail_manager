@@ -26,5 +26,8 @@ class BookingOrder extends Model
     protected $connection = 'cart_management';
     protected $table = 'booking_order';
 
-    
+    // Get Cart Addon Package details
+    public function getSubscriptions(){
+        return $this->hasMany(Subscription::class, 'cart_id','cart_id')->with('cartData')->with('getQnaDetails')->with('serviceAddress')->with('deliveryAddress')->with('schedule')->with('getCartPackageDetails')->with('getAddonPackageDetails')->with('getSubTransactions');
+    }
 }
