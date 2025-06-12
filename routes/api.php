@@ -66,6 +66,11 @@ $router->get('getorderlist', 'App\Http\Controllers\Controller@getAllOrders');
 // get grand app passcode by email
 $router->get('getgrandapppasscode', 'App\Http\Controllers\Controller@getPassCodeByEmail');
 
+// Create new senior in grand app
+$router->post('createnewsenior', 'App\Http\Controllers\GrandAppController@createNewSenior');
+
+
+
 
 
 
