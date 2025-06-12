@@ -64,7 +64,7 @@ $router->get('speedtest', 'App\Http\Controllers\Controller@speedTest');
 $router->get('getorderlist', 'App\Http\Controllers\Controller@getAllOrders');
 
 // get grand app passcode by email
-$router->get('getgrandapppasscode', 'App\Http\Controllers\Controller@getPassCodeByEmail');
+$router->get('getgrandapppasscode', 'App\Http\Controllers\GrandAppController@getPassCodeByEmail');
 
 // Create new senior in grand app
 $router->post('createnewsenior', 'App\Http\Controllers\GrandAppController@createNewSenior');

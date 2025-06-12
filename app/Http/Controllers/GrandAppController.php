@@ -2,11 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Routing\Controller as BaseController;
-
 use  App\Models\Subscription;
 use  App\Models\SubscriptionDatas;
 use  App\Models\Routing;
@@ -35,7 +30,7 @@ use Mail;
 use Validator;
 use DB;
 
-class GrandAppController extends BaseController
+class GrandAppController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
