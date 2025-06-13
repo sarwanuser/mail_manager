@@ -116,7 +116,7 @@ class GrandAppController extends Controller
                 curl_close($curl);
 
 
-                return response()->json(['status' => 1,'message' => '', 'data' => json_decode($response)], 200);
+                return response()->json(['status' => 1,'message' => 'New Senior Created In Grand App', 'data' => json_decode($response)], 200);
                 
             // }else{
             //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
