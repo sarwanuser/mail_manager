@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+
 use  App\Models\Subscription;
 use  App\Models\SubscriptionDatas;
 use  App\Models\Routing;
@@ -68,10 +72,14 @@ class GrandAppController extends Controller
             ));
 
             $response = curl_exec($curl);
-
+            
             curl_close($curl);
-
-            return response()->json(['status' => 1,'message' => 'Grand App PassCode', 'passcode' => json_decode($response)->passcode], 200);                
+            if (!empty((array)$response)) {
+                return response()->json(['status' => 1,'message' => 'Grand App PassCode', 'passcode' => json_decode($response)->passcode], 200);
+            }else{
+                return response()->json(['status' => 1,'message' => 'Grand App PassCode', 'passcode' => ''], 200);
+            }
+                            
            
 
         }catch(\Exception $e) {
