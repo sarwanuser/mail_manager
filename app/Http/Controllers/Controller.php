@@ -29,6 +29,7 @@ use  App\Models\PackagesShare;
 use  App\Models\SPTransaction;
 use  App\Models\SPServiceRating;
 use  App\Models\BookingOrder;
+use  App\Models\Category;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Mail;
@@ -273,8 +274,21 @@ class Controller extends BaseController
             $token_status = $AuthController->tokenVerify($request);
             
             // if(@$token_status['status'] == '200'){
+                $where = [
+                    'first_name' => $request->fname,
+                    'last_name' => $request->lname,
+                    'mobile' => $request->mobile,
+                    'status' => $request->status,
+                    'category_id' => $request->category,
+                ];
+                $where = array_filter($where, function($value) {
+                    return $value != "";
+                });
+
+                $datas = SPDetails::select('id as userId','first_name as firstName','last_name as lastName','email','email_verified as emailVerified','mobile','mobile_verified as mobileVerified','gender','dob','anniversary','picture','referral_code','device_id as deviceId','device_type as deviceType','device_token','secret_hash','salt','auth_token','notification_enabled as notificationEnabled','last_login_at','active','enabled','created_at as createdAt','updated_at as updatedAt','country_code','org_id as orgID','sub_org_id as subOrgID','location','rating','status','city_id','category_id as categoryID','role')->with('getcitydetails')->where($where)->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
+
+                $categories = Category::select('id','name')->where('enabled','1')->get();
                 
-                $datas = SPDetails::select('id as userId','first_name as firstName','last_name as lastName','email','email_verified as emailVerified','mobile','mobile_verified as mobileVerified','gender','dob','anniversary','picture','referral_code','device_id as deviceId','device_type as deviceType','device_token','secret_hash','salt','auth_token','notification_enabled as notificationEnabled','last_login_at','active','enabled','created_at as createdAt','updated_at as updatedAt','country_code','org_id as orgID','sub_org_id as subOrgID','location','rating','status','city_id','category_id as categoryID','role')->with('getcitydetails')->orWhere('first_name', 'like', '%' . $request->filter . '%')->orWhere('last_name', 'like', '%' . $request->filter . '%')->orWhere('mobile', 'like', '%' . $request->filter . '%')->orWhere('status', 'like', '%' . $request->filter . '%')->orWhere('category_id', $request->filter)->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
                 $spdatas = $datas['data'];
                 $currentPage = $datas['current_page'];
                 $totalCount = $datas['total'];
@@ -295,7 +309,7 @@ class Controller extends BaseController
                     // }  
                     $x++;
                 }
-                return response()->json(['status' => 1,'message' => 'SP datas', 'pageNumber' => $currentPage, 'count' => $totalCount, 'pageSize' => $totalCount, 'perPage' => $perPage, 'lastPage' => $lastPage, 'users' => $spdatas], 200);
+                return response()->json(['status' => 1,'message' => 'SP datas', 'pageNumber' => $currentPage, 'count' => $totalCount, 'pageSize' => $totalCount, 'perPage' => $perPage, 'lastPage' => $lastPage, 'categories' => $categories, 'users' => $spdatas], 200);
             // }else{
             //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
             // }
