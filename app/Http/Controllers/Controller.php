@@ -281,6 +281,7 @@ class Controller extends BaseController
                     'status' => $request->status,
                     'category_id' => $request->category,
                     'id' => $request->userId,
+                    'city_id' => $request->city,
                 ];
                 $where = array_filter($where, function($value) {
                     return $value != "";
