@@ -297,6 +297,7 @@ class Controller extends BaseController
                 $datas = $datas->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
 
                 $categories = Category::select('id','name')->where('enabled','1')->get();
+                $cities = City::select('id','city_name')->where('enabled','1')->get();
                 
                 $spdatas = $datas['data'];
                 $currentPage = $datas['current_page'];
@@ -318,7 +319,7 @@ class Controller extends BaseController
                     // }  
                     $x++;
                 }
-                return response()->json(['status' => 1,'message' => 'SP datas', 'pageNumber' => $currentPage, 'count' => $totalCount, 'pageSize' => $totalCount, 'perPage' => $perPage, 'lastPage' => $lastPage, 'categories' => $categories, 'users' => $spdatas], 200);
+                return response()->json(['status' => 1,'message' => 'SP datas', 'pageNumber' => $currentPage, 'count' => $totalCount, 'pageSize' => $totalCount, 'perPage' => $perPage, 'lastPage' => $lastPage, 'categories' => $categories, 'cities' => $cities, 'users' => $spdatas], 200);
             // }else{
             //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
             // }
