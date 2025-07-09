@@ -285,8 +285,16 @@ class Controller extends BaseController
                 $where = array_filter($where, function($value) {
                     return $value != "";
                 });
+                $datas = SPDetails::select('id as userId','first_name as firstName','last_name as lastName','email','email_verified as emailVerified','mobile','mobile_verified as mobileVerified','gender','dob','anniversary','picture','referral_code','device_id as deviceId','device_type as deviceType','device_token','secret_hash','salt','auth_token','notification_enabled as notificationEnabled','last_login_at','active','enabled','created_at as createdAt','updated_at as updatedAt','country_code','org_id as orgID','sub_org_id as subOrgID','location','rating','status','city_id','category_id as categoryID','role')->with('getcitydetails');
+                foreach($where as $col => $val){
+                    if($col == 'first_name' || $col == 'last_name' || $col == 'mobile'){
+                        $datas->where($col, 'like', '%'.$val.'%');
+                    }else{
+                        $datas->where($col, $val);
+                    }                    
+                }
                 
-                $datas = SPDetails::select('id as userId','first_name as firstName','last_name as lastName','email','email_verified as emailVerified','mobile','mobile_verified as mobileVerified','gender','dob','anniversary','picture','referral_code','device_id as deviceId','device_type as deviceType','device_token','secret_hash','salt','auth_token','notification_enabled as notificationEnabled','last_login_at','active','enabled','created_at as createdAt','updated_at as updatedAt','country_code','org_id as orgID','sub_org_id as subOrgID','location','rating','status','city_id','category_id as categoryID','role')->with('getcitydetails')->where($where)->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
+                $datas = $datas->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
 
                 $categories = Category::select('id','name')->where('enabled','1')->get();
                 
