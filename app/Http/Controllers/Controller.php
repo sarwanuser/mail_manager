@@ -946,4 +946,41 @@ class Controller extends BaseController
         }
     }
     
+    /**
+     * This function use for update the service date and time
+     *
+     * @return Response
+     */
+    public function updateServiceDateTime(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'subscription_id' => 'required',
+            'service_date' => 'required',
+            'service_time' => 'required',
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            // if(@$token_status['status'] == '200'){  
+                
+                // Update the service date and time of sp payment table
+                $Subscription = Subscription::where('id', $request->subscription_id)->first();
+                $Subscription->service_time = $request->service_time;
+                $Subscription->service_date = date('Y-m-d', strtotime($request->service_date));
+                $Subscription->save();
+                
+                return response()->json(['status' => 1,'message' => 'Updated the service date and time', 'data' => $Subscription], 200);
+            // }else{
+            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 500);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+
+    }
 }

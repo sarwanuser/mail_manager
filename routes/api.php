@@ -69,6 +69,10 @@ $router->get('getgrandapppasscode', 'App\Http\Controllers\GrandAppController@get
 // Create new senior in grand app
 $router->post('createnewsenior', 'App\Http\Controllers\GrandAppController@createNewSenior');
 
+// Updated the service date and time by sub_id
+$router->post('updateservicedatetime', 'App\Http\Controllers\Controller@updateServiceDateTime');
+
+
 
 
 
