@@ -23,6 +23,8 @@ class Address extends Model
         'cartID','addressType','line1','line2','line3','landmark','pincode','city','state','country','latitude','longitude',
     ];
 
+    public $timestamps = false;
+    
     protected $connection = 'cart_management';
     protected $table = 'address';
 }

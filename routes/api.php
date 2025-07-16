@@ -72,6 +72,10 @@ $router->post('createnewsenior', 'App\Http\Controllers\GrandAppController@create
 // Updated the service date and time by sub_id
 $router->post('updateservicedatetime', 'App\Http\Controllers\Controller@updateServiceDateTime');
 
+// Updated the service address by cart_id
+$router->post('updateserviceaddress', 'App\Http\Controllers\Controller@updateServiceAddress');
+
+
 
 
 

@@ -30,6 +30,7 @@ use  App\Models\SPTransaction;
 use  App\Models\SPServiceRating;
 use  App\Models\BookingOrder;
 use  App\Models\Category;
+use  App\Models\Address;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Mail;
@@ -967,13 +968,61 @@ class Controller extends BaseController
             
             // if(@$token_status['status'] == '200'){  
                 
-                // Update the service date and time of sp payment table
+                // Update the service date and time 
                 $Subscription = Subscription::where('id', $request->subscription_id)->first();
                 $Subscription->service_time = $request->service_time;
                 $Subscription->service_date = date('Y-m-d', strtotime($request->service_date));
                 $Subscription->save();
                 
                 return response()->json(['status' => 1,'message' => 'Updated the service date and time', 'data' => $Subscription], 200);
+            // }else{
+            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 500);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+
+    }
+
+    /**
+     * This function use for update the service address
+     *
+     * @return Response
+     */
+    public function updateServiceAddress(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'cart_id' => 'required',
+            'line1' => 'required',
+            'line2' => 'required',
+            'line3' => 'required',
+            'landmark' => 'required',
+            'pincode' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            // if(@$token_status['status'] == '200'){  
+                
+                // Update the service address
+                $Address = Address::where('cartID', $request->cart_id)->first();
+                $Address->line1 = $request->line1;
+                $Address->line2 = $request->line2;
+                $Address->line3 = $request->line3;
+                $Address->landmark = $request->landmark;
+                $Address->pincode = $request->pincode;
+                $Address->latitude = $request->latitude;
+                $Address->longitude = $request->longitude;
+                $Address->save();
+                
+                return response()->json(['status' => 1,'message' => 'Updated the service address', 'data' => $Address], 200);
             // }else{
             //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 500);
             // }
