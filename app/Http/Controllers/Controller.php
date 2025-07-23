@@ -993,9 +993,9 @@ class Controller extends BaseController
     public function updateServiceAddress(Request $request){
         $validator = Validator::make($request->all(), [ 
             'cart_id' => 'required',
-            'line1' => 'required',
+            // 'line1' => 'required',
             'line2' => 'required',
-            'line3' => 'required',
+            // 'line3' => 'required',
             'landmark' => 'required',
             'pincode' => 'required',
             'latitude' => 'required',
@@ -1013,9 +1013,9 @@ class Controller extends BaseController
                 
                 // Update the service address
                 $Address = Address::where('cartID', $request->cart_id)->first();
-                $Address->line1 = $request->line1;
+                // $Address->line1 = $request->line1;
                 $Address->line2 = $request->line2;
-                $Address->line3 = $request->line3;
+                // $Address->line3 = $request->line3;
                 $Address->landmark = $request->landmark;
                 $Address->pincode = $request->pincode;
                 $Address->latitude = $request->latitude;
