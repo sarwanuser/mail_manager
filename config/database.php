@@ -170,6 +170,22 @@ return [
             'timezone' => env('DB_TIMEZONE8', '+00:00'),
         ],
 
+        'clykk_24x7' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST9', '127.0.0.1'),
+            'port' => env('DB_PORT9', 3306),
+            'database' => env('DB_DATABASE9', 'forge'),
+            'username' => env('DB_USERNAME9', 'forge'),
+            'password' => env('DB_PASSWORD9', ''),
+            'unix_socket' => env('DB_SOCKET9', ''),
+            'charset' => env('DB_CHARSET9', 'utf8mb4'),
+            'collation' => env('DB_COLLATION9', 'utf8mb4_unicode_ci'),
+            'prefix' => env('DB_PREFIX9', ''),
+            'strict' => env('DB_STRICT_MODE9', true),
+            'engine' => env('DB_ENGINE9', null),
+            'timezone' => env('DB_TIMEZONE9', '+00:00'),
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),

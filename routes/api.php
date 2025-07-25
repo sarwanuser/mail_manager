@@ -77,14 +77,6 @@ $router->post('updateserviceaddress', 'App\Http\Controllers\Controller@updateSer
 
 
 
-
-
-
-
-
-
- 
-
  
 // Get routing details
 $router->get('getroutingdetails', 'App\Http\Controllers\Controller@getRoutingDetailsBySubsId');
@@ -96,3 +88,7 @@ $router->get('getroutingdetailsbyid', 'App\Http\Controllers\Controller@getRoutin
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+
+// Get all elders list for 25*7 Profile
+Route::resource('/elders', 'App\Http\Controllers\ElderManagment');
