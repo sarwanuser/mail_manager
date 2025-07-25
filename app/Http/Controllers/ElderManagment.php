@@ -42,6 +42,7 @@ use DB;
 
 class ElderManagment extends Controller
 {
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     /**
      * Display a listing of the resource.
      *
