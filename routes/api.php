@@ -92,3 +92,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 // Get all elders list for 25*7 Profile
 Route::resource('/elders', 'App\Http\Controllers\ElderManagment');
+
+// Get elder subscriptions by elder_id
+Route::resource('/elder-subscriptions', 'App\Http\Controllers\ElderSubscription');
+
+// Get elder residences by elder_id
+Route::resource('/residences', 'App\Http\Controllers\ElderResidences');
+
