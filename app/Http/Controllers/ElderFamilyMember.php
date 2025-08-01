@@ -56,7 +56,7 @@ class ElderFamilyMember extends Controller
             // if($token_status['status'] == '200'){
                 $sub_id = $request->sub_id;
                 
-                $datas = ElderFamily::select('family_member_id','elder_id','user_id','relationship_type_id','communication_channel_id','access_level_id','is_active','is_primary_caregiver','created_at','updated_at','primary_elder_id')->with('getUser')->orderBy('created_at', 'DESC')->get();
+                $datas = ElderFamily::select('family_member_id','elder_id','user_id','relationship_type_id','communication_channel_id','access_level_id','is_active','is_primary_caregiver','created_at','updated_at','primary_elder_id')->with('getRelationType')->with('getCommChannel')->with('getAccessLevel')->with('getUser')->orderBy('created_at', 'DESC')->get();
                 
                 return response()->json(['status' => 1,'message' => 'List of Elders', 'data' => $datas], 200);
                 

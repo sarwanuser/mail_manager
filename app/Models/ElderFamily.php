@@ -35,6 +35,21 @@ class ElderFamily extends Model
     public function getElder(){
         return $this->hasOne(Elders::class, 'elder_id','elder_id');
     }
+
+    // Get relationship type
+    public function getRelationType(){
+        return $this->hasOne(RelationshipType::class, 'id','relationship_type_id');
+    }
+
+    // Get communication channels details
+    public function getCommChannel(){
+        return $this->hasOne(CommunicationChannel::class, 'id','communication_channel_id');
+    }
+
+    // Get communication channels details
+    public function getAccessLevel(){
+        return $this->hasOne(AccessLevel::class, 'id','access_level_id');
+    }
     
     
 }
