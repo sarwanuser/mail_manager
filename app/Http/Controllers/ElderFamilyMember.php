@@ -34,15 +34,14 @@ use  App\Models\BookingOrder;
 use  App\Models\Category;
 use  App\Models\Address;
 use  App\Models\Elders;
-use  App\Models\ElderSubs;
-use  App\Models\ElderResids;
+use  App\Models\ElderFamily;
 use Carbon\Carbon;
 use Mail;
 use Validator;
 use DB;
 
 
-class ElderResidences extends Controller
+class ElderFamilyMember extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     /**
@@ -51,23 +50,15 @@ class ElderResidences extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request){
-        $validator = Validator::make($request->all(), [ 
-            'elder_id' => 'required'
-        ]);
-        if ($validator->fails()) { 
-            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
-            return response()->json($result);            
-        }
         try {
-            $elder_id = $request->elder_id;
             // $AuthController = new AuthController();
             // $token_status = $AuthController->tokenVerify($request);
             // if($token_status['status'] == '200'){
+                $sub_id = $request->sub_id;
                 
-
-                $datas = ElderResids::select('residence_id','elder_id','home_id','address_line1','address_line2','city','state','postal_code','country','photo_url','created_at','updated_at')->where('elder_id', $elder_id)->orderBy('created_at', 'DESC')->get();
+                $datas = ElderFamily::select('family_member_id','elder_id','user_id','relationship_type_id','communication_channel_id','access_level_id','is_active','is_primary_caregiver','created_at','updated_at','primary_elder_id')->with('getUser')->orderBy('created_at', 'DESC')->get();
                 
-                return response()->json(['status' => 1,'message' => 'List of Elder Residences', 'data' => $datas], 200);
+                return response()->json(['status' => 1,'message' => 'List of Elders', 'data' => $datas], 200);
                 
             // }else{
             //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
@@ -117,8 +108,9 @@ class ElderResidences extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id){
-        
+    public function edit($id)
+    {
+        //
     }
 
     /**
@@ -128,34 +120,9 @@ class ElderResidences extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id){
-        $validator = Validator::make($request->all(), [ 
-            'home_id' => 'required'
-        ]);
-        if ($validator->fails()) { 
-            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
-            return response()->json($result);            
-        }
-        try {
-            $home_id = $request->home_id;
-            // $AuthController = new AuthController();
-            // $token_status = $AuthController->tokenVerify($request);
-            // if($token_status['status'] == '200'){
-                
-                $residences = ElderResids::find($id);
-                $residences->home_id = $home_id;
-                $residences->save();
-                
-                return response()->json(['status' => 1,'message' => 'Home id updated for Elder Residences', 'data' => $residences], 200);
-                
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
-
-        }catch(\Exception $e) {
-            die('<p style="color:red;">Error: '.$e->getMessage()."</p>");
-            return response()->json(['message' => 'error: '.$e->getMessage()], 500);
-        }
+    public function update(Request $request, $id)
+    {
+        //
     }
 
     /**

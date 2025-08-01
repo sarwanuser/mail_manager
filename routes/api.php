@@ -99,3 +99,7 @@ Route::resource('/elder-subscriptions', 'App\Http\Controllers\ElderSubscription'
 // Get elder residences by elder_id
 Route::resource('/residences', 'App\Http\Controllers\ElderResidences');
 
+// Get elder family members by elder_id
+Route::resource('/elder-family', 'App\Http\Controllers\ElderFamilyMember');
+
+
