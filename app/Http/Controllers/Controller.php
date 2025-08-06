@@ -238,16 +238,16 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
                 $from = date('Y-m-d 00:00:00', strtotime($request->from_date));
                 $to = date('Y-m-d 23:59:59', strtotime($request->to_date));
                 
                 $datas = SPDetails::select('id as userId','first_name as firstName','last_name as lastName','email','email_verified as emailVerified','mobile','mobile_verified as mobileVerified','gender','dob','anniversary','picture','referral_code as referralCode','device_id as deviceId','device_type as deviceType','device_token as deviceToken','secret_hash','salt','auth_token','notification_enabled as notificationEnabled','last_login_at as lastLoginAt','active','enabled','created_at as createdAt','updated_at as updatedAt','country_code as countrycode','org_id as orgID','sub_org_id as subOrgID','location','rating','status','city_id as cityID','category_id as categoryID','role')->whereBetween('created_at', [$from, $to])->with('documents')->get()->toArray();
                 
                 return response()->json(['status' => 1,'message' => 'SP datas', 'users' => $datas], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token', 'token' => $request], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token', 'token' => $request], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
