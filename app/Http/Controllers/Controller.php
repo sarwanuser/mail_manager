@@ -58,7 +58,7 @@ class Controller extends BaseController
         try {
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
-            // if($token_status['status'] == '200'){
+            if($token_status['status'] == '200'){
                 $sub_id = $request->sub_id;
                 
 
@@ -79,9 +79,9 @@ class Controller extends BaseController
                 //return View('invoice', compact('data'));
                 return response()->json(['status' => 1,'message' => 'Subscription Invoice Sent', 'data' => []], 200);
                 
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             die('<p style="color:red;">Error: '.$e->getMessage()."</p>");
@@ -105,7 +105,7 @@ class Controller extends BaseController
         try {
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
-            // if($token_status['status'] == '200'){
+            if($token_status['status'] == '200'){
                 $sub_id = $request->sub_id;
                 
 
@@ -124,9 +124,9 @@ class Controller extends BaseController
                 return View('view', compact('data'));
                 return response()->json(['status' => 1,'message' => 'Subscription Invoice Sent', 'data' => []], 200);
                 
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'error: '.$e], 500);
@@ -142,7 +142,7 @@ class Controller extends BaseController
         try {
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
-            //if($token_status['status'] == '200'){
+            if($token_status['status'] == '200'){
                 $db_sec = $this->getConfigValueByKey('sub_new_alert');
                 $from = date('Y-m-d H:i:s', strtotime('-'.$db_sec.' seconds'));
                 $to = date('Y-m-d H:i:s');
@@ -159,9 +159,9 @@ class Controller extends BaseController
                 }else{
                     return response()->json(['status' => 0,'message' => 'No New Subscription Are There!', 'data' => [], 'count' => $count, 'from' => $from, 'to' => $to, 'db_sec' => $db_sec], 200);
                 }
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'error: '.$e], 500);
@@ -177,7 +177,7 @@ class Controller extends BaseController
         try {
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
-            // if($token_status['status'] == '200'){
+            if($token_status['status'] == '200'){
                 $datas = SPRoutingAlert::select('*')->where('no_of_route','>=', 2)->where('status', 'SEARCHING')->with('getCartPackageDetails')->with('getSubCategoryDetails')->get()->unique('subscription_id');
                 
                 
@@ -193,9 +193,9 @@ class Controller extends BaseController
                 }else{
                     return response()->json(['status' => 0,'message' => 'No Data Found!', 'data' => [], 'count' => 0], 200);
                 }
-            // }else{
-            //     return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'error: '.$e], 500);
@@ -274,7 +274,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
                 $where = [
                     'first_name' => $request->fname,
                     'last_name' => $request->lname,
@@ -322,9 +322,9 @@ class Controller extends BaseController
                     $x++;
                 }
                 return response()->json(['status' => 1,'message' => 'SP datas', 'pageNumber' => $currentPage, 'count' => $totalCount, 'pageSize' => $totalCount, 'perPage' => $perPage, 'lastPage' => $lastPage, 'categories' => $categories, 'cities' => $cities, 'users' => $spdatas], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -374,7 +374,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){ 
+            if(@$token_status['status'] == '200'){ 
                 $from = date('Y-m-d 00:00:00', strtotime($request->from_date));
                 $to = date('Y-m-d 23:59:59', strtotime($request->to_date));
                 if($request->filter != ''){
@@ -404,9 +404,9 @@ class Controller extends BaseController
                 $x=0;
                 
                 return response()->json(['status' => 1,'message' => 'Subscriptions datas', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'subscriptions' => $spdatas, 'cities' => $allcitys], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -424,14 +424,14 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
                 
                 $datas = Cart::with('getUserDetails')->with('getPackageDetails')->where('status', 'cart')->orderBy('id', 'DESC')->get()->toArray();
 
                 return response()->json(['status' => 1,'message' => 'Cart datas', 'data' => $datas], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -455,14 +455,14 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
                 
                 $datas = PackagesViewed::with('getUserDetails')->with('getPackageDetails')->where('user_id', $request->user_id)->orderBy('id', 'DESC')->get()->toArray();
 
                 return response()->json(['status' => 1,'message' => 'Package views datas', 'data' => $datas], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -480,14 +480,14 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
                 
                 $share_datas = PackagesShare::select('user_id','package_id', 'created_at', 'shared_via', 'receiver_name', 'contact_info')->with('getUserDetails')->orderBy('id', 'DESC')->get()->toArray();
 
                 return response()->json(['status' => 1,'message' => 'Share datas', 'data' => $share_datas], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -513,7 +513,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
 
                 // Check sp payment availble or not
                 if($request->filter > 0){
@@ -529,9 +529,9 @@ class Controller extends BaseController
                 $lastPage = $datas['last_page'];
 
                 return response()->json(['status' => 1,'message' => 'SP Payments!', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'totalCount' => $totalCount, 'data' => $SPPayment], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 500);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 500);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -562,7 +562,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
 
                 $SPTransaction = new SPTransaction();
                 $SPTransaction->subscription_id = $request->subscription_id;
@@ -584,9 +584,9 @@ class Controller extends BaseController
                 $SPPayment->save();
                 
                 return response()->json(['status' => 1,'message' => 'SP Payment Done!', 'data' => $SPTransaction], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 500);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 500);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -611,7 +611,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if($token_status['status'] == '200'){
+            if($token_status['status'] == '200'){
                 if(Subscription::where('id', $request->subscription_id)->count() == 0){
                     return response()->json(['error' => 1,'message' => 'Subscription Not Found!'], 401);
                 }
@@ -631,9 +631,9 @@ class Controller extends BaseController
 
                 //$vendor_list = SPServiceSettings::where('subcategory_id', $routing_details->sub_category_id)->where('enabled', '1')->where($rule_code, '1')->with('getSPdetails')->get();
                 return response()->json(['status' => 1,'message' => 'SP List For Manual Routing', 'data' => $vendor_list], 200);                
-            // }else{
-            //     return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'error: '.$e], 500);
@@ -699,7 +699,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if($token_status['status'] == '200'){
+            if($token_status['status'] == '200'){
                 $routing_details = SPRoutingAlert::where('subscription_id', $request->subscription_id)->with('getroutngdetails')->get();
                 if($routing_details->count() > 0){
                     return response()->json(['status' => 1,'message' => 'Subscription routing details', 'data' => $routing_details], 200);
@@ -707,9 +707,9 @@ class Controller extends BaseController
                     return response()->json(['status' => 0,'message' => 'Subscription routing details not found', 'data' => $routing_details], 200);
                 }
                 
-            // }else{
-            //     return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'error: '.$e], 500);
@@ -734,7 +734,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if($token_status['status'] == '200'){
+            if($token_status['status'] == '200'){
                 $routing_details = SPRoutingAlert::where('id', $request->routing_id)->first();
                 if($routing_details->count() > 0){
                     if(@$request->provider_id){
@@ -748,9 +748,9 @@ class Controller extends BaseController
                     return response()->json(['status' => 0,'message' => 'Routing details not found', 'data' => $routing_details], 200);
                 }
                 
-            // }else{
-            //     return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'error: '.$e], 500);
@@ -776,16 +776,16 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){
+            if(@$token_status['status'] == '200'){
                 
                 $ratings = SPServiceRating::Where('sp_id', $request->sp_id)->get();
 
                 $vagrating = DB::connection('sp_management')->select("select AVG(sp_management.sp_service_rating.sp_rating) as ratingavg from sp_management.sp_service_rating where sp_management.sp_service_rating.sp_id =".$request->sp_id)[0];
                 
                 return response()->json(['status' => 1,'message' => 'SP Ratings', 'ratings' => $ratings, 'vagrating' => $vagrating], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -809,7 +809,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            //if($token_status['status'] == '200'){
+            if($token_status['status'] == '200'){
                 $routing_details = SPRoutingAlert::where('status', '!=', 'Completed')->where('accept_provider_id', $request->sp_id)->with('getsubsdetails')->with('getcartdetails')->with('getCartPackageDetails')->with('getAddressDetails')->with('getSPDetails')->with('getUserDetails')->get();
                 if($routing_details->count() > 0){
                     return response()->json(['status' => 1,'message' => 'Upcoming orders', 'data' => $routing_details], 200);
@@ -817,9 +817,9 @@ class Controller extends BaseController
                     return response()->json(['status' => 0,'message' => 'Upcoming order not found', 'data' => $routing_details], 200);
                 }
                 
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'error: '.$e], 500);
@@ -915,7 +915,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            //if(@$token_status['status'] == '200'){ 
+            if(@$token_status['status'] == '200'){ 
                 // $datas = BookingOrder::with('getSubscriptions')->orderBy('id', 'DESC')->paginate($request->per_page)->toArray();
 
                 if($request->sub_id != '' && $request->order_id == ''){
@@ -938,9 +938,9 @@ class Controller extends BaseController
                 $x=0;
                 
                 return response()->json(['status' => 1,'message' => 'Order datas', 'currentPage' => $currentPage, 'maxPages' => $lastPage, 'orders' => $spdatas, 'cities' => $allcitys], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -966,7 +966,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){  
+            if(@$token_status['status'] == '200'){  
                 
                 // Update the service date and time 
                 $Subscription = Subscription::where('id', $request->subscription_id)->first();
@@ -975,9 +975,9 @@ class Controller extends BaseController
                 $Subscription->save();
                 
                 return response()->json(['status' => 1,'message' => 'Updated the service date and time', 'data' => $Subscription], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 500);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 500);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);
@@ -1009,7 +1009,7 @@ class Controller extends BaseController
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             
-            // if(@$token_status['status'] == '200'){  
+            if(@$token_status['status'] == '200'){  
                 
                 // Update the service address
                 $Address = Address::where('cartID', $request->cart_id)->first();
@@ -1023,9 +1023,9 @@ class Controller extends BaseController
                 $Address->save();
                 
                 return response()->json(['status' => 1,'message' => 'Updated the service address', 'data' => $Address], 200);
-            // }else{
-            //     return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 500);
-            // }
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 500);
+            }
 
         }catch(\Exception $e) {
             return response()->json(['message' => 'Error: '.$e], 500);

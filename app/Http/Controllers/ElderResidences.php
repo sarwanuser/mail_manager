@@ -60,18 +60,18 @@ class ElderResidences extends Controller
         }
         try {
             $elder_id = $request->elder_id;
-            // $AuthController = new AuthController();
-            // $token_status = $AuthController->tokenVerify($request);
-            // if($token_status['status'] == '200'){
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            if($token_status['status'] == '200'){
                 
 
                 $datas = ElderResids::select('residence_id','elder_id','home_id','address_line1','address_line2','city','state','postal_code','country','photo_url','created_at','updated_at')->where('elder_id', $elder_id)->orderBy('created_at', 'DESC')->get();
                 
                 return response()->json(['status' => 1,'message' => 'List of Elder Residences', 'data' => $datas], 200);
                 
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             die('<p style="color:red;">Error: '.$e->getMessage()."</p>");
@@ -138,9 +138,9 @@ class ElderResidences extends Controller
         }
         try {
             $home_id = $request->home_id;
-            // $AuthController = new AuthController();
-            // $token_status = $AuthController->tokenVerify($request);
-            // if($token_status['status'] == '200'){
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            if($token_status['status'] == '200'){
                 
                 $residences = ElderResids::find($id);
                 $residences->home_id = $home_id;
@@ -148,9 +148,9 @@ class ElderResidences extends Controller
                 
                 return response()->json(['status' => 1,'message' => 'Home id updated for Elder Residences', 'data' => $residences], 200);
                 
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             die('<p style="color:red;">Error: '.$e->getMessage()."</p>");

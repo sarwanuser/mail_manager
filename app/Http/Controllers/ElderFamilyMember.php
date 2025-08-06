@@ -51,18 +51,18 @@ class ElderFamilyMember extends Controller
      */
     public function index(Request $request){
         try {
-            // $AuthController = new AuthController();
-            // $token_status = $AuthController->tokenVerify($request);
-            // if($token_status['status'] == '200'){
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            if($token_status['status'] == '200'){
                 $sub_id = $request->sub_id;
                 
                 $datas = ElderFamily::select('family_member_id','elder_id','user_id','relationship_type_id','communication_channel_id','access_level_id','is_active','is_primary_caregiver','created_at','updated_at','primary_elder_id')->with('getRelationType')->with('getCommChannel')->with('getAccessLevel')->with('getUser')->orderBy('created_at', 'DESC')->get();
                 
                 return response()->json(['status' => 1,'message' => 'List of Elders', 'data' => $datas], 200);
                 
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             die('<p style="color:red;">Error: '.$e->getMessage()."</p>");

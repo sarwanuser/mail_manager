@@ -53,7 +53,7 @@ class MemberProfileController extends BaseController
         try {
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
-            // if($token_status['status'] == '200'){
+            if($token_status['status'] == '200'){
                 $sub_id = $request->sub_id;
                 
 
@@ -61,9 +61,9 @@ class MemberProfileController extends BaseController
                 
                 return response()->json(['status' => 1,'message' => 'List of Elders', 'data' => $datas], 200);
                 
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             die('<p style="color:red;">Error: '.$e->getMessage()."</p>");

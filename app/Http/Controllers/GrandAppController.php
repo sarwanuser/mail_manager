@@ -98,9 +98,9 @@ class GrandAppController extends Controller
     public function createNewSenior(Request $request){ 
         $request_data = json_encode($request->all());
         try {
-            // $AuthController = new AuthController();
-            // $token_status = $AuthController->tokenVerify($request);
-            // if($token_status['status'] == '200'){
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            if($token_status['status'] == '200'){
                 
                 $curl = curl_init();
 
@@ -126,9 +126,9 @@ class GrandAppController extends Controller
 
                 return response()->json(['status' => 1,'message' => 'New Senior Created In Grand App', 'data' => json_decode($response)], 200);
                 
-            // }else{
-            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            // }
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
 
         }catch(\Exception $e) {
             die('<p style="color:red;">Error: '.$e->getMessage()."</p>");
