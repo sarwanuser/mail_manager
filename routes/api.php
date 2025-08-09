@@ -75,6 +75,9 @@ $router->post('updateservicedatetime', 'App\Http\Controllers\Controller@updateSe
 // Updated the service address by cart_id
 $router->post('updateserviceaddress', 'App\Http\Controllers\Controller@updateServiceAddress');
 
+// Updated active status by userid
+$router->post('updateuserstatus', 'App\Http\Controllers\Controller@updateUserStatus');
+
 
 
  

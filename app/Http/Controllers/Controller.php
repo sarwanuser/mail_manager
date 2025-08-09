@@ -31,6 +31,7 @@ use  App\Models\SPServiceRating;
 use  App\Models\BookingOrder;
 use  App\Models\Category;
 use  App\Models\Address;
+use  App\Models\UserDetails;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Mail;
@@ -1031,5 +1032,37 @@ class Controller extends BaseController
             return response()->json(['message' => 'Error: '.$e], 500);
         }
 
+    }
+
+    /**
+     * This function use for update the user active status
+     *
+     * @return Response
+     */
+    public function updateUserStatus(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'user_id' => 'required',
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            if(@$token_status['status'] == '200'){
+                $user = UserDetails::where('id', $request->user_id)->first();
+                $user->active = ($user->active == 1)?0:1;
+                $user->save();
+                return response()->json(['status' => 1,'message' => 'Update Active Status Successfull', 'users' => $user], 200);
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token', 'token' => $request], 401);
+            }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
     }
 }
