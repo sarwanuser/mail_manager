@@ -98,6 +98,9 @@ Route::resource('/elders', 'App\Http\Controllers\ElderManagment');
 
 // Get elder subscriptions by elder_id
 Route::resource('/elder-subscriptions', 'App\Http\Controllers\ElderSubscription');
+// Get all elder subscriptions
+$router->get('elder-subscriptions-all', 'App\Http\Controllers\ElderSubscription@getAllSubscriptions');
+
 
 // Get elder residences by elder_id
 Route::resource('/residences', 'App\Http\Controllers\ElderResidences');

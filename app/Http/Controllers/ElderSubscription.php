@@ -79,6 +79,33 @@ class ElderSubscription extends Controller
     }
 
     /**
+     * This function use for get the all subscriptions
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAllSubscriptions(Request $request){
+        try {
+            $elder_id = $request->elder_id;
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            if($token_status['status'] == '200'){
+                
+
+                $datas = ElderSubs::select('id','elder_id','user_id','residence_id','subscription_package_id','subscription_package_name','number_of_bedrooms','plan_activated_at','plan_expiry_at','plan_renewal_at','primary_caregiver_id','primary_caregiver_name','caregiver_relationship_type_id','caregiver_relationship_name','monitoring_enabled','created_at','updated_at')->with('getUser')->orderBy('created_at', 'DESC')->get();
+                
+                return response()->json(['status' => 1,'message' => 'List of Elder Subscription', 'data' => $datas], 200);
+                
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
+
+        }catch(\Exception $e) {
+            die('<p style="color:red;">Error: '.$e->getMessage()."</p>");
+            return response()->json(['message' => 'error: '.$e->getMessage()], 500);
+        }
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
