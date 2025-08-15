@@ -96,8 +96,12 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 // Get all elders list for 25*7 Profile
 Route::resource('/elders', 'App\Http\Controllers\ElderManagment');
 
+// Update elder 25*7 Profile enabled or disabled
+Route::post('/updateeldersstatus', 'App\Http\Controllers\ElderManagment@updateElderStatus');
+
 // Get elder subscriptions by elder_id
 Route::resource('/elder-subscriptions', 'App\Http\Controllers\ElderSubscription');
+
 // Get all elder subscriptions
 $router->get('elder-subscriptions-all', 'App\Http\Controllers\ElderSubscription@getAllSubscriptions');
 
