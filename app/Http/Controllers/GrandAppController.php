@@ -28,6 +28,7 @@ use  App\Models\PackagesShare;
 use  App\Models\SPTransaction;
 use  App\Models\SPServiceRating;
 use  App\Models\BookingOrder;
+use  App\Models\ElderDetails;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Mail;
@@ -133,6 +134,37 @@ class GrandAppController extends Controller
         }catch(\Exception $e) {
             die('<p style="color:red;">Error: '.$e->getMessage()."</p>");
             return response()->json(['message' => 'error: '.$e->getMessage()], 500);
+        }
+    }
+
+    /**
+     * This function use for get the elder detils by elder_id
+     *
+     * @return Response
+     */
+    public function getElderDetailsByElderId(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'elder_id' => 'required'
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            // if($token_status['status'] == '200'){
+                $elder_id = $request->elder_id;
+                $data = ElderDetails::where('elder_id', $elder_id)->get();
+                
+                return response()->json(['status' => 1,'message' => 'Elder Details Datas', 'data' => $data], 200);
+                
+            // }else{
+            //      return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            // }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'error: '.$e], 500);
         }
     }
     
