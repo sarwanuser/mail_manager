@@ -39,6 +39,8 @@ class GrandAppController extends Controller
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
+    // PRD: https://inclykkapp.grand-app.com/htmlLocal/grand-app/flutter_web/web/index.html
+    // QA: https://inclykkqa.grand-app.com/htmlLocal/grand-app/flutter_web/web/index.html
 
     /**
      * This function use for get the grandapp passcode by email.
@@ -58,7 +60,7 @@ class GrandAppController extends Controller
             $curl = curl_init();
 
             curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://inclykkqa.grand-app.com/externalApiServlet',
+            CURLOPT_URL => 'https://inclykkapp.grand-app.com/externalApiServlet',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -106,7 +108,7 @@ class GrandAppController extends Controller
                 $curl = curl_init();
 
                 curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://inclykkqa.grand-app.com/externalApiServlet',
+                CURLOPT_URL => 'https://inclykkapp.grand-app.com/externalApiServlet',
                 CURLOPT_RETURNTRANSFER => true,
                 CURLOPT_ENCODING => '',
                 CURLOPT_MAXREDIRS => 10,
