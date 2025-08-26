@@ -186,6 +186,22 @@ return [
             'timezone' => env('DB_TIMEZONE9', '+00:00'),
         ],
 
+        'clykk_lifestyle' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST10', '127.0.0.1'),
+            'port' => env('DB_PORT10', 3306),
+            'database' => env('DB_DATABASE10', 'forge'),
+            'username' => env('DB_USERNAME10', 'forge'),
+            'password' => env('DB_PASSWORD10', ''),
+            'unix_socket' => env('DB_SOCKET10', ''),
+            'charset' => env('DB_CHARSET10', 'utf8mb4'),
+            'collation' => env('DB_COLLATION10', 'utf8mb4_unicode_ci'),
+            'prefix' => env('DB_PREFIX10', ''),
+            'strict' => env('DB_STRICT_MODE10', true),
+            'engine' => env('DB_ENGINE10', null),
+            'timezone' => env('DB_TIMEZONE10', '+00:00'),
+        ],
+
         'mysql' => [
             'driver' => 'mysql',
             'url' => env('DATABASE_URL'),

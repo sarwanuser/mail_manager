@@ -117,4 +117,8 @@ Route::resource('/residences', 'App\Http\Controllers\ElderResidences');
 // Get elder family members by elder_id
 Route::resource('/elder-family', 'App\Http\Controllers\ElderFamilyMember');
 
+// Lifestyle Memberships APIs
+$router->get('lifestylemembership', 'App\Http\Controllers\LifestyleMembershipController@getAllLifestyleMemberships');
+
+
 
