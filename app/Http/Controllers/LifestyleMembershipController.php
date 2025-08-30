@@ -83,7 +83,7 @@ class LifestyleMembershipController extends BaseController
             $token_status = $AuthController->tokenVerify($request);
             // if($token_status['status'] == '200'){
 
-                $datas = ClassSession::orderBy('id', 'DESC')->with('getSP')->get();
+                $datas = ClassSession::orderBy('id', 'DESC')->get();
                 
                 return response()->json(['status' => 1,'message' => 'List of Class Sessions', 'data' => $datas], 200);
                 
