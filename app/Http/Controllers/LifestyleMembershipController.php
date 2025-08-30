@@ -32,6 +32,7 @@ use  App\Models\BookingOrder;
 use  App\Models\Category;
 use  App\Models\Address;
 use  App\Models\LifestyleMemberships;
+use  App\Models\ClassSession;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Mail;
@@ -83,7 +84,7 @@ class LifestyleMembershipController extends BaseController
             $token_status = $AuthController->tokenVerify($request);
             // if($token_status['status'] == '200'){
 
-                $datas = ClassSession::orderBy('id', 'DESC')->get();
+                $datas = ClassSession::orderBy('id', 'DESC')->with('getSP')->get();
                 
                 return response()->json(['status' => 1,'message' => 'List of Class Sessions', 'data' => $datas], 200);
                 
