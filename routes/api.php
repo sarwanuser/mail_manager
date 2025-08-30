@@ -119,6 +119,7 @@ Route::resource('/elder-family', 'App\Http\Controllers\ElderFamilyMember');
 
 // Lifestyle Memberships APIs
 $router->get('lifestylemembership', 'App\Http\Controllers\LifestyleMembershipController@getAllLifestyleMemberships');
+$router->get('getallclasssessions', 'App\Http\Controllers\LifestyleMembershipController@getAllClassSessions');
 
 
 
