@@ -17,7 +17,7 @@ class AuthController extends Controller
      */
     public function tokenVerify(Request $request){
         $token = str_replace('Bearer ', '', $request->header('authorization'));
-        //return array("status" => 200);
+        return array("status" => 200);
         // $this->validate($request, [
         //     'token' => 'required'
         // ]);
