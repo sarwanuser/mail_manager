@@ -121,5 +121,9 @@ Route::resource('/elder-family', 'App\Http\Controllers\ElderFamilyMember');
 $router->get('lifestylemembership', 'App\Http\Controllers\LifestyleMembershipController@getAllLifestyleMemberships');
 $router->get('getallclasssessions', 'App\Http\Controllers\LifestyleMembershipController@getAllClassSessions');
 
+// Manage lifestyle_routing_setup table data
+Route::resource('/lifestyle-routing-setup', 'App\Http\Controllers\LifestyleRoutingSetupController');
+
+
 
 
