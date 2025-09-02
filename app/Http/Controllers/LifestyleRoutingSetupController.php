@@ -91,13 +91,14 @@ class LifestyleRoutingSetupController extends Controller
      */
     public function store(Request $request){
         $validator = Validator::make($request->all(), [ 
-            'lifestyle_sessions_id' => 'required',
+            // 'lifestyle_sessions_id' => 'required',
             'rule_id' => 'required',
             'route_before' => 'required',
             'service_duration' => 'required',
             'open_time' => 'required',
             'close_time' => 'required',
             'min_commission' => 'required',
+            'max_commission' => 'required',
             'max_commission' => 'required'
         ]);
         if ($validator->fails()) { 
