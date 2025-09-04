@@ -164,24 +164,40 @@ class LifestyleRoutingSetupController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
+
         $validator = Validator::make($request->all(), [ 
-            'home_id' => 'required'
+            // 'lifestyle_sessions_id' => 'required',
+            'rule_id' => 'required',
+            'route_before' => 'required',
+            'service_duration' => 'required',
+            'open_time' => 'required',
+            'close_time' => 'required',
+            'min_commission' => 'required',
+            'max_commission' => 'required',
+            'sub_category_id' => 'required'
         ]);
         if ($validator->fails()) { 
             $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
             return response()->json($result);            
         }
         try {
-            $home_id = $request->home_id;
+            $elder_id = $request->elder_id;
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             if($token_status['status'] == '200'){
+                $LifestyleRoutingSetup = LifestyleRoutingSetup::find($id);
+                $LifestyleRoutingSetup->rule_id = $request->rule_id;
+                $LifestyleRoutingSetup->sub_category_id = $request->sub_category_id;
+                $LifestyleRoutingSetup->route_before = $request->route_before;
+                $LifestyleRoutingSetup->service_duration = $request->service_duration;
+                $LifestyleRoutingSetup->open_time = $request->open_time;
+                $LifestyleRoutingSetup->close_time = $request->close_time;
+                $LifestyleRoutingSetup->min_commission = $request->min_commission;
+                $LifestyleRoutingSetup->max_commission = $request->max_commission;
+                $LifestyleRoutingSetup->updated_at = date('Y-m-d, H:i:s');
+                $LifestyleRoutingSetup->save(); 
                 
-                $residences = ElderResids::find($id);
-                $residences->home_id = $home_id;
-                $residences->save();
-                
-                return response()->json(['status' => 1,'message' => 'Home id updated for Elder Residences', 'data' => $residences], 200);
+                return response()->json(['status' => 1,'message' => 'Lifestyle Routing Setup Update Successfull!', 'data' => $LifestyleRoutingSetup], 200);
                 
             }else{
                  return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
