@@ -33,7 +33,7 @@ class PackagesViewed extends Model
 
     // Get User details
     public function getPackageDetails(){
-        // return $this->hasOne(CartPackage::class, 'id','package_id');
-        return $this->hasOne(PackageDetail::class, 'id','package_id');        
+        return $this->hasOne(CartPackage::class, 'id','package_id');
+        // return $this->hasOne(PackageDetail::class, 'id','package_id');        
     }
 }
