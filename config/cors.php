@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://v2admin-b.clykk.com','http://localhost:3000','http://v2admin.clykk.com'],
+    'allowed_origins' => ['http://v2admin-b.clykk.com','https://v2admin-b.clykk.com','http://localhost:3000','http://v2admin.clykk.com','https://v2admin.clykk.com'],
 
     'allowed_origins_patterns' => [],
 
