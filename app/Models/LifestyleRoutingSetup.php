@@ -23,6 +23,6 @@ class LifestyleRoutingSetup extends Model
         'lifestyle_sessions_id','rule_id','sub_category_id','route_before','open_time','close_time','min_commission','max_commission','amount',
     ];
 
-    protected $connection = 'routing';
-    protected $table = 'lifestyle_routing_setup';
+    protected $connection = 'routing_lifestyle';
+    protected $table = 'routing_setup';
 }

@@ -123,6 +123,16 @@ $router->get('getallclasssessions', 'App\Http\Controllers\LifestyleMembershipCon
 
 // Manage lifestyle_routing_setup table data
 Route::resource('/lifestyle-routing-setup', 'App\Http\Controllers\LifestyleRoutingSetupController');
+Route::post('/generate-class-session', 'App\Http\Controllers\ClassSessionController@generateClassSessions');
+Route::get('/get-class-session', 'App\Http\Controllers\ClassSessionController@getClassSession');
+Route::post('/update-class-session', 'App\Http\Controllers\ClassSessionController@updateClassSession');
+
+
+
+// Calendly Route
+$router->get('createmeeting', 'App\Http\Controllers\MeetingController@getMeetingLink');
+$router->post('createmeet', 'App\Http\Controllers\MeetingController@createMeeting');
+
 
 
 

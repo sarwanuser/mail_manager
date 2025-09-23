@@ -201,6 +201,21 @@ return [
             'engine' => env('DB_ENGINE10', null),
             'timezone' => env('DB_TIMEZONE10', '+00:00'),
         ],
+        'routing_lifestyle' => [
+            'driver' => 'mysql',
+            'host' => env('DB_HOST11', '127.0.0.1'),
+            'port' => env('DB_PORT11', 3306),
+            'database' => env('DB_DATABASE11', 'forge'),
+            'username' => env('DB_USERNAME11', 'forge'),
+            'password' => env('DB_PASSWORD11', ''),
+            'unix_socket' => env('DB_SOCKET11', ''),
+            'charset' => env('DB_CHARSET11', 'utf8mb4'),
+            'collation' => env('DB_COLLATION11', 'utf8mb4_unicode_ci'),
+            'prefix' => env('DB_PREFIX11', ''),
+            'strict' => env('DB_STRICT_MODE11', true),
+            'engine' => env('DB_ENGINE11', null),
+            'timezone' => env('DB_TIMEZONE11', '+00:00'),
+        ],
 
         'mysql' => [
             'driver' => 'mysql',
