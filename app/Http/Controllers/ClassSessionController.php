@@ -28,8 +28,7 @@ class ClassSessionController extends Controller
      * @return Response
      */
     public function generateClassSessions(Request $request){
-        $req = $request->all();
-        return json_decode($req['class_time'], true);
+        
         $validator = Validator::make($request->all(), [ 
             'sub_category_id' => 'required',
             'package_id' => 'required',
@@ -85,7 +84,7 @@ class ClassSessionController extends Controller
     function getDatesBetween($startDate, $endDate) {
         $dates = [];
     
-        $start = new DateTime($startDate);
+        $start = new DateTime((string)$startDate);
         $end   = new DateTime($endDate);
     
         // Include the end date
