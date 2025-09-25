@@ -28,7 +28,6 @@ class ClassSessionController extends Controller
      * @return Response
      */
     public function generateClassSessions(Request $request){
-        
         $validator = Validator::make($request->all(), [ 
             'sub_category_id' => 'required',
             'package_id' => 'required',
@@ -46,21 +45,13 @@ class ClassSessionController extends Controller
             $token_status = $AuthController->tokenVerify($request);
             
             if(@$token_status['status'] == '200'){
-                $req = $request->all();
-                // $class_times = json_decode($request->class_time, true); 
-                // $object = explode(',', $req['class_time']);
-                $array = json_decode(json_encode($req['class_time']), true);
-                
-                // $class_times = (array)$req['class_time'];
+                $class_times = json_decode($request->class_time, true); 
+                $class_times = array_column($class_times, 'value');
                 $class_gen_count = 0;
-                $dates = $this->getDatesBetween((string)$request->from_date, $request->to_date);
-                return response()->json(['status' => 1, 'data' => $dates, 'class_times' => $array], 200);
-                
+                $dates = $this->getDatesBetween($request->from_date, $request->to_date);
+                return response()->json(['status' => 1,'dates' => $dates, 'class_times' => $class_times], 200);
                 foreach($dates as $date){
-                    
                     foreach($class_times as $time){
-                        
-                        
                         $datas = ClassSession::select('id')->where('package_id', $request->package_id)->where('class_date', $date)->where('class_time', $time)->count();
                         if($datas < 1){
                             $ClassSession = new ClassSession();
