@@ -45,23 +45,29 @@ class ClassSessionController extends Controller
             $token_status = $AuthController->tokenVerify($request);
             
             if(@$token_status['status'] == '200'){
-                $class_times = $converted = array_column(json_decode($request->class_time), 'value');
+                $class_times = $request->class_time;
+                $class_times = array_column($class_times, 'value');
+                $class_gen_count = 0;
                 $dates = $this->getDatesBetween($request->from_date, $request->to_date);
                 foreach($dates as $date){
                     foreach($class_times as $time){
-                        $ClassSession = new ClassSession();
-                        $ClassSession->sub_category_id = $request->sub_category_id;
-                        $ClassSession->package_id = $request->package_id;
-                        $ClassSession->class_date = $date;
-                        $ClassSession->class_time = $time;
-                        $ClassSession->status = 'scheduled';
-                        $ClassSession->enabled = 1;
-                        $ClassSession->created_at = date('Y-m-d, H:i:s');
-                        $ClassSession->save(); 
+                        $datas = ClassSession::select('id')->where('package_id', $request->package_id)->where('class_date', $date)->where('class_time', $time)->count();
+                        if($datas < 1){
+                            $ClassSession = new ClassSession();
+                            $ClassSession->sub_category_id = $request->sub_category_id;
+                            $ClassSession->package_id = $request->package_id;
+                            $ClassSession->class_date = $date;
+                            $ClassSession->class_time = $time;
+                            $ClassSession->status = 'scheduled';
+                            $ClassSession->enabled = 1;
+                            $ClassSession->created_at = date('Y-m-d, H:i:s');
+                            $ClassSession->save(); 
+                            $class_gen_count++;
+                        }
                     }
                 }
                 
-                return response()->json(['status' => 1,'message' => 'Generate Class Session Successfull', 'data' => []], 200);
+                return response()->json(['status' => 1,'message' => 'Generate Class Session Successfull, Class generated - '.$class_gen_count, 'data' => []], 200);
             }else{
                 return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 500);
             }
