@@ -49,11 +49,11 @@ class ClassSessionController extends Controller
                 $req = $request->all();
                 $class_times = $req['class_time'];//json_decode($request->class_time, true); 
                 $class_times = array_column((array)$class_times, 'value');
+                dd($class_times);
                 $class_gen_count = 0;
                 $dates = $this->getDatesBetween((string)$request->from_date, $request->to_date);
                 foreach($dates as $date){
                     foreach($class_times as $time){
-                        return $time;
                         $datas = ClassSession::select('id')->where('package_id', $request->package_id)->where('class_date', $date)->where('class_time', $time)->count();
                         if($datas < 1){
                             $ClassSession = new ClassSession();
