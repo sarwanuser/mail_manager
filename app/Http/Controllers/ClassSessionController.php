@@ -57,7 +57,7 @@ class ClassSessionController extends Controller
                     
                     foreach($class_times as $time){
                         
-                        return response()->json(['status' => 1, 'data' => $dates, 'class_times' => $time], 200);
+                        return response()->json(['status' => 1, 'data' => $dates, 'class_times' => json_decode($time, true)], 200);
                         $datas = ClassSession::select('id')->where('package_id', $request->package_id)->where('class_date', $date)->where('class_time', $time)->count();
                         if($datas < 1){
                             $ClassSession = new ClassSession();
