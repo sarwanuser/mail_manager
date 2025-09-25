@@ -49,17 +49,17 @@ class ClassSessionController extends Controller
                 $req = $request->all();
                 // $class_times = json_decode($request->class_time, true); 
                 $object = json_decode($req['class_time']);
-                $class_times = json_decode(json_encode($req['class_time']), true);
+                $array = json_decode(json_encode($object), true);
                 
                 // $class_times = (array)$req['class_time'];
                 $class_gen_count = 0;
                 $dates = $this->getDatesBetween((string)$request->from_date, $request->to_date);
+                return response()->json(['status' => 1, 'data' => $dates, 'class_times' => $array], 200);
                 
                 foreach($dates as $date){
                     
                     foreach($class_times as $time){
-                        return response()->json(['status' => 1, 'data' => $dates, 'class_times11' => $time], 200);
-                exit;
+                        
                         
                         $datas = ClassSession::select('id')->where('package_id', $request->package_id)->where('class_date', $date)->where('class_time', $time)->count();
                         if($datas < 1){
