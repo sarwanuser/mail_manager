@@ -28,7 +28,7 @@ class ClassSessionController extends Controller
      * @return Response
      */
     public function generateClassSessions(Request $request){
-        return $request->all();
+        
         $validator = Validator::make($request->all(), [ 
             'sub_category_id' => 'required',
             'package_id' => 'required',
@@ -53,7 +53,6 @@ class ClassSessionController extends Controller
                 $dates = $this->getDatesBetween((string)$request->from_date, $request->to_date);
                 foreach($dates as $date){
                     foreach($class_times as $time){
-                        dd($time);
                         $datas = ClassSession::select('id')->where('package_id', $request->package_id)->where('class_date', $date)->where('class_time', $time)->count();
                         if($datas < 1){
                             $ClassSession = new ClassSession();
