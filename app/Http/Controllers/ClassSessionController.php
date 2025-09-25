@@ -51,7 +51,8 @@ class ClassSessionController extends Controller
                 $class_times = array_column((array)$class_times, 'value');
                 $class_gen_count = 0;
                 $dates = $this->getDatesBetween((string)$request->from_date, $request->to_date);
-                dd($dates);
+                return response()->json(['status' => 1, 'data' => $dates], 200);
+                
                 foreach($dates as $date){
                     foreach($class_times as $time){
                         $datas = ClassSession::select('id')->where('package_id', $request->package_id)->where('class_date', $date)->where('class_time', $time)->count();
