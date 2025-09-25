@@ -29,7 +29,7 @@ class ClassSessionController extends Controller
      */
     public function generateClassSessions(Request $request){
         $req = $request->all();
-        return ((array) $req['from_date']);
+        return json_decode($req['from_date'], true);
         $validator = Validator::make($request->all(), [ 
             'sub_category_id' => 'required',
             'package_id' => 'required',
