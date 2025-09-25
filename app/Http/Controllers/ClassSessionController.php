@@ -50,7 +50,7 @@ class ClassSessionController extends Controller
                 $class_times = $req['class_time'];//json_decode($request->class_time, true); 
                 $class_times = array_column((array)$class_times, 'value');
                 $class_gen_count = 0;
-                $dates = $this->getDatesBetween($request->from_date, $request->to_date);
+                $dates = $this->getDatesBetween((string)$request->from_date, $request->to_date);
                 foreach($dates as $date){
                     foreach($class_times as $time){
                         dd($time);
@@ -84,7 +84,7 @@ class ClassSessionController extends Controller
     function getDatesBetween($startDate, $endDate) {
         $dates = [];
     
-        $start = new DateTime((string)$startDate);
+        $start = new DateTime($startDate);
         $end   = new DateTime($endDate);
     
         // Include the end date
