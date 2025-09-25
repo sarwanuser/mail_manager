@@ -50,12 +50,12 @@ class ClassSessionController extends Controller
                 // $class_times = json_decode($request->class_time, true); 
                 $object = json_decode($req['class_time']);
                 $array = json_decode(json_encode($object), true);
-                return response()->json(['status' => 1, 'data' => $dates, 'class_times11' => $array], 200);
-                $class_times = (array)$req['class_time'];
+                
+                // $class_times = (array)$req['class_time'];
                 $class_gen_count = 0;
                 $dates = $this->getDatesBetween((string)$request->from_date, $request->to_date);
-                
-                
+                return response()->json(['status' => 1, 'data' => $dates, 'class_times11' => $array], 200);
+                exit;
                 foreach($dates as $date){
                     
                     foreach($class_times as $time){
