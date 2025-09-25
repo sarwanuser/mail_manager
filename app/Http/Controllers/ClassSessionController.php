@@ -45,10 +45,10 @@ class ClassSessionController extends Controller
             $token_status = $AuthController->tokenVerify($request);
             
             if(@$token_status['status'] == '200'){
-                
+                $class_times = $converted = array_column($request->class_time, 'value');
                 $dates = $this->getDatesBetween($request->from_date, $request->to_date);
                 foreach($dates as $date){
-                    foreach($request->class_time as $time){
+                    foreach($class_times as $time){
                         $ClassSession = new ClassSession();
                         $ClassSession->sub_category_id = $request->sub_category_id;
                         $ClassSession->package_id = $request->package_id;
