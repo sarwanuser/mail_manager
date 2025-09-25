@@ -49,7 +49,7 @@ class ClassSessionController extends Controller
                 $req = $request->all();
                 // $class_times = json_decode($request->class_time, true); 
                 $object = json_decode($req['class_time']);
-                $array = json_decode(json_encode($object), true);
+                $array = json_decode(json_encode($req['class_time']), true);
                 
                 // $class_times = (array)$req['class_time'];
                 $class_gen_count = 0;
