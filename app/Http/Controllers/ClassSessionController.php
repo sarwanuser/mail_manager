@@ -47,7 +47,7 @@ class ClassSessionController extends Controller
             
             if(@$token_status['status'] == '200'){
                 $req = $request->all();
-                $class_times = $req['class_time'];//json_decode($request->class_time, true); 
+                $class_times = json_decode($request->class_time, true); 
                 $class_times = array_column((array)$class_times, 'value');
                 $class_gen_count = 0;
                 $dates = $this->getDatesBetween((string)$request->from_date, $request->to_date);
