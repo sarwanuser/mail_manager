@@ -45,7 +45,7 @@ class ClassSessionController extends Controller
             $token_status = $AuthController->tokenVerify($request);
             
             if(@$token_status['status'] == '200'){
-                $class_times = $converted = array_column($request->class_time, 'value');
+                $class_times = $converted = array_column(json_decode($request->class_time), 'value');
                 $dates = $this->getDatesBetween($request->from_date, $request->to_date);
                 foreach($dates as $date){
                     foreach($class_times as $time){
