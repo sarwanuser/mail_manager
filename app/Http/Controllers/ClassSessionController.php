@@ -82,7 +82,6 @@ class ClassSessionController extends Controller
     }
 
     function getDatesBetween($startDate, $endDate) {
-        dd($startDate);
         $dates = [];
     
         $start = new DateTime($startDate);
