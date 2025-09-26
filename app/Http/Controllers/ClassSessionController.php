@@ -48,6 +48,7 @@ class ClassSessionController extends Controller
                 $class_times = json_decode($request->class_time, true); 
                 $class_times = array_column($class_times, 'value');
                 $class_gen_count = 0;
+                $class_notgen_count = 0;
                 $dates = $this->getDatesBetween($request->from_date, $request->to_date);
                 
                 foreach($dates as $date){
@@ -64,11 +65,16 @@ class ClassSessionController extends Controller
                             $ClassSession->created_at = date('Y-m-d, H:i:s');
                             $ClassSession->save(); 
                             $class_gen_count++;
+                        }else{
+                            $class_notgen_count++;
                         }
                     }
                 }
-                
-                return response()->json(['status' => 1,'message' => 'Generate Class Session Successfull, Class generated - '.$class_gen_count, 'data' => []], 200);
+                if($class_gen_count == 0){
+                    return response()->json(['status' => 1,'message' => 'Duplicate record creation: Class Session already exists in the system, no new records created.', 'data' => []], 200);
+                }else{
+                    return response()->json(['status' => 1,'message' => 'New record creation: Class Session for the date and time created successfully '.$class_gen_count.', Duplicate record creation: Class Session already exists in the system '.$class_notgen_count, 'data' => []], 200);
+                }
             }else{
                 return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 500);
             }
