@@ -145,8 +145,7 @@ class ClassSessionController extends Controller
             'class_time' => 'required',
             // 'sp_id' => 'required',
             // 'join_url' => 'required',
-            'status' => 'required',
-            'enabled' => 'required'
+            'status' => 'required'
         ]);
         if ($validator->fails()) { 
             $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
@@ -161,13 +160,45 @@ class ClassSessionController extends Controller
             if(@$token_status['status'] == '200'){
                 $classsession = ClassSession::where('id', $request->class_session_id)->first();
                 $classsession->status = $request->status;
-                $classsession->enabled = $request->enabled;
                 $classsession->class_date = $request->class_date;
                 $classsession->class_time = $request->class_time;
                 $classsession->sp_id = $request->sp_id;
                 $classsession->join_url = $request->join_url;
                 $classsession->save();
                 return response()->json(['status' => 1,'message' => 'Update Class Session Successfull', 'users' => $classsession], 200);
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token', 'token' => $request], 401);
+            }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+    }
+
+    /**
+     * This function use for update the user active status
+     *
+     * @return Response
+     */
+    public function toggleClassSession(Request $request){
+        $validator = Validator::make($request->all(), [ 
+            'class_session_id' => 'required',
+        ]);
+        if ($validator->fails()) { 
+            $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
+            return response()->json($result);            
+        }
+
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            if(@$token_status['status'] == '200'){
+                $classsession = ClassSession::where('id', $request->class_session_id)->first();
+                $classsession->enabled = ($classsession->enabled == 1)?0:1;
+                $classsession->save();
+
+                return response()->json(['status' => 1,'message' => 'Update Class Session Enabled Status Successfull', 'class' => $classsession], 200);
             }else{
                 return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token', 'token' => $request], 401);
             }
