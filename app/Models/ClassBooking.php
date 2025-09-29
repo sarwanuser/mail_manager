@@ -11,7 +11,7 @@ use Laravel\Lumen\Auth\Authorizable;
 
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class ClassSession extends Model
+class ClassBooking extends Model
 {
 
     /**
@@ -20,22 +20,26 @@ class ClassSession extends Model
      * @var array
      */
     protected $fillable = [
-        'package_id', 'class_date', 'class_time', 'sp_id', 'join_url', 'status', 'sub_category_id', 'package_name', 'package_image_url', 'created_at', 'updated_at',
+        'session_id', 'user_id', 'status', 'created_at', 'updated_at',
     ];
 
     protected $connection = 'clykk_lifestyle';
-    protected $table = 'class_session';
+    protected $table = 'class_booking';
 
     // Get user details
     public function getSP(){
         return $this->hasOne(SPDetails::class, 'id','sp_id');
     }
 
-    // Get package details
-    public function getPackage(){
-        return $this->hasOne(PackageDetail::class, 'id','package_id');
+    // Get user details
+    public function getSession(){
+        return $this->hasOne(ClassSession::class, 'id','session_id')->with('getPackage')->with('getSP');
     }
 
+    // Get user details
+    public function getUser(){
+        return $this->hasOne(UserDetails::class, 'id','user_id');
+    }
     
     
     

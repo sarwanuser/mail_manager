@@ -130,6 +130,8 @@ Route::get('/get-class-session', 'App\Http\Controllers\ClassSessionController@ge
 Route::post('/update-class-session', 'App\Http\Controllers\ClassSessionController@updateClassSession');
 Route::post('/toggle-class-session', 'App\Http\Controllers\ClassSessionController@toggleClassSession');
 
+// Class booking apis
+Route::get('/get-class-booking', 'App\Http\Controllers\ClassActivityController@getClassBookings');
 
 
 
