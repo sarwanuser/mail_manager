@@ -34,9 +34,9 @@ class ClassActivityController extends Controller
             if($token_status['status'] == '200'){
                 
                 if(!isset($request->id) && $request->id == ''){
-                    $datas = ClassBooking::with('getUser')->with('getSession')->orderBy('created_at', 'DESC')->get();
+                    $datas = ViewClassBooking::orderBy('class_date', 'DESC')->get();
                 }else{
-                    $datas = ClassBooking::where('id', $request->id)->with('getUser')->with('getSession')->first();
+                    $datas = ViewClassBooking::where('id', $request->id)->first();
                 }
                 
                 return response()->json(['status' => 1,'message' => 'List of Class Booking', 'data' => $datas], 200);
