@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller as BaseController;
 
 use  App\Models\ClassSession;
 use  App\Models\ClassBooking;
+use  App\Models\ViewClassBooking;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Mail;
