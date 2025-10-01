@@ -331,6 +331,31 @@ class Controller extends BaseController
             return response()->json(['message' => 'Error: '.$e], 500);
         }
     }
+
+    /**
+     * This function use for get the SP details by sub-category
+     *
+     * @return Response
+     */
+    public function getAllSPDataBySubcat(Request $request){
+
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            
+            if(@$token_status['status'] == '200'){
+                
+                $datas = SPDetails::select('id','first_name','last_name','email','mobile','active','enabled')->where('category_id', $request->category)->get();
+
+                return response()->json(['status' => 1,'message' => 'SP datas', 'data' => $datas], 200);
+            }else{
+                return response()->json(['status' => 0, 'error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
+
+        }catch(\Exception $e) {
+            return response()->json(['message' => 'Error: '.$e], 500);
+        }
+    }
     
     /**
      * This function use for get the document status

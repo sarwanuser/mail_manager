@@ -54,6 +54,10 @@ Route::get('/allpackageviewsdata', 'App\Http\Controllers\Controller@getAllViewsD
  // Get SP list by subscription id
  $router->get('getsplist', 'App\Http\Controllers\Controller@getVendorListBySubsId');
 
+ // Get SP list by category id
+ $router->get('getspbycat', 'App\Http\Controllers\Controller@getAllSPDataBySubcat');
+ 
+
 // test API
 $router->get('apitest', 'App\Http\Controllers\Controller@testAPI');
 
