@@ -345,7 +345,7 @@ class Controller extends BaseController
             
             if(@$token_status['status'] == '200'){
                 
-                $datas = SPDetails::select('id','first_name','last_name','email','mobile','active','enabled')->where('category_id', $request->category)->get();
+                $datas = SPDetails::select('id','first_name','last_name','email','mobile','active','enabled')->where('category_id', '60')->get();
 
                 return response()->json(['status' => 1,'message' => 'SP datas', 'data' => $datas], 200);
             }else{
