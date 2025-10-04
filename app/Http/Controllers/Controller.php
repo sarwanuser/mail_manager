@@ -31,6 +31,7 @@ use  App\Models\SPServiceRating;
 use  App\Models\BookingOrder;
 use  App\Models\Category;
 use  App\Models\Address;
+use  App\Models\SPDetailsByCatSubcat;
 use  App\Models\UserDetails;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
