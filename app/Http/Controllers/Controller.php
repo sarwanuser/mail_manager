@@ -346,7 +346,7 @@ class Controller extends BaseController
             
             if(@$token_status['status'] == '200'){
                 
-                $datas = [];//SPDetailsByCatSubcat::select('sp_id as id','first_name','last_name','email','mobile','active','enabled','category_id')->where('package_id', $request->package_id)->where('active', '1')->where('enabled', '1')->get(); 
+                $datas = SPDetailsByCatSubcat::select('sp_id as id','first_name','last_name','email','mobile','active','enabled','category_id')->where('package_id', $request->package_id)->where('active', '1')->where('enabled', '1')->get(); 
 
                 return response()->json(['status' => 1,'message' => 'SP datas', 'data' => $datas], 200);
             }else{
