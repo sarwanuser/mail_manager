@@ -1131,7 +1131,7 @@ class Controller extends BaseController
      */
     public function deleteInviteDatas(Request $request){ 
         try {
-            DB::connection('clykk_lifestyle')->statement('delete from invites WHERE sent = ? and created_at = ?', ['1', date('Y-m-d')]);
+            DB::connection('clykk_lifestyle')->statement('delete from invites WHERE sent = ? and created_at = ?', ['1', date('Y-m-d', strtotime('-1 day'))]);
 
             die('<p style="color:red;">Deleted Invites</p>');
 
