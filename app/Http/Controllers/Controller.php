@@ -1091,4 +1091,47 @@ class Controller extends BaseController
             return response()->json(['message' => 'Error: '.$e], 500);
         }
     }
+
+    /**
+     * This function use for send invite to users
+     *
+     * @return Response
+     */
+    public function sendInviteToUsers(Request $request){ 
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            if($token_status['status'] == '200'){
+                
+
+                $datas = DB::connection('clykk_lifestyle')->select('select * from invites where type="mail"');
+
+                foreach($datas as $data){
+                    $send_view = ["data" => $data];
+                    $cust = ["email" => $data->email, "name" => $data->name, "class" => $data->class_name];
+                    
+                    Mail::send('class_invite',$send_view,function($message) use ($cust){
+                        //$message->to('Keerthi.kumar@clykk.com');
+                        //$message->to('sarwanmawai@gmail.com');
+                        $message->to($cust['email']);
+                        $message->subject('Class Invite - '.$cust['class']);
+                    });
+                }
+
+                dd($datas);
+                
+
+                die('<p style="color:green;">Subscription Invoice Sent</p>');
+                //return View('invoice', compact('data'));
+                return response()->json(['status' => 1,'message' => 'Subscription Invoice Sent', 'data' => []], 200);
+                
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
+
+        }catch(\Exception $e) {
+            die('<p style="color:red;">Error: '.$e->getMessage()."</p>");
+            return response()->json(['message' => 'error: '.$e->getMessage()], 500);
+        }
+    }
 }

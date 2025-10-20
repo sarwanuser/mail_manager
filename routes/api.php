@@ -137,6 +137,8 @@ Route::post('/toggle-class-session', 'App\Http\Controllers\ClassSessionControlle
 // Class booking apis
 Route::get('/get-class-booking', 'App\Http\Controllers\ClassActivityController@getClassBookings');
 
+// Send invite to users
+Route::get('/send-invite', 'App\Http\Controllers\Controller@sendInviteToUsers');
 
 
 // Calendly Route
