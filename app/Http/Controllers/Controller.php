@@ -1147,7 +1147,7 @@ class Controller extends BaseController
 
                 DB::connection('clykk_lifestyle')->statement('delete from invites WHERE sent = ? and created_at = ?', ['1', date('Y-m-d')]);
 
-                die('<p style="color:green;">Sent Invites - '.$emails.'</p>');
+                die('<p style="color:red;">Deleted Invites</p>');
                 
             }else{
                  return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
