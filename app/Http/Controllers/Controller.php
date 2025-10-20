@@ -1104,7 +1104,7 @@ class Controller extends BaseController
             if($token_status['status'] == '200'){
                 
 
-                $datas = DB::connection('clykk_lifestyle')->select('select * from invites where type="mail"');
+                $datas = DB::connection('clykk_lifestyle')->select('select * from invites where type="mail" and sent != "1"');
 
                 foreach($datas as $data){
                     $send_view = ["data" => $data];
