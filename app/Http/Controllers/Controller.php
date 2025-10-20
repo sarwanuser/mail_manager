@@ -1114,7 +1114,7 @@ class Controller extends BaseController
                         $message->to($cust['email']);
                         $message->subject('Class Invite - '.$cust['class']);
                     });
-
+                    dd('update invites set sent=1 where id='.$data->id);
                     DB::connection('clykk_lifestyle')->raw('update invites set sent=1 where id='.$data->id);
                 }
 
