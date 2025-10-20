@@ -1111,11 +1111,11 @@ class Controller extends BaseController
                     $cust = ["email" => $data->email, "name" => $data->name, "class" => $data->class_name];
                     
                     Mail::send('class_invite',$send_view,function($message) use ($cust){
-                        //$message->to('Keerthi.kumar@clykk.com');
-                        //$message->to('sarwanmawai@gmail.com');
                         $message->to($cust['email']);
                         $message->subject('Class Invite - '.$cust['class']);
                     });
+
+                    DB::connection('clykk_lifestyle')->raw('update invites set sent=1 where id='.$data->id);
                 }
 
                 dd($datas);
