@@ -1106,6 +1106,7 @@ class Controller extends BaseController
 
                 $datas = DB::connection('clykk_lifestyle')->select('select * from invites where type="mail" and sent != "1"');
 
+                $emails = '';
                 foreach($datas as $data){
                     $send_view = ["data" => $data];
                     $cust = ["email" => $data->email, "name" => $data->name, "class" => $data->class_name];
@@ -1115,16 +1116,12 @@ class Controller extends BaseController
                         $message->subject('Class Invite - '.$cust['class']);
                     });
                     
+                    $emails .= $data->email;
 
                     DB::connection('clykk_lifestyle')->statement('UPDATE invites SET sent = ? WHERE id = ?', ['1', $data->id]);
                 }
 
-                dd($datas);
-                
-
-                die('<p style="color:green;">Subscription Invoice Sent</p>');
-                //return View('invoice', compact('data'));
-                return response()->json(['status' => 1,'message' => 'Subscription Invoice Sent', 'data' => []], 200);
+                die('<p style="color:green;">Sent Invites - '.$emails.'</p>');
                 
             }else{
                  return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
