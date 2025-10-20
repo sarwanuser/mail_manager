@@ -1099,33 +1099,24 @@ class Controller extends BaseController
      */
     public function sendInviteToUsers(Request $request){ 
         try {
-            $AuthController = new AuthController();
-            $token_status = $AuthController->tokenVerify($request);
-            if($token_status['status'] == '200'){
+            $datas = DB::connection('clykk_lifestyle')->select('select * from invites where type="mail" and sent != "1"');
+
+            $emails = '';
+            foreach($datas as $data){
+                $send_view = ["data" => $data];
+                $cust = ["email" => $data->email, "name" => $data->name, "class" => $data->class_name];
                 
-
-                $datas = DB::connection('clykk_lifestyle')->select('select * from invites where type="mail" and sent != "1"');
-
-                $emails = '';
-                foreach($datas as $data){
-                    $send_view = ["data" => $data];
-                    $cust = ["email" => $data->email, "name" => $data->name, "class" => $data->class_name];
-                    
-                    Mail::send('class_invite',$send_view,function($message) use ($cust){
-                        $message->to($cust['email']);
-                        $message->subject('Class Invite - '.$cust['class']);
-                    });
-                    
-                    $emails .= $data->email;
-
-                    DB::connection('clykk_lifestyle')->statement('UPDATE invites SET sent = ? WHERE id = ?', ['1', $data->id]);
-                }
-
-                die('<p style="color:green;">Sent Invites - '.$emails.'</p>');
+                Mail::send('class_invite',$send_view,function($message) use ($cust){
+                    $message->to($cust['email']);
+                    $message->subject('Class Invite - '.$cust['class']);
+                });
                 
-            }else{
-                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+                $emails .= $data->email;
+
+                DB::connection('clykk_lifestyle')->statement('UPDATE invites SET sent = ? WHERE id = ?', ['1', $data->id]);
             }
+
+            die('<p style="color:green;">Sent Invites - '.$emails.'</p>');
 
         }catch(\Exception $e) {
             die('<p style="color:red;">Error: '.$e->getMessage()."</p>");
@@ -1140,18 +1131,9 @@ class Controller extends BaseController
      */
     public function deleteInviteDatas(Request $request){ 
         try {
-            $AuthController = new AuthController();
-            $token_status = $AuthController->tokenVerify($request);
-            if($token_status['status'] == '200'){
-                
+            DB::connection('clykk_lifestyle')->statement('delete from invites WHERE sent = ? and created_at = ?', ['1', date('Y-m-d')]);
 
-                DB::connection('clykk_lifestyle')->statement('delete from invites WHERE sent = ? and created_at = ?', ['1', date('Y-m-d')]);
-
-                die('<p style="color:red;">Deleted Invites</p>');
-                
-            }else{
-                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
-            }
+            die('<p style="color:red;">Deleted Invites</p>');
 
         }catch(\Exception $e) {
             die('<p style="color:red;">Error: '.$e->getMessage()."</p>");
