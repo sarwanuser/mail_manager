@@ -1099,6 +1099,8 @@ class Controller extends BaseController
      */
     public function sendInviteToUsers(Request $request){ 
         try {
+
+            // Mail
             $datas = DB::connection('clykk_lifestyle')->select('select * from invites where type="mail" and sent != "1"');
 
             $emails = '';
