@@ -69,11 +69,16 @@ class ClassActivityController extends Controller
                 if ($diffInMinutes == 60) {
                     DB::connection('clykk_lifestyle')->statement("INSERT INTO invites (name, email, mobile, `type`, class_date, class_time, class_link, created_at, updated_at, class_name, sent) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$data->getUser->first_name.' '.$data->getUser->last_name, $data->getUser->email, $data->getUser->mobile, 'mail', $data->getSession->class_date, $data->getSession->class_time, $data->getSession->join_url, date('Y-m-d, H:i:s'), date('Y-m-d, H:i:s'), $data->getSession->getPackage->package_name, 0]);
 
-                }elseif($diffInMinutes == 30) {
-                    DB::connection('clykk_lifestyle')->statement("INSERT INTO invites (name, email, mobile, `type`, class_date, class_time, class_link, created_at, updated_at, class_name, sent) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$data->getUser->first_name.' '.$data->getUser->last_name, $data->getUser->email, $data->getUser->mobile, 'mail', $data->getSession->class_date, $data->getSession->class_time, $data->getSession->join_url, date('Y-m-d, H:i:s'), date('Y-m-d, H:i:s'), $data->getSession->getPackage->package_name, 0]);
-                }elseif($diffInMinutes == 15) {
-                    DB::connection('clykk_lifestyle')->statement("INSERT INTO invites (name, email, mobile, `type`, class_date, class_time, class_link, created_at, updated_at, class_name, sent) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$data->getUser->first_name.' '.$data->getUser->last_name, $data->getUser->email, $data->getUser->mobile, 'mail', $data->getSession->class_date, $data->getSession->class_time, $data->getSession->join_url, date('Y-m-d, H:i:s'), date('Y-m-d, H:i:s'), $data->getSession->getPackage->package_name, 0]);
+                    DB::connection('clykk_lifestyle')->statement("INSERT INTO invites (name, email, mobile, `type`, class_date, class_time, class_link, created_at, updated_at, class_name, sent) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$data->getUser->first_name.' '.$data->getUser->last_name, $data->getUser->email, $data->getUser->mobile, 'notification', $data->getSession->class_date, $data->getSession->class_time, $data->getSession->join_url, date('Y-m-d, H:i:s'), date('Y-m-d, H:i:s'), $data->getSession->getPackage->package_name, 0]);
+
+                    DB::connection('clykk_lifestyle')->statement("INSERT INTO invites (name, email, mobile, `type`, class_date, class_time, class_link, created_at, updated_at, class_name, sent) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$data->getUser->first_name.' '.$data->getUser->last_name, $data->getUser->email, $data->getUser->mobile, 'whatsapp', $data->getSession->class_date, $data->getSession->class_time, $data->getSession->join_url, date('Y-m-d, H:i:s'), date('Y-m-d, H:i:s'), $data->getSession->getPackage->package_name, 0]);
+
                 }
+                // elseif($diffInMinutes == 30) {
+                //     DB::connection('clykk_lifestyle')->statement("INSERT INTO invites (name, email, mobile, `type`, class_date, class_time, class_link, created_at, updated_at, class_name, sent) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$data->getUser->first_name.' '.$data->getUser->last_name, $data->getUser->email, $data->getUser->mobile, 'mail', $data->getSession->class_date, $data->getSession->class_time, $data->getSession->join_url, date('Y-m-d, H:i:s'), date('Y-m-d, H:i:s'), $data->getSession->getPackage->package_name, 0]);
+                // }elseif($diffInMinutes == 15) {
+                //     DB::connection('clykk_lifestyle')->statement("INSERT INTO invites (name, email, mobile, `type`, class_date, class_time, class_link, created_at, updated_at, class_name, sent) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", [$data->getUser->first_name.' '.$data->getUser->last_name, $data->getUser->email, $data->getUser->mobile, 'mail', $data->getSession->class_date, $data->getSession->class_time, $data->getSession->join_url, date('Y-m-d, H:i:s'), date('Y-m-d, H:i:s'), $data->getSession->getPackage->package_name, 0]);
+                // }
             }
             die('Done');
 
