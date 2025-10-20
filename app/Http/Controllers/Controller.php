@@ -1132,4 +1132,30 @@ class Controller extends BaseController
             return response()->json(['message' => 'error: '.$e->getMessage()], 500);
         }
     }
+
+    /**
+     * This function use for delete the last day send mail data
+     *
+     * @return Response
+     */
+    public function deleteInviteDatas(Request $request){ 
+        try {
+            $AuthController = new AuthController();
+            $token_status = $AuthController->tokenVerify($request);
+            if($token_status['status'] == '200'){
+                
+
+                DB::connection('clykk_lifestyle')->statement('delete from invites WHERE sent = ? and created_at = ?', ['1', date('Y-m-d')]);
+
+                die('<p style="color:green;">Sent Invites - '.$emails.'</p>');
+                
+            }else{
+                 return response()->json(['error' => 1,'message' => 'Unauthorized auth token'], 401);
+            }
+
+        }catch(\Exception $e) {
+            die('<p style="color:red;">Error: '.$e->getMessage()."</p>");
+            return response()->json(['message' => 'error: '.$e->getMessage()], 500);
+        }
+    }
 }

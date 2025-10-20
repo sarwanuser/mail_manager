@@ -139,6 +139,8 @@ Route::get('/get-class-booking', 'App\Http\Controllers\ClassActivityController@g
 
 // Send invite to users
 Route::get('/send-invite', 'App\Http\Controllers\Controller@sendInviteToUsers');
+Route::get('/delete-invite', 'App\Http\Controllers\Controller@deleteInviteDatas');
+
 
 
 // Calendly Route
