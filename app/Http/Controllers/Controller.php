@@ -1093,6 +1093,31 @@ class Controller extends BaseController
     }
 
     /**
+     * This function use for send invite to single user
+     *
+     * @return Response
+     */
+    public function sendInviteToSingleUser(Request $request){ 
+        try {
+            $data = $request->all();
+            // Mail
+            $send_view = ["data" => $data];
+            $cust = ["email" => $data['email'], "name" => $data['name'], "class" => $data['class_name']];
+            
+            Mail::send('single_invite',$send_view,function($message) use ($cust){
+                $message->to($cust['email']);
+                $message->subject('Class Invite - '.$cust['class']);
+            });
+
+            die('<p style="color:green;">Sent Invites - '.$data['email'].'</p>');
+
+        }catch(\Exception $e) {
+            die('<p style="color:red;">Error: '.$e->getMessage()."</p>");
+            return response()->json(['message' => 'error: '.$e->getMessage()], 500);
+        }
+    }
+
+    /**
      * This function use for send invite to users
      *
      * @return Response
