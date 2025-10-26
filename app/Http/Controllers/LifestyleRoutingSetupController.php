@@ -99,7 +99,6 @@ class LifestyleRoutingSetupController extends Controller
             'close_time' => 'required',
             'min_commission' => 'required',
             'max_commission' => 'required',
-            'amount' => 'required',
             'sub_category_id' => 'required'
         ]);
         if ($validator->fails()) { 
@@ -121,7 +120,6 @@ class LifestyleRoutingSetupController extends Controller
                 $LifestyleRoutingSetup->close_time = $request->close_time;
                 $LifestyleRoutingSetup->min_commission = $request->min_commission;
                 $LifestyleRoutingSetup->max_commission = $request->max_commission;
-                $LifestyleRoutingSetup->amount = $request->amount;
                 $LifestyleRoutingSetup->created_at = date('Y-m-d, H:i:s');
                 $LifestyleRoutingSetup->save(); 
                 
@@ -176,7 +174,6 @@ class LifestyleRoutingSetupController extends Controller
             'close_time' => 'required',
             'min_commission' => 'required',
             'max_commission' => 'required',
-            'amount' => 'required',
             'sub_category_id' => 'required'
         ]);
         if ($validator->fails()) { 
@@ -197,7 +194,6 @@ class LifestyleRoutingSetupController extends Controller
                 $LifestyleRoutingSetup->close_time = $request->close_time;
                 $LifestyleRoutingSetup->min_commission = $request->min_commission;
                 $LifestyleRoutingSetup->max_commission = $request->max_commission;
-                $LifestyleRoutingSetup->amount = $request->amount;
                 $LifestyleRoutingSetup->updated_at = date('Y-m-d, H:i:s');
                 $LifestyleRoutingSetup->save(); 
                 
