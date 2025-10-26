@@ -59,7 +59,9 @@ class LifestyleRoutingSetupController extends Controller
             if($token_status['status'] == '200'){
                 
 
-                $datas = LifestyleRoutingSetup::orderBy('created_at', 'DESC')->get();
+                // $datas = LifestyleRoutingSetup::orderBy('created_at', 'DESC')->get();
+                $datas = Routing::orderBy('created_at', 'DESC')->get();
+                
                 
                 return response()->json(['status' => 1,'message' => 'List of Lifestyle Routing Setup', 'data' => $datas], 200);
                 
@@ -110,10 +112,10 @@ class LifestyleRoutingSetupController extends Controller
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             if($token_status['status'] == '200'){
-                $LifestyleRoutingSetup = new LifestyleRoutingSetup();
+                $LifestyleRoutingSetup = new Routing();
                 // $LifestyleRoutingSetup->lifestyle_sessions_id = $request->lifestyle_sessions_id;
                 $LifestyleRoutingSetup->rule_id = $request->rule_id;
-                $LifestyleRoutingSetup->sub_category_id = $request->sub_category_id;
+                $LifestyleRoutingSetup->subcategory_id = $request->sub_category_id;
                 $LifestyleRoutingSetup->route_before = $request->route_before;
                 $LifestyleRoutingSetup->service_duration = $request->service_duration;
                 $LifestyleRoutingSetup->open_time = $request->open_time;
@@ -187,7 +189,7 @@ class LifestyleRoutingSetupController extends Controller
             if($token_status['status'] == '200'){
                 $LifestyleRoutingSetup = LifestyleRoutingSetup::find($id);
                 $LifestyleRoutingSetup->rule_id = $request->rule_id;
-                $LifestyleRoutingSetup->sub_category_id = $request->sub_category_id;
+                $LifestyleRoutingSetup->subcategory_id = $request->sub_category_id;
                 $LifestyleRoutingSetup->route_before = $request->route_before;
                 $LifestyleRoutingSetup->service_duration = $request->service_duration;
                 $LifestyleRoutingSetup->open_time = $request->open_time;

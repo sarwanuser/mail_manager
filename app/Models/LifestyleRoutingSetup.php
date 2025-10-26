@@ -20,9 +20,9 @@ class LifestyleRoutingSetup extends Model
      * @var array
      */
     protected $fillable = [
-        'lifestyle_sessions_id','rule_id','sub_category_id','route_before','open_time','close_time','min_commission','max_commission',
+        'lifestyle_sessions_id','rule_id','sub_category_id','route_before','open_time','close_time','min_commission','max_commission','amount',
     ];
 
-    protected $connection = 'routing';
+    protected $connection = 'routing_lifestyle';
     protected $table = 'routing_setup';
 }
