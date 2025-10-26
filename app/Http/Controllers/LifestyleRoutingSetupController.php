@@ -101,7 +101,7 @@ class LifestyleRoutingSetupController extends Controller
             'close_time' => 'required',
             'min_commission' => 'required',
             'max_commission' => 'required',
-            'sub_category_id' => 'required'
+            'subcategory_id' => 'required'
         ]);
         if ($validator->fails()) { 
             $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
@@ -115,7 +115,7 @@ class LifestyleRoutingSetupController extends Controller
                 $LifestyleRoutingSetup = new Routing();
                 // $LifestyleRoutingSetup->lifestyle_sessions_id = $request->lifestyle_sessions_id;
                 $LifestyleRoutingSetup->rule_id = $request->rule_id;
-                $LifestyleRoutingSetup->subcategory_id = $request->sub_category_id;
+                $LifestyleRoutingSetup->subcategory_id = $request->subcategory_id;
                 $LifestyleRoutingSetup->route_before = $request->route_before;
                 $LifestyleRoutingSetup->service_duration = $request->service_duration;
                 $LifestyleRoutingSetup->open_time = $request->open_time;
@@ -176,7 +176,7 @@ class LifestyleRoutingSetupController extends Controller
             'close_time' => 'required',
             'min_commission' => 'required',
             'max_commission' => 'required',
-            'sub_category_id' => 'required'
+            'subcategory_id' => 'required'
         ]);
         if ($validator->fails()) { 
             $result = ['type'=>'error', 'message'=>$validator->errors()->all()];
@@ -189,7 +189,7 @@ class LifestyleRoutingSetupController extends Controller
             if($token_status['status'] == '200'){
                 $LifestyleRoutingSetup = Routing::find($id);
                 $LifestyleRoutingSetup->rule_id = $request->rule_id;
-                $LifestyleRoutingSetup->subcategory_id = $request->sub_category_id;
+                $LifestyleRoutingSetup->subcategory_id = $request->subcategory_id;
                 $LifestyleRoutingSetup->route_before = $request->route_before;
                 $LifestyleRoutingSetup->service_duration = $request->service_duration;
                 $LifestyleRoutingSetup->open_time = $request->open_time;
