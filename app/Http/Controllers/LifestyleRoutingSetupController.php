@@ -187,7 +187,7 @@ class LifestyleRoutingSetupController extends Controller
             $AuthController = new AuthController();
             $token_status = $AuthController->tokenVerify($request);
             if($token_status['status'] == '200'){
-                $LifestyleRoutingSetup = LifestyleRoutingSetup::find($id);
+                $LifestyleRoutingSetup = Routing::find($id);
                 $LifestyleRoutingSetup->rule_id = $request->rule_id;
                 $LifestyleRoutingSetup->subcategory_id = $request->sub_category_id;
                 $LifestyleRoutingSetup->route_before = $request->route_before;
