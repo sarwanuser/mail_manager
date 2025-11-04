@@ -655,11 +655,11 @@ class Controller extends BaseController
                     $vendor_list = DB::connection('sp_management')->select("SELECT * FROM sp_service_settings spss JOIN sp_detail sd on sd.id = spss.sp_id where spss.subcategory_id = '".$Subscriptions->sub_category_id."' and spss.".$rule_code." = '1' and spss.enabled = '1' and sd.`role` = 'provider' and sd.status ='approved'");
                 }
                 
-                foreach($vendor_list as $vendor){
-                    $vendor['city_name'] = $vendor->org_id;
-                    $vendor['org_name'] = $vendor->sub_org_id;
-                    $vendor['sub_org_name'] = $vendor->city_id;
-                }
+                // foreach($vendor_list as $vendor){
+                //     $vendor->city_name'] = $vendor->org_id;
+                //     $vendor['org_name'] = $vendor->sub_org_id;
+                //     $vendor['sub_org_name'] = $vendor->city_id;
+                // }
 
                 //$vendor_list = SPServiceSettings::where('subcategory_id', $routing_details->sub_category_id)->where('enabled', '1')->where($rule_code, '1')->with('getSPdetails')->get();
                 return response()->json(['status' => 1,'message' => 'SP List For Manual Routing', 'data' => $vendor_list], 200);                
