@@ -656,9 +656,9 @@ class Controller extends BaseController
                 }
                 
                 foreach($vendor_list as $vendor){
-                    $vendor->city_name = $vendor->org_id;
-                    $vendor->org_name = $vendor->sub_org_id;
-                    $vendor->sub_org_name = $vendor->city_id;
+                    $vendor->city_name = $this->getCityNameById($vendor->city_id);
+                    $vendor->org_name = $vendor->org_id;
+                    $vendor->sub_org_name = $vendor->sub_org_id;
                 }
 
                 //$vendor_list = SPServiceSettings::where('subcategory_id', $routing_details->sub_category_id)->where('enabled', '1')->where($rule_code, '1')->with('getSPdetails')->get();
@@ -684,6 +684,20 @@ class Controller extends BaseController
 
             $city = DB::connection('location_service')->select("select * from location_service.city where city_name = '$address->city'")[0];
             return $city->id;
+        }catch(\Exception $e) {
+            return '';
+        }
+    }
+
+    /**
+     * This function use for get the city name by city_id
+     * @para $cart_id
+     * @return $city_id
+     */
+    public function getCityNameById($city_id){
+        try {
+            $city = DB::connection('location_service')->select("select * from location_service.city where id = $city_id")[0];
+            return $city->city_name;
         }catch(\Exception $e) {
             return '';
         }
