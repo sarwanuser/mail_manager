@@ -656,9 +656,9 @@ class Controller extends BaseController
                 }
                 
                 foreach($vendor_list as $vendor){
-                    $vendor['city_name'] = $vendor['org_id'];
-                    $vendor['org_name'] = $vendor['sub_org_id'];
-                    $vendor['sub_org_name'] = $vendor['city_id'];
+                    $vendor['city_name'] = $vendor->org_id;
+                    $vendor['org_name'] = $vendor->sub_org_id;
+                    $vendor['sub_org_name'] = $vendor->city_id;
                 }
 
                 //$vendor_list = SPServiceSettings::where('subcategory_id', $routing_details->sub_category_id)->where('enabled', '1')->where($rule_code, '1')->with('getSPdetails')->get();
