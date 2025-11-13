@@ -116,9 +116,9 @@ class ClassSessionController extends Controller
             if($token_status['status'] == '200'){
                 
                 if(!isset($request->id) && $request->id == ''){
-                    $datas = ClassSession::select('id','package_id','class_date','class_time','sp_id','join_url','status','sub_category_id','package_name','package_image_url','created_at','updated_at','enabled')->with('getSP')->orderBy('created_at', 'DESC')->get();
+                    $datas = ClassSession::select('id','package_id','class_date','class_time','sp_id','join_url','status','sub_category_id','package_name','package_image_url','created_at','updated_at','enabled')->with('getSP')->with('getPackage')->orderBy('created_at', 'DESC')->get();
                 }else{
-                    $datas = ClassSession::select('id','package_id','class_date','class_time','sp_id','join_url','status','sub_category_id','package_name','package_image_url','created_at','updated_at','enabled')->with('getSP')->where('id', $request->id)->orderBy('created_at', 'DESC')->first();
+                    $datas = ClassSession::select('id','package_id','class_date','class_time','sp_id','join_url','status','sub_category_id','package_name','package_image_url','created_at','updated_at','enabled')->with('getSP')->with('getPackage')->where('id', $request->id)->orderBy('created_at', 'DESC')->first();
                 }
                 
                 return response()->json(['status' => 1,'message' => 'List of Class Sessions', 'data' => $datas], 200);
