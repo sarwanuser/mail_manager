@@ -21,13 +21,16 @@
 <body style="font-family: sans-serif;line-height: 25px;" class="main_div">
 <table style="margin:50px;text-align: left;border-collapse:collapse;">
             <tr>
-                <th colspan="2"><img src="images/logo.png" alt="" style="height: 30px;"></img></th>
-                <td colspan="3" style="text-align: right;">{{date('d M Y, h:i A')}}</td>
+                <td colspan="5"><img src="images/logo.png" alt="" style="height: 30px;"></img></th>
             </tr>
-
             <tr>
-                <th colspan="2">Your Service are just a <br>CLYKK Away ™</th>
-                <td colspan="3" style="text-align: right;">Class : <span style="color: blue;">{{$data['class_name']}}</span> </td>
+                <td colspan="5">{{date('d M Y, h:i A')}}</td>
+            </tr>
+            <tr>
+                <td colspan="5">Your Service are just a <br>CLYKK Away ™</th>
+            </tr>
+            <tr>
+                <td colspan="5">Class : <span style="color: blue;">{{$data['class_name']}}</span> </td>
             </tr>
             <tr style="border-bottom: 1px solid #eee;"><td>&nbsp;</td></tr>
             
